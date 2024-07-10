@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation"
 import { Cross2Icon } from "@radix-ui/react-icons"
 
 import { cn } from "@/lib/utils"
-import { useClickOutside } from "@/hooks/use-click-outside"
+import { useClickOutside } from "@/hooks/useClickOutside"
 import { Button } from "@/components/ui/button"
 
 interface DialogShellProps extends React.HTMLAttributes<HTMLDivElement> {}

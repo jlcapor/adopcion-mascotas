@@ -19,6 +19,12 @@ const config = {
     },
     extend: {
       colors: {
+        headerBg:{
+          orangeHeader: '#FFAC31',
+        },
+        footerBg:{
+          orangeFooter: '#FFAC31',
+        },
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
         ring: "hsl(var(--ring))",
