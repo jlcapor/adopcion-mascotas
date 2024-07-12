@@ -19,12 +19,6 @@ const config = {
     },
     extend: {
       colors: {
-        headerBg:{
-          orangeHeader: '#FFAC31',
-        },
-        footerBg:{
-          orangeFooter: '#FFAC31',
-        },
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
         ring: "hsl(var(--ring))",
@@ -77,6 +71,8 @@ const config = {
       animation: {
         "accordion-down": "accordion-down 0.2s ease-out",
         "accordion-up": "accordion-up 0.2s ease-out",
+        "fade-up": "fade-up 0.5s ease-out",
+        "fade-down": "fade-down 0.5s ease-out",
       },
     },
   },

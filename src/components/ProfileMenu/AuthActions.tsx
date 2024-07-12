@@ -3,13 +3,13 @@ import { Button } from '../ui/button';
 
 export default function AuthActions() {
 	return (
-		<div className="flex items-center space-x-4">
+		<div className="hidden items-center gap-3 justify-self-end lg:flex">
 			<Button size="sm" className="leading-[18px]">
 				Iniciar sesión
 				<span className="sr-only">Iniciar sesión</span>
 			</Button>
 
-			<Button size="sm" className="leading-[18px] hover:text-black" variant="secondary">
+			<Button size="sm" className="leading-[18px]" variant="secondary">
 				Registrarse
 			</Button>
 		</div>

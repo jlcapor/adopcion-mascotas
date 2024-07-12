@@ -5,12 +5,10 @@ import AuthActions from './AuthActions'
 export default function ProfileMenu() {
   return (
     <>
-      {true ? (
+      {false ? (
         <ProfileDropdown/>
       ) : (
-        <div className="flex items-center space-x-6">
-          <AuthActions />
-        </div>
+        <AuthActions />
       )}
     </>
   )

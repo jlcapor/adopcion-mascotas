@@ -15,18 +15,6 @@ datasource db {
     directUrl = env("DIRECT_URL")
 }
 
-model Post {
-    id        Int      @id @default(autoincrement())
-    name      String
-    createdAt DateTime @default(now())
-    updatedAt DateTime @updatedAt
-
-    createdBy   User   @relation(fields: [createdById], references: [id])
-    createdById String
-
-    @@index([name])
-}
-
 // Necessary for Next auth
 model Account {
     id                       String  @id @default(cuid())
@@ -66,9 +54,10 @@ model User {
     active        Boolean   @default(true)
     accounts      Account[]
     sessions      Session[]
-    posts         Post[]
-    adopter       Adopters?
-    shelter       Shelters?
+    adopter       Adopter?
+    shelter       Shelter?
+
+    @@map("users")
 }
 
 model VerificationToken {
@@ -79,30 +68,72 @@ model VerificationToken {
     @@unique([identifier, token])
 }
 
-model Adopters {
-    id        String @id @default(cuid())
+model City {
+    id       Int       @id @default(autoincrement())
+    name     String
+    regionId Int       @map("region_id")
+    Region   Region?   @relation(fields: [regionId], references: [id])
+    Adopter  Adopter[]
+
+    @@map("cities")
+}
+
+model Region {
+    id        Int       @id @default(autoincrement())
+    name      String
+    cities    City[]
+    countryId Int?
+    Country   Country?  @relation(fields: [countryId], references: [id])
+    Adopter   Adopter[]
+
+    @@map("regions")
+}
+
+model Country {
+    id      Int      @id @default(autoincrement())
+    name    String
+    isoCode String   @unique
+    regions Region[]
+
+    @@map("countries")
+}
+
+model Adopter {
+    id        String   @id @default(cuid())
     firstName String
     lastName  String
-    address   String
-    telephone String
-    userId    String @unique
-    user      User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+    address   String?
+    telephone String?
+    userId    String   @unique
+    regionId  Int?     @map("region_id")
+    region    Region?  @relation(fields: [regionId], references: [id])
+    cityId    Int?     @map("country_id")
+    cirty     City?    @relation(fields: [cityId], references: [id])
+    user      User     @relation(fields: [userId], references: [id])
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+
+    @@map("adopters")
 }
 
-model Shelters {
-    id            String @id @default(cuid())
-    name          String
-    address       String
-    telephone     String
-    shelter_email String
-    description   String
-    image         String
-    userId        String @unique
-    user          User   @relation(fields: [userId], references: [id])
+model Shelter {
+    id          String   @id @default(cuid())
+    name        String
+    address     String
+    telephone   String
+    description String
+    image       String
+    userId      String   @unique
+    user        User     @relation(fields: [userId], references: [id])
+    createdAt   DateTime @default(now())
+    updatedAt   DateTime @updatedAt
+    Pet         Pet[]
+
+    @@map("shelters")
 }
 
-model Pets {
-    id          String  @id @default(cuid())
+model Pet {
+    id          String   @id @default(cuid())
     name        String
     petTypeId   String
     breedId     String?
@@ -111,31 +142,49 @@ model Pets {
     color       String
     sizeId      String?
     image       String
-    description String  @db.Text
-    pet_type    PetType @relation(fields: [petTypeId], references: [id])
-    breed       Breed?  @relation(fields: [breedId], references: [id])
-    Size        Size?   @relation(fields: [sizeId], references: [id])
+    description String   @db.Text
+    shelterId   String
+    shelter     Shelter  @relation(fields: [shelterId], references: [id])
+    petType     PetType  @relation(fields: [petTypeId], references: [id])
+    breed       Breed?   @relation(fields: [breedId], references: [id])
+    Size        Size?    @relation(fields: [sizeId], references: [id])
+    createdAt   DateTime @default(now())
+    updatedAt   DateTime @updatedAt
+
+    @@map("pets")
 }
 
 model PetType {
-    id    String  @id @default(cuid())
-    name  String
-    Breed Breed[]
-    Pets  Pets[]
+    id        String   @id @default(cuid())
+    name      String
+    Breed     Breed[]
+    Pets      Pet[]
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+
+    @@map("petTypes")
 }
 
 model Breed {
-    id        String  @id @default(cuid())
+    id        String   @id @default(cuid())
     name      String
-    petTypeId String
-    pet_type  PetType @relation(fields: [petTypeId], references: [id])
-    Pets      Pets[]
+    petTypeId String 
+    petType   PetType  @relation(fields: [petTypeId], references: [id])
+    Pets      Pet[]
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+
+    @@map("breeds")
 }
 
 model Size {
-    id   String @id @default(cuid())
-    name String @unique
-    pets Pets[]
+    id        String   @id @default(cuid())
+    name      String   @unique
+    pets      Pet[]
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+
+    @@map("sizes")
 }
 
 enum USER_ROLE {

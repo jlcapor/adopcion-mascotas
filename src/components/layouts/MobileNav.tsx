@@ -2,12 +2,16 @@
 import React from 'react';
 import { Sheet, SheetContent, SheetTrigger } from '../ui/sheet';
 import { Button } from '../ui/button';
-import { AlignJustify, DogIcon } from 'lucide-react';
+import { DogIcon } from 'lucide-react';
 import Link from 'next/link';
 import { Icons } from '../Icons';
+import { useMediaQuery } from '@/hooks/useMediaQuery';
+import { ScrollArea } from '../ui/scroll-area';
 
 export default function MobileNav() {
+	const isDesktop = useMediaQuery("(min-width: 1024px)")
 	const [ open, setOpen ] = React.useState(false);
+	if (isDesktop) return null
 	return (
 		<Sheet open={open} onOpenChange={setOpen}>
 			<SheetTrigger asChild>
@@ -28,6 +32,9 @@ export default function MobileNav() {
 						<span className="sr-only">Home</span>
 					</Link>
 				</div>
+				<ScrollArea className="my-4 h-[calc(100vh-8rem)] pb-10 pl-6">
+
+				</ScrollArea>
 			</SheetContent>
 		</Sheet>
 	);
