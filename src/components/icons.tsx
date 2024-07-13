@@ -1,3 +1,5 @@
+import { Settings, PawPrint, Heart } from 'lucide-react';
+
 export type IconProps = React.HTMLAttributes<SVGElement>;
 export const Icons = {
 	menu: ({ ...props }: IconProps) => (
@@ -7,4 +9,8 @@ export const Icons = {
 			<path d="M3 19H21" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
 		</svg>
 	),
+
+	pet: PawPrint,
+	profile: Settings,
+	favorite: Heart,
 };

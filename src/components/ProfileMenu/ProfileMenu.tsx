@@ -5,7 +5,7 @@ import AuthActions from './AuthActions'
 export default function ProfileMenu() {
   return (
     <>
-      {false ? (
+      {true ? (
         <ProfileDropdown/>
       ) : (
         <AuthActions />

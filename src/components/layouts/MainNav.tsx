@@ -14,12 +14,6 @@ import { DogIcon } from 'lucide-react';
 export default function MainNav() {
 	return (
 		<div className="hidden gap-6 lg:flex items-center">
-			<Link href="/" className="flex items-center space-x-2">
-				<DogIcon className="h-5 w-5  transition-all group-hover:scale-110" />
-				<span className="hidden font-bold lg:inline-block">PetFriendly</span>
-				<span className="sr-only">Home</span>
-			</Link>
-
 			<NavigationMenu>
 				<NavigationMenuList>
 					<NavigationMenuItem>

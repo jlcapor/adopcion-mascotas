@@ -14,7 +14,7 @@ import Link from 'next/link';
 import { GearIcon } from '@radix-ui/react-icons';
 import { DogIcon, Heart, LogOut } from 'lucide-react';
 
-export default function ProfileDropdown() {
+export default function ProfileDropdown() { 
 	return (
 		<DropdownMenu>
 			<DropdownMenuTrigger asChild>
@@ -51,7 +51,7 @@ export default function ProfileDropdown() {
 	);
 }
 
-async function ShelterDropdownGroup() {
+function ShelterDropdownGroup() {
 	return (
 		<DropdownMenuGroup>
 			<DropdownMenuItem asChild>

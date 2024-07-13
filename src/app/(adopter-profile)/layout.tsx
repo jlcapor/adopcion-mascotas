@@ -1,13 +1,15 @@
+import { NavigationBar } from '@/components/layouts/NavigationBar/NavigationBar';
 import SiteFooter from '@/components/layouts/SiteFooter';
-import SiteHeader from '@/components/layouts/SiteHeader';
+import TopBar from '@/components/layouts/TopBar/TopBar';
 
 interface AccountLayoutProps {
 	children: React.ReactNode,
 }
 export default function AccountLayout({ children }: AccountLayoutProps) {
 	return (
-		<div className="relative min-h-screen w-full flex flex-col">
-			<SiteHeader />
+		<div className="relative flex min-h-screen flex-col">
+			<TopBar />
+			<NavigationBar />
 			<div className="flex-1">{children}</div>
 			<SiteFooter />
 		</div>

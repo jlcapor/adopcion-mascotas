@@ -12,6 +12,7 @@ specifiers:
   '@radix-ui/react-tabs': ^1.1.0
   '@radix-ui/react-tooltip': ^1.1.2
   '@t3-oss/env-nextjs': ^0.10.1
+  '@tailwindcss/typography': ^0.5.13
   '@tanstack/react-query': ^5.39.0
   '@trpc/client': next
   '@trpc/react-query': next
@@ -31,6 +32,7 @@ specifiers:
   lucide-react: ^0.400.0
   next: ^14.2.1
   next-auth: ^4.24.7
+  next-themes: ^0.3.0
   postcss: ^8.4.34
   prettier: ^3.2.5
   prettier-plugin-tailwindcss: ^0.5.14
@@ -60,9 +62,9 @@ dependencies:
   '@radix-ui/react-tooltip': 1.1.2_ma437sazqanxqsgjws34kond6i
   '@t3-oss/env-nextjs': 0.10.1_3vbqjua42ieftjpf7f6vk3wct4
   '@tanstack/react-query': 5.50.1_react@18.3.1
-  '@trpc/client': 11.0.0-rc.458_@trpc+server@11.0.0-rc.458
-  '@trpc/react-query': 11.0.0-rc.458_b5qo54tjp3mv4wscxx2kyksguu
-  '@trpc/server': 11.0.0-rc.458
+  '@trpc/client': 11.0.0-rc.461_@trpc+server@11.0.0-rc.461
+  '@trpc/react-query': 11.0.0-rc.461_lkylzlw4v54qpabifw63bmgyzu
+  '@trpc/server': 11.0.0-rc.461
   class-variance-authority: 0.7.0
   clsx: 2.1.1
   framer-motion: 11.2.13_nnrd3gsncyragczmpvfhocinkq
@@ -70,6 +72,7 @@ dependencies:
   lucide-react: 0.400.0_react@18.3.1
   next: 14.2.4_nnrd3gsncyragczmpvfhocinkq
   next-auth: 4.24.7_6b56meepm6qeijghjgxx3txvza
+  next-themes: 0.3.0_nnrd3gsncyragczmpvfhocinkq
   react: 18.3.1
   react-dom: 18.3.1_react@18.3.1
   react-icons: 5.2.1_react@18.3.1
@@ -81,6 +84,7 @@ dependencies:
   zustand: 4.5.4_3vdbhqr2ncalcx7opnshezpx3q
 
 devDependencies:
+  '@tailwindcss/typography': 0.5.13_tailwindcss@3.4.4
   '@types/eslint': 8.56.10
   '@types/node': 20.14.10
   '@types/react': 18.3.3
@@ -1107,6 +1111,18 @@ packages:
       zod: 3.23.8
     dev: false
 
+  /@tailwindcss/typography/0.5.13_tailwindcss@3.4.4:
+    resolution: {integrity: sha512-ADGcJ8dX21dVVHIwTRgzrcunY6YY9uSlAHHGVKvkA+vLc5qLwEszvKts40lx7z0qc4clpjclwLeK5rVCV2P/uw==}
+    peerDependencies:
+      tailwindcss: '>=3.0.0 || insiders'
+    dependencies:
+      lodash.castarray: 4.4.0
+      lodash.isplainobject: 4.0.6
+      lodash.merge: 4.6.2
+      postcss-selector-parser: 6.0.10
+      tailwindcss: 3.4.4
+    dev: true
+
   /@tanstack/query-core/5.50.1:
     resolution: {integrity: sha512-lpfhKPrJlyV2DSVcQb/HuozH3Av3kws4ge22agx+lNGpFkS4vLZ7St0l3GLwlAD+bqB+qXGex3JdRKUNtMviEQ==}
     dev: false
@@ -1120,32 +1136,32 @@ packages:
       react: 18.3.1
     dev: false
 
-  /@trpc/client/11.0.0-rc.458_@trpc+server@11.0.0-rc.458:
-    resolution: {integrity: sha512-w++l2Y+G6BJbLp5cMWyjHyMk39EZ4M4qt1GapYRAnPnyD5Eeiznd8vxUA+fiO0SQODXoPYtpnwy0STsRDBSvmw==}
+  /@trpc/client/11.0.0-rc.461_@trpc+server@11.0.0-rc.461:
+    resolution: {integrity: sha512-9Hfg3LfXi7Cw+oczcEQ7uAumlMX/bqS1RxJR+kOg7mhguvrzXq50U0QGqS4ENgrOBIaUzs8n60wMy+1MueydCg==}
     peerDependencies:
-      '@trpc/server': 11.0.0-rc.458+46c7eea82
+      '@trpc/server': 11.0.0-rc.461+f178d3fed
     dependencies:
-      '@trpc/server': 11.0.0-rc.458
+      '@trpc/server': 11.0.0-rc.461
     dev: false
 
-  /@trpc/react-query/11.0.0-rc.458_b5qo54tjp3mv4wscxx2kyksguu:
-    resolution: {integrity: sha512-cQGUBGR3g696mgR02/Rk12XcBiQav4R228aXWE/PCNyqU9yND/F/g5ikFakT2iWYXS10VbukcNxKZDzMHbvWJw==}
+  /@trpc/react-query/11.0.0-rc.461_lkylzlw4v54qpabifw63bmgyzu:
+    resolution: {integrity: sha512-YHkvngwTx5FEcC2lLJQY4+lH62TPaHQzI7XPYMLjrRrPhN4TomMHDM3ASyYEHUBDAciXs2hGZ0h3FNMLSCa7+Q==}
     peerDependencies:
       '@tanstack/react-query': ^5.49.2
-      '@trpc/client': 11.0.0-rc.458+46c7eea82
-      '@trpc/server': 11.0.0-rc.458+46c7eea82
+      '@trpc/client': 11.0.0-rc.461+f178d3fed
+      '@trpc/server': 11.0.0-rc.461+f178d3fed
       react: '>=18.2.0'
       react-dom: '>=18.2.0'
     dependencies:
       '@tanstack/react-query': 5.50.1_react@18.3.1
-      '@trpc/client': 11.0.0-rc.458_@trpc+server@11.0.0-rc.458
-      '@trpc/server': 11.0.0-rc.458
+      '@trpc/client': 11.0.0-rc.461_@trpc+server@11.0.0-rc.461
+      '@trpc/server': 11.0.0-rc.461
       react: 18.3.1
       react-dom: 18.3.1_react@18.3.1
     dev: false
 
-  /@trpc/server/11.0.0-rc.458:
-    resolution: {integrity: sha512-bKgvime66O+dEqBa1XJbK2Y/U0UXyesz2ckP3dFn4U1p5TubxSxOaVvUuDXq3v1hsvGLykBOV/AUm15+OewdvA==}
+  /@trpc/server/11.0.0-rc.461:
+    resolution: {integrity: sha512-hsO6yx3dwhZQ2Nnmr6yMmbykGZh5hgF+Lb7pnbdKI6nm53xFszz2MfTp3/XZAGeMkiX7I9WiXGquSbrIR/+SgQ==}
     dev: false
 
   /@types/cookie/0.6.0:
@@ -2934,6 +2950,14 @@ packages:
       p-locate: 5.0.0
     dev: true
 
+  /lodash.castarray/4.4.0:
+    resolution: {integrity: sha512-aVx8ztPv7/2ULbArGJ2Y42bG1mEQ5mGjpdvrbJcJFU3TbYybe+QlLS4pst9zV52ymy2in1KpFPiZnAOATxD4+Q==}
+    dev: true
+
+  /lodash.isplainobject/4.0.6:
+    resolution: {integrity: sha512-oSXzaWypCMHkPC3NvBEaPHf0KsA5mvPrOPgQWDsbg8n7orZ290M0BmC/jgRZ4vcJ6DTAhjrsSYgdsW/F+MFOBA==}
+    dev: true
+
   /lodash.merge/4.6.2:
     resolution: {integrity: sha512-0KpjqXRVvrYyCsX1swR/XTK0va6VQkQM6MNo7PqW77ByjAhoARA8EfrP1N4+KlKj8YS0ZUCtRT/YUuhyYDujIQ==}
     dev: true
@@ -3048,6 +3072,16 @@ packages:
       react: 18.3.1
       react-dom: 18.3.1_react@18.3.1
       uuid: 8.3.2
+    dev: false
+
+  /next-themes/0.3.0_nnrd3gsncyragczmpvfhocinkq:
+    resolution: {integrity: sha512-/QHIrsYpd6Kfk7xakK4svpDI5mmXP0gfvCoJdGpZQ2TOrQZmsW0QxjaiLn8wbIKjtm4BTSqLoix4lxYYOnLJ/w==}
+    peerDependencies:
+      react: ^16.8 || ^17 || ^18
+      react-dom: ^16.8 || ^17 || ^18
+    dependencies:
+      react: 18.3.1
+      react-dom: 18.3.1_react@18.3.1
     dev: false
 
   /next/14.2.4_nnrd3gsncyragczmpvfhocinkq:
@@ -3340,6 +3374,14 @@ packages:
     dependencies:
       postcss: 8.4.39
       postcss-selector-parser: 6.1.0
+
+  /postcss-selector-parser/6.0.10:
+    resolution: {integrity: sha512-IQ7TZdoaqbT+LCpShg46jnZVlhWD2w6iQYAcYXfHARZ7X1t/UGhhceQDs5X0cGqKvYlHNOuv7Oa1xmb0oQuA3w==}
+    engines: {node: '>=4'}
+    dependencies:
+      cssesc: 3.0.0
+      util-deprecate: 1.0.2
+    dev: true
 
   /postcss-selector-parser/6.1.0:
     resolution: {integrity: sha512-UMz42UD0UY0EApS0ZL9o1XnLhSTtvvvLe5Dc2H2O56fvRZi+KulDyf5ctDhhtYJBGKStV2FL1fy6253cmLgqVQ==}

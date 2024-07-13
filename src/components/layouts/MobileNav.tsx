@@ -1,5 +1,4 @@
 'use client';
-import React from 'react';
 import { Sheet, SheetContent, SheetTrigger } from '../ui/sheet';
 import { Button } from '../ui/button';
 import { DogIcon } from 'lucide-react';
@@ -7,10 +6,11 @@ import Link from 'next/link';
 import { Icons } from '../Icons';
 import { useMediaQuery } from '@/hooks/useMediaQuery';
 import { ScrollArea } from '../ui/scroll-area';
+import { useSidebar } from '@/hooks/UseSidebar';
 
 export default function MobileNav() {
 	const isDesktop = useMediaQuery("(min-width: 1024px)")
-	const [ open, setOpen ] = React.useState(false);
+	const { open, setOpen } = useSidebar()
 	if (isDesktop) return null
 	return (
 		<Sheet open={open} onOpenChange={setOpen}>
@@ -18,7 +18,7 @@ export default function MobileNav() {
 				<Button
 					size="icon"
 					variant="ghost"
-					className="size-7 hover:bg-transparent focus-visible:bg-transparent focus-visible:ring-0 focus-visible:ring-offset-0 lg:hidden"
+					className="size-7 hover:bg-transparent focus-visible:bg-transparent focus-visible:ring-0 focus-visible:ring-offset-0 lg:hidden mt-2"
 				>
 					<Icons.menu aria-hidden="true" />
 					<span className="sr-only">Toggle Menu</span>

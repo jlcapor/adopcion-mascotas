@@ -1,5 +1,5 @@
 import { Shell } from '@/components/Shell';
-import AdopterTags from './components/AdopterTags';
+import AdopterTags from './_components/AdopterTags';
 import { PageHeader, PageHeaderHeading } from '@/components/PageHeader';
 
 interface AccountLayoutProps {

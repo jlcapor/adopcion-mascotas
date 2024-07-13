@@ -11,19 +11,19 @@ export default function AdopterTags() {
 
 	const tabs = [
 		{
-			title: 'Profile',
-			href: '/account/adopter',
-			isActive: pathname === '/account/adopter',
+			title: 'Mi Perfil',
+			href: '/adopter',
+			isActive: pathname === '/adopter',
 		},
 		{
 			title: 'Mis Mascotas',
-			href: '/account/adopter/pets',
-			isActive: pathname === '/account/adopter/pets',
+			href: '/adopter/pets',
+			isActive: pathname === '/adopter/pets',
 		},
         {
             title: 'Mis Favoritos',
-            href: '/account/adopter/favorites',
-            isActive: pathname === '/account/adopter/favorites',
+            href: '/adopter/favorites',
+            isActive: pathname === '/adopter/favorites',
         }
 	];
 

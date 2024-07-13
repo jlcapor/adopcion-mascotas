@@ -1,4 +1,5 @@
-import type { Config } from "tailwindcss"
+import { fontFamily } from "tailwindcss/defaultTheme"
+import { type Config } from "tailwindcss/types/config"
 
 const config = {
   darkMode: ["class"],
@@ -53,6 +54,36 @@ const config = {
           foreground: "hsl(var(--card-foreground))",
         },
       },
+      tremor: {
+        brand: {
+          faint: "#eff6ff", // blue-50
+          muted: "#bfdbfe", // blue-200
+          subtle: "#60a5fa", // blue-400
+          DEFAULT: "#3b82f6", // blue-500
+          emphasis: "#1d4ed8", // blue-700
+          inverted: "#ffffff", // white
+        },
+        background: {
+          muted: "#f9fafb", // gray-50
+          subtle: "#f3f4f6", // gray-100
+          DEFAULT: "#ffffff", // white
+          emphasis: "#374151", // gray-700
+        },
+        border: {
+          DEFAULT: "#e5e7eb", // gray-200
+        },
+        ring: {
+          DEFAULT: "#e5e7eb", // gray-200
+        },
+        content: {
+          subtle: "#9ca3af", // gray-400
+          DEFAULT: "#6b7280", // gray-500
+          emphasis: "#374151", // gray-700
+          strong: "#111827", // gray-900
+          inverted: "#ffffff", // white
+        },
+      },
+      
       borderRadius: {
         lg: "var(--radius)",
         md: "calc(var(--radius) - 2px)",
@@ -68,6 +99,11 @@ const config = {
           to: { height: "0" },
         },
       },
+      fontFamily: {
+        sans: ["var(--font-geist-sans)", ...fontFamily.sans],
+        mono: ["var(--font-geist-mono)", ...fontFamily.mono],
+        heading: ["var(--font-heading)", ...fontFamily.sans],
+      },
       animation: {
         "accordion-down": "accordion-down 0.2s ease-out",
         "accordion-up": "accordion-up 0.2s ease-out",
@@ -76,7 +112,7 @@ const config = {
       },
     },
   },
-  plugins: [require("tailwindcss-animate")],
+  plugins: [require("tailwindcss-animate"), require("@tailwindcss/typography")],
 } satisfies Config
 
 export default config
