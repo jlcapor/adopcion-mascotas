@@ -13,8 +13,20 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { GearIcon } from '@radix-ui/react-icons';
 import { DogIcon, Heart, LogOut } from 'lucide-react';
+import { cn } from '@/lib/utils';
 
-export default function ProfileDropdown() { 
+export default function ProfileDropdown() {
+	
+	if (true) {
+		return (
+			<Button size="sm" asChild>
+				<Link href="/login">
+					Sign In
+					<span className="sr-only">Sign In</span>
+				</Link>
+			</Button>
+		);
+	}
 	return (
 		<DropdownMenu>
 			<DropdownMenuTrigger asChild>

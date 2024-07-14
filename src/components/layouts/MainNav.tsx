@@ -9,9 +9,9 @@ import {
 	NavigationMenuTrigger,
 	navigationMenuTriggerStyle,
 } from '../ui/navigation-menu';
-import { DogIcon } from 'lucide-react';
 
 export default function MainNav() {
+	
 	return (
 		<div className="hidden gap-6 lg:flex items-center">
 			<NavigationMenu>

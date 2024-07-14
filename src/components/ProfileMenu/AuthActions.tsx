@@ -8,10 +8,6 @@ export default function AuthActions() {
 				Iniciar sesión
 				<span className="sr-only">Iniciar sesión</span>
 			</Button>
-
-			<Button size="sm" className="leading-[18px]" variant="secondary">
-				Registrarse
-			</Button>
 		</div>
 	);
 }

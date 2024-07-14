@@ -1,11 +1,10 @@
 'use client';
 import ProfileMenu from '@/components/ProfileMenu/ProfileMenu';
 import React from 'react';
-import MainNav from '@/components/layouts/MainNav';
 import { dashboardConfig } from '@/config/dashboard';
 import DashboardSidebarSheet from './DashboardSidebarSheet';
 import Link from 'next/link';
-import { DogIcon } from 'lucide-react';
+import { Icons } from '../Icons';
 
 export default function DashboardHeader() {
 	return (
@@ -13,7 +12,7 @@ export default function DashboardHeader() {
 			<div className="container flex h-16 items-center justify-between py-4">
 				<DashboardSidebarSheet items={dashboardConfig.sidebarNav} />
 				<Link href="/" className="hidden items-center space-x-2 lg:flex">
-					<DogIcon className="h-5 w-5" />
+				<Icons.pet className="h-6 w-6" />
 					<span className="hidden font-bold lg:inline-block">PetFriendly</span>
 					<span className="sr-only">Home</span>
 				</Link>
