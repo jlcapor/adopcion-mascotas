@@ -1,71 +1,13 @@
 import { Shell } from '@/components/Shell';
-
+import { Hero } from '../../components/Hero';
+import Container from '@/components/Container';
 export default async function IndexPage() {
 	return (
-		<Shell className="max-w-6xl gap-0">
-			sssssssssssssssssssssssssssssssssssssss fffffffffffffffffffffffffffffffffffffffffff
-			sssssssssssssssssssssssssssssssssssssss fffffff
-			sssssssssssssssssssssssssssssssssssssss fffffff
-			sssssssssssssssssssssssssssssssssssssss fffffff
-			sssssssssssssssssssssssssssssssssssssss fffffff
-			sssssssssssssssssssssssssssssssssssssss fffffff
-			sssssssssssssssssssssssssssssssssssssss fffffff
-			sssssssssssssssssssssssssssssssssssssss fffffff
-			sssssssssssssssssssssssssssssssssssssss fffffff
-			sssssssssssssssssssssssssssssssssssssss fffffff
-			sssssssssssssssssssssssssssssssssssssss fffffff
-			sssssssssssssssssssssssssssssssssssssss fffffff
-			sssssssssssssssssssssssssssssssssssssss fffffff
-			sssssssssssssssssssssssssssssssssssssss fffffff
-			sssssssssssssssssssssssssssssssssssssss fffffff
-			sssssssssssssssssssssssssssssssssssssss fffffff
-			sssssssssssssssssssssssssssssssssssssss fffffff
-			sssssssssssssssssssssssssssssssssssssss fffffff
-			sssssssssssssssssssssssssssssssssssssss fffffff
-			sssssssssssssssssssssssssssssssssssssss fffffff
-			sssssssssssssssssssssssssssssssssssssss fffffff
-			sssssssssssssssssssssssssssssssssssssss fffffff
-			sssssssssssssssssssssssssssssssssssssss fffffff
-			sssssssssssssssssssssssssssssssssssssss fffffff
-			sssssssssssssssssssssssssssssssssssssss fffffff
-			sssssssssssssssssssssssssssssssssssssss fffffff
-			sssssssssssssssssssssssssssssssssssssss fffffff
-			sssssssssssssssssssssssssssssssssssssss fffffff
-			sssssssssssssssssssssssssssssssssssssss fffffff
-			sssssssssssssssssssssssssssssssssssssss fffffff
-			sssssssssssssssssssssssssssssssssssssss fffffff
-			sssssssssssssssssssssssssssssssssssssss fffffff
-			sssssssssssssssssssssssssssssssssssssss fffffff
-			sssssssssssssssssssssssssssssssssssssss fffffff
-			sssssssssssssssssssssssssssssssssssssss fffffff
-			sssssssssssssssssssssssssssssssssssssss fffffff
-			sssssssssssssssssssssssssssssssssssssss fffffff
-			sssssssssssssssssssssssssssssssssssssss fffffff
-			sssssssssssssssssssssssssssssssssssssss fffffff
-			sssssssssssssssssssssssssssssssssssssss fffffff
-			sssssssssssssssssssssssssssssssssssssss fffffff
-			sssssssssssssssssssssssssssssssssssssss fffffff
-			sssssssssssssssssssssssssssssssssssssss fffffff
-			sssssssssssssssssssssssssssssssssssssss fffffff
-			sssssssssssssssssssssssssssssssssssssss fffffff
-			sssssssssssssssssssssssssssssssssssssss fffffff
-			sssssssssssssssssssssssssssssssssssssss fffffff
-			sssssssssssssssssssssssssssssssssssssss fffffff
-			sssssssssssssssssssssssssssssssssssssss fffffff
-			sssssssssssssssssssssssssssssssssssssss fffffff
-			sssssssssssssssssssssssssssssssssssssss fffffff
-			sssssssssssssssssssssssssssssssssssssss fffffff
-			sssssssssssssssssssssssssssssssssssssss fffffff
-			sssssssssssssssssssssssssssssssssssssss fffffff
-			sssssssssssssssssssssssssssssssssssssss fffffff
-			sssssssssssssssssssssssssssssssssssssss fffffff
-			sssssssssssssssssssssssssssssssssssssss fffffff
-			sssssssssssssssssssssssssssssssssssssss fffffff
-			sssssssssssssssssssssssssssssssssssssss fffffff
-			sssssssssssssssssssssssssssssssssssssss fffffff
-			sssssssssssssssssssssssssssssssssssssss fffffff
-			sssssssssssssssssssssssssssssssssssssss ffffffff
-		  
-		</Shell>
+		<div>
+			<Hero />
+			<Container className="py-8 lg:py-12 space-y-8">
+				lñklklñ
+			</Container>
+		</div>
 	);
 }

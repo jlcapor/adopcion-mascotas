@@ -46,7 +46,7 @@ model Session {
 model User {
     id            String    @id @default(cuid())
     name          String?
-    email         String?   @unique
+    email         String    @unique
     password      String?
     emailVerified DateTime?
     image         String?
@@ -54,9 +54,8 @@ model User {
     active        Boolean   @default(true)
     accounts      Account[]
     sessions      Session[]
-    adopter       Adopter?
-    shelter       Shelter?
-
+    shelter       Shelter[]
+    
     @@map("users")
 }
 
@@ -73,7 +72,7 @@ model City {
     name     String
     regionId Int       @map("region_id")
     Region   Region?   @relation(fields: [regionId], references: [id])
-    Adopter  Adopter[]
+    Shelter  Shelter[]
 
     @@map("cities")
 }
@@ -84,7 +83,7 @@ model Region {
     cities    City[]
     countryId Int?
     Country   Country?  @relation(fields: [countryId], references: [id])
-    Adopter   Adopter[]
+    Shelter   Shelter[]
 
     @@map("regions")
 }
@@ -98,36 +97,23 @@ model Country {
     @@map("countries")
 }
 
-model Adopter {
-    id        String   @id @default(cuid())
-    firstName String
-    lastName  String
-    address   String?
-    telephone String?
-    userId    String   @unique
-    regionId  Int?     @map("region_id")
-    region    Region?  @relation(fields: [regionId], references: [id])
-    cityId    Int?     @map("country_id")
-    cirty     City?    @relation(fields: [cityId], references: [id])
-    user      User     @relation(fields: [userId], references: [id])
-    createdAt DateTime @default(now())
-    updatedAt DateTime @updatedAt
-
-    @@map("adopters")
-}
-
 model Shelter {
-    id          String   @id @default(cuid())
-    name        String
-    address     String
-    telephone   String
-    description String
-    image       String
-    userId      String   @unique
-    user        User     @relation(fields: [userId], references: [id])
-    createdAt   DateTime @default(now())
-    updatedAt   DateTime @updatedAt
-    Pet         Pet[]
+    id           String   @id @default(cuid())
+    name         String   
+    address      String
+    telephone    String
+    regionId     Int?     @map("region_id")
+    region       Region?  @relation(fields: [regionId], references: [id])
+    cityId       Int?     @map("country_id")
+    city         City?    @relation(fields: [cityId], references: [id])
+    description  String?
+    image        String?  @map("image") @db.Text
+    userId       String   
+    user         User     @relation(fields: [userId], references: [id])
+    active       Boolean  @default(false)
+    createdAt    DateTime @default(now())
+    updatedAt    DateTime @updatedAt
+    Pet          Pet[]
 
     @@map("shelters")
 }
@@ -168,7 +154,7 @@ model PetType {
 model Breed {
     id        String   @id @default(cuid())
     name      String
-    petTypeId String 
+    petTypeId String
     petType   PetType  @relation(fields: [petTypeId], references: [id])
     Pets      Pet[]
     createdAt DateTime @default(now())

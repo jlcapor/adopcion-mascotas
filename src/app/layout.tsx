@@ -7,6 +7,8 @@ import { Viewport, type Metadata } from 'next';
 import { TRPCReactProvider } from '@/trpc/react';
 import { fontHeading } from '@/lib/fonts';
 import { ThemeProvider } from '@/components/ThemeProvider';
+import { Toaster } from '@/components/ui/toaster';
+import SessionWrapper from '@/components/SessionWrapper';
 
 export const metadata: Metadata = {
 	title: 'Create T3 App',
@@ -33,14 +35,12 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
 					fontHeading.variable
 				)}
 			>
-				<ThemeProvider 
-				  attribute="class"
-				  defaultTheme="system"
-				  enableSystem
-				  disableTransitionOnChange
-				>
-					<TRPCReactProvider>{children}</TRPCReactProvider>
-				</ThemeProvider>
+				<SessionWrapper>
+					<ThemeProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange>
+						<TRPCReactProvider>{children}</TRPCReactProvider>
+					</ThemeProvider>
+				</SessionWrapper>
+				<Toaster position="top-right" richColors />
 			</body>
 		</html>
 	);
