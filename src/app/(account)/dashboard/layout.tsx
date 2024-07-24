@@ -16,7 +16,9 @@ export default async function DashboardLayout({ children }: DashboardLayoutProps
 			<DashboardHeader user={user}/>
 			<div className="container grid flex-1 gap-12 md:grid-cols-[200px_1fr]">
 			    <DashboardSidebar/>
-				<main className="flex w-full flex-1 flex-col overflow-hidden">{children}</main>
+				<main className="flex w-full flex-1 flex-col overflow-hidden">
+					{children}
+				</main>
 			</div>
 			<SiteFooter />
 		</div>

@@ -35,6 +35,14 @@ export type UserLoginForm = Pick<Auth, 'email' | 'password'>
 export type UserRegistrationForm = Pick<Auth, 'name' | 'email' | 'password' | 'password_confirmation'>
 
 
+export type SessionUser = {
+	id: string
+  } & {
+	name?: string | null
+	email?: string | null
+	image?: string | null
+  }
+
 
 
 
