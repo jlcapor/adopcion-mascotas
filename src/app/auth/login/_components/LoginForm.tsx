@@ -9,8 +9,7 @@ import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { Icons } from '@/components/Icons';
 import { UserLoginForm } from '@/types';
-import InputError from '@/components/InputError';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { PasswordInput } from '@/components/PasswordInput';
 
 export default function LoginForm() {
@@ -40,7 +39,7 @@ export default function LoginForm() {
 		 }
 	};
 	return (
-		<Card className="w-full max-w-md">
+		<Card className="w-full max-w-lg">
 			<CardHeader className="text-center">
 				<Link href="/">
 					<Icons.pet className="mx-auto h-10 w-10" />
@@ -76,20 +75,23 @@ export default function LoginForm() {
 								},
 							})}
 						/>
-						{errors.email && <InputError>{errors.email.message}</InputError>}
+						{errors.email && (
+							<p className="text-sm text-red-500 dark:text-red-500">{errors.email.message}</p>
+						)}
 					</div>
 
 					<div className="space-y-2">
 						<Label htmlFor="password">Contraseña</Label>
-						<Input
+						<PasswordInput
 							id="password"
-							type="password"
 							placeholder="password"
 							{...register('password', {
 								required: 'El Password es obligatorio',
 							})}
 						/>
-						{errors.password && <InputError>{errors.password.message}</InputError>}
+						{errors.password && (
+							<p className="text-sm text-red-500 dark:text-red-500">{errors.password.message}</p>
+						)}
 					</div>
 
 					<Button type="submit" className="w-full text-xs font-bold uppercase" disabled={isLoading}>

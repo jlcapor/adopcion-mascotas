@@ -3,7 +3,7 @@
 import SidebarNav from '@/components/layouts/SidebarNav';
 import { dashboardConfig } from '@/config/dashboard';
 
-export function DashboardSidebar() {
+export function AdminSidebar() {
 	return (
 		<aside className="hidden w-[200px] flex-col lg:flex">
 			<SidebarNav items={dashboardConfig.sidebarNav} className="p-1 pt-4" />

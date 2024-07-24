@@ -1,6 +1,6 @@
 import React from 'react'
 
-export default function ProfileShelterForm() {
+export default function page() {
   return (
     <div>
       

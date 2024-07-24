@@ -134,18 +134,20 @@ export default function ShelterRequestForm() {
 							)}
 						/>
 					</div>
-					<FormField
-						control={form.control}
-						name="description"
-						render={({ field }) => (
-							<FormItem>
-								<FormLabel>Description</FormLabel>
-								<FormControl>
-									<Textarea placeholder="Escriba la descripción del refugio aquí" {...field} />
-								</FormControl>
-							</FormItem>
-						)}
-					/>
+					<div className="col-span-6">
+						<FormField
+							control={form.control}
+							name="description"
+							render={({ field }) => (
+								<FormItem>
+									<FormLabel>Description</FormLabel>
+									<FormControl>
+										<Textarea placeholder="Escriba la descripción del refugio aquí" {...field} />
+									</FormControl>
+								</FormItem>
+							)}
+						/>
+					</div>
 					<div className="col-span-6 mt-5">
 						<Button className="w-full uppercase text-sm font-bold" disabled={loading}>
 							{loading && <Icons.spinner className="mr-2 size-4 animate-spin" aria-hidden="true" />}
@@ -155,17 +157,7 @@ export default function ShelterRequestForm() {
 					</div>
 				</form>
 			</Form>
-			<nav className="flex flex-col space-y-4 mt-4">
-				<div className="text-sm text-muted-foreground text-center">
-					¿Ya tienes cuenta? {''}
-					<Link
-						href={'/auth/login'}
-						className="text-primary underline-offset-4 transition-colors hover:underline"
-					>
-						Iniciar Sesión
-					</Link>
-				</div>
-			</nav>
+			
 		</div>
 	);
 }

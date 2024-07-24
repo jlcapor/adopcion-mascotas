@@ -1,15 +1,16 @@
 'use client';
 import React from 'react';
 import { dashboardConfig } from '@/config/dashboard';
-import DashboardSidebarSheet from './DashboardSidebarSheet';
+import DashboardSidebarSheet from './AdminSidebarSheet';
 import Link from 'next/link';
 import { Icons } from '../../../../components/Icons';
 import { Session } from 'next-auth';
 import AuthDropdown from '../../../../components/layouts/AuthDropdown';
-interface DashboardHeaderProps {
-	session: Session | null,
+import { User } from '@/types/data';
+interface AdminHeaderProps {
+	user: User | null
 }
-export default function DashboardHeader({ session }: DashboardHeaderProps) {
+export default function AdminHeader({ user }: AdminHeaderProps) {
 	return (
 		<header className="sticky top-0 z-50 w-full border-b border-border/60 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
 			<div className="container flex h-16 items-center justify-between py-4">
@@ -20,7 +21,7 @@ export default function DashboardHeader({ session }: DashboardHeaderProps) {
 					<span className="sr-only">Home</span>
 				</Link>
 				<div className="flex items-center space-x-3">
-					<AuthDropdown session={session} />
+					<AuthDropdown user={user} />
 				</div>
 			</div>
 		</header>

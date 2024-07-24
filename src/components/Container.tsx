@@ -1,13 +1,6 @@
-import React from 'react'
-interface ContainerProps extends React.HTMLAttributes<HTMLElement>{
-    children:React.ReactNode;
-}
-const Container: React.FC<ContainerProps> = ({children,  className}: ContainerProps) => {
-  return (
-    <div className={`mx-auto max-w-screen-xl px-4 ${className}`}>
-      {children}
-    </div>
-  )
-}
+import { cn } from '@/lib/utils';
+import { type PropsWithChildren } from 'react';
 
-export default Container
+export const Container = ({ children, className }: PropsWithChildren<{ className?: string }>) => {
+	return <div className={cn(`max-w-[1400px] m-auto p-6`, className)}>{children}</div>;
+};

@@ -8,9 +8,15 @@ export interface DashboardConfig {
 export const dashboardConfig: DashboardConfig = {
 	sidebarNav: [
 		{
-			title: 'Refugios',
-			href: '/dashboard/shelters',
+			title: 'Perfil',
+			href: '/dashboard',
 			icon: Icons.profile,
+			items: []
+		},
+		{
+			title: 'Mascotas',
+			href: '/dashboard/pets',
+			icon: Icons.pet,
 			items: [],
 		},
 		

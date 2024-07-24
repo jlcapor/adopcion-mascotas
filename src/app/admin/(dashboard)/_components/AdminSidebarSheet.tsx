@@ -11,10 +11,10 @@ import { cn } from '@/lib/utils';
 import type { SidebarNavItem } from '@/types';
 import { useSidebar } from '@/hooks/UseSidebar';
 
-export interface DashboardSidebarSheetProps {
+export interface AdminSidebarSheetProps {
 	items: SidebarNavItem[],
 }
-export default function DashboardSidebarSheet({ items }: DashboardSidebarSheetProps) {
+export default function AdminSidebarSheet({ items }: AdminSidebarSheetProps) {
 	const { open, setOpen } = useSidebar()
 	const segment = useSelectedLayoutSegments();
 	const isDesktop = useMediaQuery('(min-width: 1024px)');
