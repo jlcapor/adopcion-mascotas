@@ -1,7 +1,7 @@
 'use client';
 import Link from 'next/link';
 import React from 'react';
-import { Icons } from '../Icons';
+import { Icons } from '../shared/Icons';
 import { cn } from '@/lib/utils';
 import { usePathname } from 'next/navigation';
 

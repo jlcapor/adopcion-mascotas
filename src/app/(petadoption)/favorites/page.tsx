@@ -1,4 +1,4 @@
-import { Shell } from '@/components/Shell'
+import { Shell } from '@/components/shared/Shell'
 import React from 'react'
 
 export default function FavoritiesPage() {

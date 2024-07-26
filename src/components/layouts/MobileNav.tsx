@@ -3,7 +3,7 @@ import { Sheet, SheetContent, SheetTrigger } from '../ui/sheet';
 import { Button } from '../ui/button';
 import { DogIcon } from 'lucide-react';
 import Link from 'next/link';
-import { Icons } from '../Icons';
+import { Icons } from '../shared/Icons';
 import { useMediaQuery } from '@/hooks/useMediaQuery';
 import { useSidebar } from '@/hooks/UseSidebar';
 import { siteConfig } from '@/config/site';

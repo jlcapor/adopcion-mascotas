@@ -3,7 +3,7 @@ import AdminHeader from './_components/AdminHeader';
 import { AdminSidebar } from './_components/AdminSidebar';
 import { SidebarProvider } from '@/context/SidebarContext';
 import { notFound } from 'next/navigation';
-import getCurrentUser from '@/actions/getCurrentUser';
+import { getCurrentUser } from '@/lib/session';
 
 interface AccountLayoutProps {
 	children: React.ReactNode,

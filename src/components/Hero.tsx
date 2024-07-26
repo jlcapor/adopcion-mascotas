@@ -2,7 +2,7 @@
 import { images } from '@/lib/assets';
 import Image from 'next/image';
 import React, { useEffect, useState } from 'react';
-import { PageActions, PageHeader, PageHeaderHeading } from './PageHeader';
+import { PageActions, PageHeader, PageHeaderHeading } from './shared/PageHeader';
 import Link from 'next/link';
 import { cn } from '@/lib/utils';
 import { buttonVariants } from './ui/button';

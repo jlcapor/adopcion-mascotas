@@ -1,4 +1,4 @@
-import { Settings, PawPrint, Heart, Plus } from 'lucide-react';
+import { Settings, PawPrint, Heart, Plus, User, LayoutDashboard, Laptop, Moon, SunMedium, ArrowRight } from 'lucide-react';
 
 export type IconProps = React.HTMLAttributes<SVGElement>;
 export const Icons = {
@@ -44,4 +44,10 @@ export const Icons = {
 	profile: Settings,
 	favorite: Heart,
 	add: Plus,
+	user: User,
+	dashboard: LayoutDashboard,
+	laptop: Laptop,
+	moon: Moon,
+	sun: SunMedium,
+	arrowRight: ArrowRight,
 };

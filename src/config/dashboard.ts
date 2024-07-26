@@ -1,4 +1,4 @@
-import { Icons } from '@/components/Icons';
+import { Icons } from "@/components/shared/Icons";
 import { type SidebarNavItem } from '@/types';
 
 export interface DashboardConfig {

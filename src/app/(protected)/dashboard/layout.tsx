@@ -1,15 +1,20 @@
-import getCurrentUser from '@/actions/getCurrentUser';
 import SiteFooter from '@/components/layouts/SiteFooter';
 import React from 'react';
-import DashboardHeader from './_components/DashboardHeader';
-import DashboardSidebar from './_components/DashboardSidebar';
 import { SidebarProvider } from '@/context/SidebarContext';
+import { getCurrentUser } from '@/lib/session';
+import { redirect } from 'next/navigation';
+import DashboardHeader from '../_components/DashboardHeader';
+import DashboardSidebar from '../_components/DashboardSidebar';
+import { authOptions } from '@/server/auth';
 interface DashboardLayoutProps {
 	children: React.ReactNode,
 }
 
 export default async function DashboardLayout({ children }: DashboardLayoutProps) {
 	const user = await getCurrentUser();
+	if (!user || user.role !== "SHELTER"){
+		redirect(authOptions?.pages?.signIn ?? "/")
+	}
 	return (
 		<SidebarProvider>
 		<div className="flex min-h-screen flex-col space-y-6">

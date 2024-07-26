@@ -1,7 +1,7 @@
-import getCurrentUser from '@/actions/getCurrentUser';
 import SiteFooter from '@/components/layouts/SiteFooter';
 import { SiteHeader } from '@/components/layouts/SiteHeader';
 import { SidebarProvider } from '@/context/SidebarContext';
+import { getCurrentUser } from '@/lib/session';
 
 export default async function PetAdoptionLayout({ children }: { children: React.ReactNode }) {
 	const user = await getCurrentUser();

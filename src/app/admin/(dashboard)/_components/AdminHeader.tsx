@@ -3,12 +3,13 @@ import React from 'react';
 import { dashboardConfig } from '@/config/dashboard';
 import DashboardSidebarSheet from './AdminSidebarSheet';
 import Link from 'next/link';
-import { Icons } from '../../../../components/Icons';
+import { Icons } from '../../../../components/shared/Icons';
 import { Session } from 'next-auth';
-import AuthDropdown from '../../../../components/layouts/AuthDropdown';
 import { User } from '@/types/data';
+import UserAccountNav from '@/components/layouts/UserAccountNav';
+import { SessionUser } from '@/types';
 interface AdminHeaderProps {
-	user: User | null
+	user?: SessionUser,
 }
 export default function AdminHeader({ user }: AdminHeaderProps) {
 	return (
@@ -21,7 +22,7 @@ export default function AdminHeader({ user }: AdminHeaderProps) {
 					<span className="sr-only">Home</span>
 				</Link>
 				<div className="flex items-center space-x-3">
-					<AuthDropdown user={user} />
+					<UserAccountNav user={user} />
 				</div>
 			</div>
 		</header>

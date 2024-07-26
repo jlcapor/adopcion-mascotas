@@ -1,6 +1,6 @@
 'use client';
 import React from 'react';
-import { Icons } from '@/components/Icons';
+import { Icons } from '@/components/shared/Icons';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
@@ -135,7 +135,7 @@ export default function UserRegisterForm() {
 						<div className="text-sm text-muted-foreground text-center">
 							¿Ya tienes cuenta? {''}
 							<Link
-								href={'/auth/login'}
+								href={'/login'}
 								className="text-primary underline-offset-4 transition-colors hover:underline"
 							>
 								Iniciar Sesión

@@ -7,10 +7,10 @@ import { Label } from '@/components/ui/label';
 import { Input } from '@/components/ui/input';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
-import { Icons } from '@/components/Icons';
+import { Icons } from '@/components/shared/Icons';
 import { UserLoginForm } from '@/types';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { PasswordInput } from '@/components/PasswordInput';
+import { PasswordInput } from '@/components/shared/PasswordInput';
 
 export default function LoginForm() {
 	const initialValues: UserLoginForm = {
@@ -21,7 +21,7 @@ export default function LoginForm() {
 	const router = useRouter();
 	const [ isLoading, setIsLoading ] = useState(false);
 	const { register, handleSubmit, formState: { errors } } = useForm({ defaultValues: initialValues });
-
+	const [isGoogleLoading, setIsGoogleLoading] = useState<boolean>(false);
 	const handleLogin = async (formData: UserLoginForm) => {
 		setIsLoading(true);
 		const callback = await signIn('credentials', {
@@ -49,11 +49,21 @@ export default function LoginForm() {
 				</div>
 			</CardHeader>
 			<CardContent>
-				<Button variant="outline" className="w-full" asChild>
-					<Link href="#">
-						<Icons.google className="mr-2 h-5 w-5" />
-						Log in with Google
-					</Link>
+				<Button 
+					variant="outline" 
+					className="w-full"
+					onClick={() => {
+						setIsGoogleLoading(true);
+						signIn("google");
+					}}
+					disabled={isLoading || isGoogleLoading}
+				>
+					{isGoogleLoading ? (
+						<Icons.spinner className="mr-2 size-4 animate-spin" />
+					) : (
+						<Icons.google className="mr-2 size-4" />
+					)}{" "}
+					Google
 				</Button>
 				<div className="my-2 flex items-center">
 					<div className="flex-grow border-t border-muted" />
@@ -106,7 +116,7 @@ export default function LoginForm() {
 						<div className="text-sm text-muted-foreground text-center">
 							¿No tienes cuenta? {''}
 							<Link
-								href={'/auth/register'}
+								href={'/register'}
 								className="text-primary underline-offset-4 transition-colors hover:underline"
 							>
 								Crear Una

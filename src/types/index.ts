@@ -1,5 +1,5 @@
-import type { Icons } from '@/components/Icons';
-import { User } from '@prisma/client';
+import type { Icons } from '@/components/shared/Icons';
+import { USER_ROLE } from '@prisma/client';
 import { z } from 'zod';
 
 export interface NavItem {
@@ -11,7 +11,7 @@ export interface NavItem {
 	icon?: React.ComponentType<React.SVGProps<SVGSVGElement>>,
 	label?: string,
 	description?: string,
-};
+}
 
 
 
@@ -22,28 +22,22 @@ export interface NavItemWithChildren extends NavItem {
 export type MainNavItem = NavItemWithChildren;
 export type SidebarNavItem = NavItemWithChildren;
 
-
 const authSchema = z.object({
-    name: z.string(),
-    email: z.string().email(),
-    password: z.string(),
-    password_confirmation: z.string(),
-})
+	name: z.string(),
+	email: z.string().email(),
+	password: z.string(),
+	password_confirmation: z.string(),
+});
 
-type Auth = z.infer<typeof authSchema>
-export type UserLoginForm = Pick<Auth, 'email' | 'password'>
-export type UserRegistrationForm = Pick<Auth, 'name' | 'email' | 'password' | 'password_confirmation'>
-
+type Auth = z.infer<typeof authSchema>;
+export type UserLoginForm = Pick<Auth, 'email' | 'password'>;
+export type UserRegistrationForm = Pick<Auth, 'name' | 'email' | 'password' | 'password_confirmation'>;
 
 export type SessionUser = {
-	id: string
-  } & {
-	name?: string | null
-	email?: string | null
-	image?: string | null
-  }
-
-
-
-
-
+	id: string | null,
+	role: USER_ROLE,
+} & {
+	name?: string | null,
+	email?: string | null,
+	image?: string | null,
+};

@@ -3,14 +3,11 @@
 import React from 'react';
 import MainNav from './MainNav';
 import MobileNav from './MobileNav';
-import AuthDropdown from './AuthDropdown';
-import { User } from '@/types/data';
-import { Button } from '../ui/button';
-import Link from 'next/link';
-import ShelterDropdown from './ShelterDropdown';
+import { SessionUser } from '@/types';
+import UserAccountNav from './UserAccountNav';
 
 interface SiteHeaderProps {
-	user: User | null,
+	user?: SessionUser,
 }
 export function SiteHeader({ user }: SiteHeaderProps) {
 	return (
@@ -21,18 +18,7 @@ export function SiteHeader({ user }: SiteHeaderProps) {
 				<div className="flex flex-1 items-center justify-between space-x-2 md:justify-end">
 					<div className="w-full flex-1 md:w-auto md:flex-none mr-3">searhc</div>
 					<nav className="flex items-center space-x-2">
-						{!user ? (
-							<Button size="sm" asChild>
-								<Link href="/auth/login">
-									Entrar
-									<span className="sr-only">Iniciar sesión</span>
-								</Link>
-							</Button>
-						) : user.role === 'SHELTER' ? (
-							<ShelterDropdown user={user} />
-						) : (
-							<AuthDropdown user={user} />
-						)}
+						<UserAccountNav user={user} />
 					</nav>
 				</div>
 			</div>

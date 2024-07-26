@@ -1,14 +1,37 @@
-import bcrypt from "bcrypt"
-import NextAuth, { AuthOptions } from "next-auth";
+import {
+  getServerSession,
+  type DefaultSession,
+  type NextAuthOptions,
+} from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 import GoogleProvider from "next-auth/providers/google";
 import { PrismaAdapter } from "@next-auth/prisma-adapter";
 import { db } from "./db";
+import bcrypt from "bcrypt"
+import { USER_ROLE } from "@prisma/client";
 
-export const authOptions: AuthOptions = {
-  session: {
-    strategy: "jwt",
-  },
+
+
+declare module "next-auth" {
+  interface Session extends DefaultSession {
+    user: {
+      id: string;
+      role: USER_ROLE;
+      // ...other properties
+      // role: UserRole;
+    } & DefaultSession["user"];
+  }
+
+  interface User {
+    // ...other properties
+    // role: UserRole;
+    role: USER_ROLE;
+  }
+}
+
+
+export const authOptions: NextAuthOptions = {
+  
   
   adapter: PrismaAdapter(db),
   providers: [
@@ -57,7 +80,28 @@ export const authOptions: AuthOptions = {
       }
     })
   ],
-
+  callbacks: {
+    session({ session, token }) {
+      if (session.user) {
+        session.user.role = token.role
+      }
+      return session;
+    },
+    jwt: ({ token, user }) => {
+      if (user) {
+        token.id = user.id;
+        token.role = user.role;
+      }
+      return token;
+    },
+  }, 
+  session: {
+    strategy: "jwt",
+  },
+  pages: {
+    signIn: "/login",
+  },
+  secret: process.env.NEXTAUTH_SECRET,
 }
 
-export default NextAuth(authOptions)
+export const getServerAuthSession = () => getServerSession(authOptions);

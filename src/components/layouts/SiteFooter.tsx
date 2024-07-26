@@ -1,6 +1,6 @@
 import Link from 'next/link';
-import { Shell } from '../Shell';
-import { Icons } from '../Icons';
+import { Shell } from '../shared/Shell';
+import { Icons } from '../shared/Icons';
 import { ModeToggle } from './ModeToggle';
 import { siteConfig } from '@/config/site';
 import { cn } from '@/lib/utils';

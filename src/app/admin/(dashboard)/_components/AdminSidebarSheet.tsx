@@ -3,7 +3,7 @@
 import { useMediaQuery } from '@/hooks/useMediaQuery';
 import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
 import { Button } from '@/components/ui/button';
-import { Icons } from '@/components/Icons';
+import { Icons } from '@/components/shared/Icons';
 import Link from 'next/link';
 import { ChevronLeftIcon } from 'lucide-react';
 import { useSelectedLayoutSegments } from 'next/navigation';
