@@ -8,12 +8,12 @@ import { buttonVariants } from '../ui/button';
 
 export default function SiteFooter() {
 	return (
-		<footer className="w-full">
+		<footer className="w-full border-t bg-background">
 			<Shell>
 				<section className="flex flex-col gap-10 lg:flex-row lg:gap-20">
 					<section>
 						<Link href="/" className="flex w-fit items-center space-x-2">
-							<Icons.pet className="size-7" aria-hidden="true" />
+						<Icons.pet className="mr-1 w-6 h-6 text-muted-foreground fill-current" aria-hidden="true" />
 							<span className="font-bold">{siteConfig.name}</span>
 							<span className="sr-only">Home</span>
 						</Link>

@@ -1,17 +1,14 @@
 import SiteFooter from '@/components/layouts/SiteFooter';
 import { SiteHeader } from '@/components/layouts/SiteHeader';
-import { SidebarProvider } from '@/context/SidebarContext';
 import { getCurrentUser } from '@/lib/session';
 
 export default async function PetAdoptionLayout({ children }: { children: React.ReactNode }) {
 	const user = await getCurrentUser();
 	return (
-		<SidebarProvider>
-			<div className="relative flex min-h-screen flex-col">
-				<SiteHeader user={user}/>
-				<div className="flex-1">{children}</div>
-				<SiteFooter />
-			</div>
-		</SidebarProvider>
+		<div className="flex min-h-screen flex-col">
+			<SiteHeader user={user} />
+			<div className="flex-1">{children}</div>
+			<SiteFooter />
+		</div>
 	);
 }

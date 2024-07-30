@@ -1,4 +1,4 @@
-import { Settings, PawPrint, Heart, Plus, User, LayoutDashboard, Laptop, Moon, SunMedium, ArrowRight } from 'lucide-react';
+import { Settings, PawPrint, Heart, Plus, User, LayoutDashboard, Laptop, Moon, SunMedium, ArrowRight, X, House  } from 'lucide-react';
 
 export type IconProps = React.HTMLAttributes<SVGElement>;
 export const Icons = {
@@ -50,4 +50,8 @@ export const Icons = {
 	moon: Moon,
 	sun: SunMedium,
 	arrowRight: ArrowRight,
+	close: X,
+	home: House 
 };
+
+

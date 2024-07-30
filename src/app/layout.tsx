@@ -9,6 +9,8 @@ import { fontHeading } from '@/lib/fonts';
 import { ThemeProvider } from '@/components/ThemeProvider';
 import { Toaster } from '@/components/ui/toaster';
 import SessionWrapper from '@/components/SessionWrapper';
+import { Analytics } from '@/components/analytics';
+import { TailwindIndicator } from '@/components/tailwind-indicator';
 
 export const metadata: Metadata = {
 	title: 'Create T3 App',
@@ -38,9 +40,11 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
 				<SessionWrapper>
 					<ThemeProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange>
 						<TRPCReactProvider>{children}</TRPCReactProvider>
+						<TailwindIndicator />
+						<Analytics />
 					</ThemeProvider>
 				</SessionWrapper>
-				<Toaster position="top-right" richColors />
+				<Toaster position="top-right" richColors closeButton />
 			</body>
 		</html>
 	);

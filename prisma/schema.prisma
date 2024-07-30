@@ -55,7 +55,7 @@ model User {
     accounts      Account[]
     sessions      Session[]
     shelter       Shelter[]
-    
+
     @@map("users")
 }
 
@@ -98,22 +98,22 @@ model Country {
 }
 
 model Shelter {
-    id           String   @id @default(cuid())
-    name         String   
-    address      String
-    telephone    String
-    regionId     Int?     @map("region_id")
-    region       Region?  @relation(fields: [regionId], references: [id])
-    cityId       Int?     @map("country_id")
-    city         City?    @relation(fields: [cityId], references: [id])
-    description  String?
-    image        String?  @map("image") @db.Text
-    userId       String   
-    user         User     @relation(fields: [userId], references: [id])
-    active       Boolean  @default(false)
-    createdAt    DateTime @default(now())
-    updatedAt    DateTime @updatedAt
-    Pet          Pet[]
+    id          String   @id @default(cuid())
+    name        String
+    address     String
+    telephone   String
+    regionId    Int?     @map("region_id")
+    region      Region?  @relation(fields: [regionId], references: [id])
+    cityId      Int?     @map("country_id")
+    city        City?    @relation(fields: [cityId], references: [id])
+    description String?
+    image       String?  @map("image") @db.Text
+    userId      String
+    user        User     @relation(fields: [userId], references: [id])
+    active      Boolean  @default(false)
+    createdAt   DateTime @default(now())
+    updatedAt   DateTime @updatedAt
+    Pet         Pet[]
 
     @@map("shelters")
 }
@@ -134,6 +134,7 @@ model Pet {
     petType     PetType  @relation(fields: [petTypeId], references: [id])
     breed       Breed?   @relation(fields: [breedId], references: [id])
     Size        Size?    @relation(fields: [sizeId], references: [id])
+    adopted     Boolean  @default(false)
     createdAt   DateTime @default(now())
     updatedAt   DateTime @updatedAt
 

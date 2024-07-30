@@ -1,24 +1,32 @@
-import { Icons } from "@/components/shared/Icons";
-import { type SidebarNavItem } from '@/types';
+import { SidebarNavItem } from '@/types/nav';
+import { USER_ROLE } from '@prisma/client';
 
-export interface DashboardConfig {
-	sidebarNav: SidebarNavItem[],
-}
-
-export const dashboardConfig: DashboardConfig = {
-	sidebarNav: [
-		{
-			title: 'Perfil',
-			href: '/dashboard',
-			icon: Icons.profile,
-			items: []
-		},
-		{
-			title: 'Mascotas',
-			href: '/dashboard/pets',
-			icon: Icons.pet,
-			items: [],
-		},
-		
-	],
-};
+export const sidebarLinks: SidebarNavItem[] = [
+	{
+		title: 'MENU',
+		items: [
+			{
+				title: 'Refugio',
+				icon: 'profile',
+				href: '/shelter',
+				authorizeOnly: USER_ROLE.SHELTER,
+			},
+			{
+				title: 'Mascotas',
+				icon: 'pet',
+				href: '/shelter/pets',
+				authorizeOnly: USER_ROLE.SHELTER,
+			},
+		],
+	},
+	{
+		title: 'OPCIONES',
+		items: [
+			{
+				href: '/',
+				icon: 'home',
+				title: 'Inicio',
+			},
+		],
+	},
+];

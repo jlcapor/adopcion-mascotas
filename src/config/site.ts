@@ -7,8 +7,25 @@ const links = {
 	linkedinAccount: 'https://www.linkedin.com/in/jose-luis-capote-dsw/',
 };
 export const siteConfig = {
-	name: 'PetFriendl',
+	name: 'Amor Peludo',
 	links,
+	mainNav: [
+		{
+			title: 'Inicio',
+			href: '/',
+			items: [],
+		},
+		{
+			title: 'Mascotas',
+			href: '/pets',
+			items: [],
+		},
+		{
+			title: 'Refugios',
+			href: '/shelters',
+			items: [],
+		},
+	] satisfies MainNavItem[],
 	footerNav: [
 		{
 			title: 'Social',

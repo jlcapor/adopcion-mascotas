@@ -6,8 +6,8 @@ const AuthLayout = async({ children }: { children: ReactNode }) => {
   const user = await getCurrentUser();
 
   if (user) {
-    if (user.role === "SHELTER") redirect("/dashboard");
-    redirect("/profile");
+    if (user.role === "SHELTER") redirect("/");
+    redirect("/account");
   }
 
   return (
@@ -16,3 +16,6 @@ const AuthLayout = async({ children }: { children: ReactNode }) => {
 };
 
 export default AuthLayout;
+
+//R0j45_$_#34 --- jcapoteRojas123
+//Departamento y municipio 193695 

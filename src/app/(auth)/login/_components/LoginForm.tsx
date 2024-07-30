@@ -8,9 +8,10 @@ import { Input } from '@/components/ui/input';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { Icons } from '@/components/shared/Icons';
-import { UserLoginForm } from '@/types';
+import { UserLoginForm } from '@/lib/validations/auth';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { PasswordInput } from '@/components/shared/PasswordInput';
+import { toast } from 'sonner';
 
 export default function LoginForm() {
 	const initialValues: UserLoginForm = {
@@ -35,7 +36,7 @@ export default function LoginForm() {
 		   router.refresh();
 		 }
 		 if (callback?.error) {
-		   alert(callback.error);
+		   toast.error(callback.error);
 		 }
 	};
 	return (
@@ -76,6 +77,10 @@ export default function LoginForm() {
 						<Input
 							id="email"
 							type="email"
+							autoCapitalize="none"
+							autoComplete="email"
+							autoCorrect="off"
+							disabled={isLoading || isGoogleLoading}
 							placeholder="Correo electrónico"
 							{...register('email', {
 								required: 'El Email es obligatorio',
@@ -95,6 +100,7 @@ export default function LoginForm() {
 						<PasswordInput
 							id="password"
 							placeholder="password"
+							disabled={isLoading || isGoogleLoading}
 							{...register('password', {
 								required: 'El Password es obligatorio',
 							})}
