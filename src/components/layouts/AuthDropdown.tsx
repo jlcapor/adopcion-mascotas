@@ -1,36 +1,39 @@
-"use client";
 
 import React from 'react'
-import { signOut } from 'next-auth/react';
-import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuSeparator, DropdownMenuTrigger } from "../ui/dropdown-menu";
+import { DropdownMenu, DropdownMenuContent, DropdownMenuGroup, DropdownMenuItem, DropdownMenuSeparator, DropdownMenuTrigger } from "../ui/dropdown-menu";
 import Link from 'next/link';
-import { LogIn, LogOut } from 'lucide-react';
+import { LogIn } from 'lucide-react';
 import { Button, ButtonProps } from '../ui/button';
 import { Icons } from '../shared/Icons';
-import { SessionUser } from '@/types';
 import { Avatar, AvatarFallback, AvatarImage } from '../ui/avatar';
 import { cn } from '@/lib/utils';
+import { Session } from 'next-auth';
+import { ExitIcon } from '@radix-ui/react-icons';
+import { getShelterByUserId } from '@/lib/queries/shelter';
 
 interface SiteHeaderProps extends React.ComponentPropsWithRef<typeof DropdownMenuTrigger>,
 ButtonProps {
-	user?: SessionUser,
+  session: Session | null
 }
-export default function AuthDropdown( { user, className, ...props}: SiteHeaderProps) {
+
+export default async function AuthDropdown( { session, className, ...props}: SiteHeaderProps) {
+  const user = session?.user
   
   if (!user) {
     return (
-      <Link href="/login">
-        <Button variant="ghost" className="relative h-8 w-8 rounded-sm">
-          <Avatar className="h-8 w-8">
-            <AvatarFallback className="bg-transparent">
-              <LogIn className="h-6 w-6" />
-            </AvatarFallback>
-          </Avatar>
-        </Button>
-      </Link>
+      <Button size="sm" className={cn(className)} {...props} asChild>
+        <Link href="/login">
+          <LogIn className="h-5 w-5 mr-1" />
+          Entrar
+          <span className="sr-only">Entrar</span>
+        </Link>
+      </Button>
     )
   }
-  const initials = `${user.name?.charAt(0) ?? ""}`
+  
+  const initials = `${session?.user.name?.charAt(0) ?? ""}`
+  const shelter = await getShelterByUserId({ userId: user.id });
+
   return (
     <DropdownMenu>
       <DropdownMenuTrigger className={className} asChild>
@@ -51,7 +54,7 @@ export default function AuthDropdown( { user, className, ...props}: SiteHeaderPr
             {user.name && <p className="font-medium">{user.name}</p>}
             {user.email && (
               <p className="w-[200px] truncate text-sm text-muted-foreground">
-                {user?.email}
+                {user.email}
               </p>
             )}
           </div>
@@ -59,42 +62,34 @@ export default function AuthDropdown( { user, className, ...props}: SiteHeaderPr
         <DropdownMenuSeparator />
         {user.role === "SHELTER" ? (
             <DropdownMenuItem asChild>
-              <Link href={`/shelter/${666}`}>
+              <Link href={shelter ? `/shelter/${shelter.id}` : "/onboarding"}>
                 <Icons.dashboard className="mr-2 size-5" aria-hidden="true" />
                 Dashboard
               </Link>
             </DropdownMenuItem>
         ) : user.role === "ADOPTER" ? (
-          <>
+          <DropdownMenuGroup>
             <DropdownMenuItem asChild>
-              <Link href="/account/pets" className="flex items-center space-x-2.5">
+              <Link href="/profile/pets" className="flex items-center space-x-2.5">
                 <Icons.pet className="size-5" />
-                <p className="text-sm">Mascotas</p>
+                <p className="text-sm">Mi Adopciones</p>
               </Link>
             </DropdownMenuItem>
             <DropdownMenuItem asChild>
-              <Link href="/account" className="flex items-center space-x-2.5">
+              <Link href="/profile" className="flex items-center space-x-2.5">
                 <Icons.user className="size-5" />
                 <p className="text-sm">Mi Perfil</p>
               </Link>
             </DropdownMenuItem>
-          </>
+          </DropdownMenuGroup>
         ): null}
 
         <DropdownMenuSeparator />
-        <DropdownMenuItem
-          className="cursor-pointer"
-          onSelect={(event) => {
-            event.preventDefault();
-            signOut({
-              callbackUrl: `${window.location.origin}/`,
-            });
-          }}
-        >
-          <div className="flex items-center space-x-2.5">
-            <LogOut className="size-4" />
-            <p className="text-sm">Log out </p>
-          </div>
+        <DropdownMenuItem asChild>
+          <Link href="/signout">
+            <ExitIcon className="mr-2 size-4" aria-hidden="true" />
+            Cerrar sesión
+          </Link>
         </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>

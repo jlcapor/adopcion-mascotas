@@ -8,7 +8,7 @@ import { redirect } from 'next/navigation';
 export default async function PetAdoptionLayout({ children }: React.PropsWithChildren) {
 	const user = await getCurrentUser();
 	if(!user || user.role !== 'ADOPTER'){
-		redirect(authOptions?.pages?.signIn ?? "/")
+		redirect(authOptions?.pages?.signIn ?? "/profile")
 	}
 	return (
 		<div className='p-8'>

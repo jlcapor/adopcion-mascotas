@@ -25,6 +25,7 @@ declare module "next-auth" {
   interface User {
     // ...other properties
     // role: UserRole;
+    id: string;
     role: USER_ROLE;
   }
 }
@@ -83,6 +84,7 @@ export const authOptions: NextAuthOptions = {
   callbacks: {
     session({ session, token }) {
       if (session.user) {
+        session.user.id = token.id;
         session.user.role = token.role
       }
       return session;

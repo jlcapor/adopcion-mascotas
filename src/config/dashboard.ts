@@ -1,32 +1,25 @@
-import { SidebarNavItem } from '@/types/nav';
+import { MainNavItem, SidebarNavItem } from '@/types';
 import { USER_ROLE } from '@prisma/client';
 
-export const sidebarLinks: SidebarNavItem[] = [
-	{
-		title: 'MENU',
-		items: [
+export interface DashboardConfig {
+	sidebarNav: SidebarNavItem[],
+}
+
+export const getSidebarNavDashboardConfig = (shelterId: string, segments: string[]): DashboardConfig => {
+	return {
+		sidebarNav: [
 			{
 				title: 'Refugio',
-				icon: 'profile',
-				href: '/shelter',
-				authorizeOnly: USER_ROLE.SHELTER,
+				href: `/shelter/${shelterId}`,
+				icon: 'shelter',
+				active: segments.length === 0,
 			},
 			{
 				title: 'Mascotas',
+				href: `/shelter/${shelterId}/pets`,
 				icon: 'pet',
-				href: '/shelter/pets',
-				authorizeOnly: USER_ROLE.SHELTER,
+				active: segments.includes('pets'),
 			},
 		],
-	},
-	{
-		title: 'OPCIONES',
-		items: [
-			{
-				href: '/',
-				icon: 'home',
-				title: 'Inicio',
-			},
-		],
-	},
-];
+	};
+};

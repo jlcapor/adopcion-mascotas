@@ -4,6 +4,7 @@ import { USER_ROLE } from '@prisma/client';
 export interface NavItem {
 	title: string,
 	href?: string,
+	badge?: number;
 	onClick?: () => void
 	active?: boolean,
 	disabled?: boolean,
@@ -14,14 +15,11 @@ export interface NavItem {
 	description?: string,
 }
 
-
-
 export interface NavItemWithChildren extends NavItem {
-	items?: NavItemWithChildren[],
+	items?: NavItemWithChildren[]
 }
 
-export type MainNavItem = NavItemWithChildren;
-export type SidebarNavItem = NavItemWithChildren;
+
 
 export interface FooterItem {
 	title: string
@@ -31,6 +29,11 @@ export interface FooterItem {
 	  external?: boolean
 	}[]
 }
+
+
+export type MainNavItem = NavItemWithChildren
+
+export type SidebarNavItem = NavItemWithChildren
 
 export type SessionUser = {
 	id: string | null,

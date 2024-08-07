@@ -1,22 +1,21 @@
-'use client';
 
 import MainNav from './MainNav';
-import { SessionUser } from '@/types';
 import AuthDropdown from './AuthDropdown';
 import { siteConfig } from '@/config/site';
+import { Session } from 'next-auth';
+
 
 interface SiteHeaderProps {
-	user?: SessionUser,
+	session: Session | null
 }
-export function SiteHeader({ user }: SiteHeaderProps) {
-	
+export function SiteHeader({ session }: SiteHeaderProps) {
 	return (
 		<header className="sticky top-0 z-50 w-full border-b bg-background">
       		<div className="container flex h-16 items-center">
 				<MainNav items={siteConfig.mainNav} />
 				<div className="flex flex-1 items-center justify-end space-x-4">
 					<nav className="flex items-center space-x-2">
-						<AuthDropdown user={user} className="ml-auto" />
+						<AuthDropdown session={session} className="ml-auto" />
 					</nav>
 				</div>
 			</div>
