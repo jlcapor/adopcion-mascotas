@@ -1,4 +1,4 @@
-
+'use client'
 import React from 'react'
 import { DropdownMenu, DropdownMenuContent, DropdownMenuGroup, DropdownMenuItem, DropdownMenuSeparator, DropdownMenuTrigger } from "../ui/dropdown-menu";
 import Link from 'next/link';
@@ -9,16 +9,19 @@ import { Avatar, AvatarFallback, AvatarImage } from '../ui/avatar';
 import { cn } from '@/lib/utils';
 import { Session } from 'next-auth';
 import { ExitIcon } from '@radix-ui/react-icons';
-import { getShelterByUserId } from '@/lib/queries/shelter';
+import { useRouter } from 'next/navigation';
+import { api } from '@/trpc/react';
+
+
 
 interface SiteHeaderProps extends React.ComponentPropsWithRef<typeof DropdownMenuTrigger>,
 ButtonProps {
   session: Session | null
 }
 
-export default async function AuthDropdown( { session, className, ...props}: SiteHeaderProps) {
+export default  function AuthDropdown( { session, className, ...props}: SiteHeaderProps) {
+  const router = useRouter();
   const user = session?.user
-  
   if (!user) {
     return (
       <Button size="sm" className={cn(className)} {...props} asChild>
@@ -32,8 +35,12 @@ export default async function AuthDropdown( { session, className, ...props}: Sit
   }
   
   const initials = `${session?.user.name?.charAt(0) ?? ""}`
-  const shelter = await getShelterByUserId({ userId: user.id });
-
+  const { data: shelter } = api.shelter.getShelterByUserId.useQuery(
+		user.id, {
+			enabled: !!user.id,
+      retry: false
+		}
+	);
   return (
     <DropdownMenu>
       <DropdownMenuTrigger className={className} asChild>
@@ -61,18 +68,16 @@ export default async function AuthDropdown( { session, className, ...props}: Sit
         </div>
         <DropdownMenuSeparator />
         {user.role === "SHELTER" ? (
-            <DropdownMenuItem asChild>
-              <Link href={shelter ? `/shelter/${shelter.id}` : "/onboarding"}>
+            <DropdownMenuItem className="cursor-pointer flex gap-2 items-center" onClick={() => router.push(shelter ? `/shelter/${shelter.id}` : "/onboarding")}>
                 <Icons.dashboard className="mr-2 size-5" aria-hidden="true" />
                 Dashboard
-              </Link>
             </DropdownMenuItem>
         ) : user.role === "ADOPTER" ? (
           <DropdownMenuGroup>
             <DropdownMenuItem asChild>
               <Link href="/profile/pets" className="flex items-center space-x-2.5">
                 <Icons.pet className="size-5" />
-                <p className="text-sm">Mi Adopciones</p>
+                <p className="text-sm">Mi Mascotas</p>
               </Link>
             </DropdownMenuItem>
             <DropdownMenuItem asChild>

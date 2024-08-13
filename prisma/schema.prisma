@@ -68,16 +68,16 @@ model VerificationToken {
 }
 
 model City {
-    id       Int       @id @default(autoincrement())
-    name     String
-    regionId Int       @map("region_id")
-    Region   Region?   @relation(fields: [regionId], references: [id])
-    Shelter  Shelter[]
+    id         Int       @id @default(autoincrement())
+    name       String
+    provinceId Int       @map("province_id")
+    Province   Province? @relation(fields: [provinceId], references: [id])
+    Shelter    Shelter[]
 
     @@map("cities")
 }
 
-model Region {
+model Province {
     id        Int       @id @default(autoincrement())
     name      String
     cities    City[]
@@ -89,31 +89,32 @@ model Region {
 }
 
 model Country {
-    id      Int      @id @default(autoincrement())
-    name    String
-    isoCode String   @unique
-    regions Region[]
+    id       Int        @id @default(autoincrement())
+    name     String
+    isoCode  String     @unique
+    province Province[]
 
     @@map("countries")
 }
 
 model Shelter {
-    id          String   @id @default(cuid())
-    name        String
-    address     String
-    telephone   String
-    regionId    Int?     @map("region_id")
-    region      Region?  @relation(fields: [regionId], references: [id])
-    cityId      Int?     @map("country_id")
-    city        City?    @relation(fields: [cityId], references: [id])
-    description String?
-    image       String?  @map("image") @db.Text
-    userId      String
-    user        User     @relation(fields: [userId], references: [id])
-    active      Boolean  @default(false)
-    createdAt   DateTime @default(now())
-    updatedAt   DateTime @updatedAt
-    Pet         Pet[]
+    id           String    @id @default(cuid())
+    name         String
+    address      String
+    neighborhood String?
+    telephone    String
+    provinceId   Int?      @map("province_id")
+    province     Province? @relation(fields: [provinceId], references: [id])
+    cityId       Int?      @map("country_id")
+    city         City?     @relation(fields: [cityId], references: [id])
+    description  String?
+    image        String?   @map("image") @db.Text
+    userId       String
+    user         User      @relation(fields: [userId], references: [id])
+    active       Boolean   @default(false)
+    createdAt    DateTime  @default(now())
+    updatedAt    DateTime  @updatedAt
+    Pet          Pet[]
 
     @@map("shelters")
 }

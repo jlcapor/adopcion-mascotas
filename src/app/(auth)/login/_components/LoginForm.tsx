@@ -8,13 +8,13 @@ import { Input } from '@/components/ui/input';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { Icons } from '@/components/shared/Icons';
-import { UserLoginForm } from '@/lib/validations/auth';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { PasswordInput } from '@/components/shared/PasswordInput';
 import { toast } from 'sonner';
+import { LoginSchema } from '@/lib/validations/auth';
 
 export default function LoginForm() {
-	const initialValues: UserLoginForm = {
+	const initialValues: LoginSchema = {
 		email: '',
 		password: '',
 	};
@@ -23,7 +23,7 @@ export default function LoginForm() {
 	const [ isLoading, setIsLoading ] = useState(false);
 	const { register, handleSubmit, formState: { errors } } = useForm({ defaultValues: initialValues });
 	const [isGoogleLoading, setIsGoogleLoading] = useState<boolean>(false);
-	const handleLogin = async (formData: UserLoginForm) => {
+	const handleLogin = async (formData: LoginSchema) => {
 		setIsLoading(true);
 		const callback = await signIn('credentials', {
 			email: formData.email,

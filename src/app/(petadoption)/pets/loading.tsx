@@ -1,4 +1,6 @@
-export default function Loading() {
+import { Loading } from "@/components/shared/Loading";
+
+export default function LoadingPage() {
   // Or a custom loading skeleton component
-  return <p>Loading...</p>
+   return <Loading />;
 }

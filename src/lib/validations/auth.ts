@@ -1,41 +1,44 @@
 import { z } from 'zod';
 
-const authSchema = z.object({
-	name: z.string(),
+const loginSchema = z.object({
 	email: z.string().email(),
 	password: z.string(),
-	password_confirmation: z.string(),
 });
 
-type Auth = z.infer<typeof authSchema>;
-export type UserLoginForm = Pick<Auth, 'email' | 'password'>;
-export type UserRegistrationForm = Pick<Auth, 'name' | 'email' | 'password' | 'password_confirmation'>;
-
-
-
-
-export const signupSchema = z.object({
-	name: z.string(),
-	email: z.string().email('Please enter a valid email'),
-	password: z.string().min(1, 'Please provide your password.').max(255),
-});
-
-export type SignupInput = z.infer<typeof signupSchema>;
-
-export const loginSchema = z.object({
-	email: z.string().email('Please enter a valid email.'),
-	password: z.string().min(8, 'Password is too short. Minimum 8 characters required.').max(255),
-});
-export type LoginInput = z.infer<typeof loginSchema>;
+export const registrationSchema = z
+	.object({
+		name: z.string()
+		.trim()
+        .min(1, { message: 'Tu Nombre es Obligatorio'}),
+		email: z.string().email(),
+		password: z.string().refine((val) => {
+			return /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$/.test(val);
+		}, {
+			message:
+				'La contraseña debe tener al menos 8 caracteres y contener al menos un carácter en mayúscula, un carácter en minúscula y un símbolo especial',
+		}),
+		password_confirmation: z.string(),
+	})
+	.superRefine((val, ctx) => {
+		if (val.password !== val.password_confirmation) {
+			ctx.addIssue({
+				code: z.ZodIssueCode.custom,
+				path: [ 'password_confirmation' ],
+				message: 'Las contraseñas no coinciden',
+			});
+		}
+	});
 
 export const forgotPasswordSchema = z.object({
 	email: z.string().email(),
 });
 
-export type ForgotPasswordInput = z.infer<typeof forgotPasswordSchema>;
-
 export const resetPasswordSchema = z.object({
-	token: z.string().min(1, 'Invalid token'),
-	password: z.string().min(8, 'Password is too short').max(255),
+	token: z.string().min(1, 'Token no válido'),
+	password: z.string().min(8, 'La contraseña es demasiado corta').max(255),
 });
+
+export type LoginSchema = z.infer<typeof loginSchema>;
+export type RegistrationSchema = z.infer<typeof registrationSchema>;
+export type ForgotPasswordInput = z.infer<typeof forgotPasswordSchema>;
 export type ResetPasswordInput = z.infer<typeof resetPasswordSchema>;

@@ -2,16 +2,69 @@
 import * as React from "react"
 import { motion } from "framer-motion"
 import { Balancer } from "react-wrap-balancer";
-import ShelterRequestForm from "./shelter-request-form"
+import ShelterRequestForm from "../../shelter/[shelterId]/_components/shelter-request-form"
+import { createShelterSchema, CreateShelterSchema } from "@/lib/validations/shelter";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useRouter } from "next/navigation";
+import { Button } from "@/components/ui/button";
+import { Icons } from "@/components/shared/Icons";
+import { api } from "@/trpc/react";
+import { toast } from "sonner";
+import { Toaster } from "@/components/ui/toaster";
+import { useToast } from "@/components/ui/use-toast";
 
 
 interface CreateShelterProps {
-    userId?: string
+  userId: string
 }
 export default function CreateShelter({ userId }: CreateShelterProps) {
+  const router = useRouter()
+  const toaster = useToast();
+  const form = useForm<CreateShelterSchema>({
+		resolver: zodResolver(createShelterSchema),
+		defaultValues: {
+			shelterName: '', 
+			address: '',
+			neighborhood: '',
+			telephone: '',
+			provinceId: '',
+			cityId: '',
+			description: '',
+		},
+	});
+
+  const createShelterMutation = api.shelter.createShelter.useMutation({
+    onSuccess: (data) => { 
+      router.push(`/shelter/${data.id}/overview`)
+      toaster.toast({
+        title: "Refugio creado",
+        description: `Refugio ${data.name} creado exitosamente.`,
+      });
+    },
+    onError: (error) => {
+      toaster.toast({
+        title: "Error al crear el refugio",
+        variant: "destructive",
+        description:
+          "Se produjo un problema al crear el refugio. Por favor inténtalo de nuevo.",
+      });
+    }
+  })
+  
+  function onSubmit(input: CreateShelterSchema) {
+
+    createShelterMutation.mutate({
+      ...input, 
+      userId
+    })
+    form.reset()
+  }
   return (
     <motion.div
-        exit={{ opacity: 0, scale: 0.95 }}
+        initial={{ opacity: 0, scale: 0.9 }}
+        animate={{ opacity: 1, scale: 1 }}
+        exit={{ opacity: 0, scale: 0.9 }}
         transition={{ duration: 0.3, type: "spring" }}
     >
         <motion.div
@@ -51,7 +104,14 @@ export default function CreateShelter({ userId }: CreateShelterProps) {
               },
             }}
           >
-            <ShelterRequestForm/>
+            <ShelterRequestForm form={form} onSubmit={onSubmit}>
+              <Button type="submit" className="w-full uppercase text-sm font-bold" disabled={createShelterMutation.isPending}>
+                {createShelterMutation.isPending && (
+                  <Icons.spinner className="mr-2 size-4 animate-spin" />
+                )}
+                Crear refugio
+              </Button>
+            </ShelterRequestForm>
           </motion.div>
         </motion.div>
     </motion.div>

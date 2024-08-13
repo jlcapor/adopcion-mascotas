@@ -6,6 +6,8 @@ import DashboardHeader from '@/components/dashboard/DashboardHeader';
 import { DashboardSidebar } from '@/components/dashboard/DashboardSidebar';
 import { redirect } from 'next/navigation';
 import { DashboardSheetSidebar } from '@/components/dashboard/DashboardSheetSidebar';
+import { db } from '@/server/db';
+import { getShelterByUserId } from '@/lib/queries/shelter';
 
 interface DashboardLayoutProps {
 	params: {
@@ -20,6 +22,12 @@ export default async function DashboardLayout({ children, params }: DashboardLay
 	if (!session || session.user.role !== 'SHELTER') {
 		redirect(authOptions?.pages?.signIn ?? "/")
 	}
+
+	// const shelter = await getShelterByUserId({userId: session.user.id})
+
+	// if (!shelter) {
+	// 	redirect('/onboarding');
+	// }
 
 	return (
 		<SidebarProvider>

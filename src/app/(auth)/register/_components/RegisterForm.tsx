@@ -4,21 +4,22 @@ import { Icons } from '@/components/shared/Icons';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { UserRegistrationForm } from '@/types';
 import { useForm } from 'react-hook-form';
 import Link from 'next/link';
 import { api } from '@/trpc/react';
 import { toast } from 'sonner';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { registrationSchema, RegistrationSchema } from '@/lib/validations/auth';
+import { PasswordInput } from '@/components/shared/PasswordInput';
 
 export default function UserRegisterForm() {
-	const initialValues: UserRegistrationForm = {
+	const initialValues: RegistrationSchema = {
 		name: '',
 		email: '',
 		password: '',
 		password_confirmation: '',
 	};
-	const { register, handleSubmit, watch, reset, formState } = useForm<UserRegistrationForm>({ defaultValues: initialValues });
+	const { register, handleSubmit, watch, reset, formState: { errors } } = useForm<RegistrationSchema>({ defaultValues: initialValues });
 
 	const createUserMutation = api.auth.createUser.useMutation({
 		onError: (error) => {
@@ -30,7 +31,15 @@ export default function UserRegisterForm() {
 		},
 	});
 
-	const handleRegister = (data: UserRegistrationForm) => {
+	const handleRegister = (data: RegistrationSchema) => {
+
+		const result = registrationSchema.safeParse(data)
+        if(!result.success) {
+            result.error.issues.forEach(issue => {
+                toast.error(issue.message)
+            })
+            return 
+        }
 		createUserMutation.mutate({
 			name: data.name,
 			email: data.email,
@@ -39,6 +48,7 @@ export default function UserRegisterForm() {
 	};
 
 	const password = watch('password');
+	
 	return (
 		<Card className="w-full max-w-lg">
 			<CardHeader className="text-center">
@@ -61,8 +71,10 @@ export default function UserRegisterForm() {
 							})}
 							placeholder="Nombres y apellidos"
 						/>
-						{formState.errors.name && (
-							<p className="text-sm text-red-500 dark:text-red-500">{formState.errors.name.message}</p>
+						{errors?.name && (
+							<p className="text-sm text-red-500 dark:text-red-500">
+								{errors.name.message}
+							</p>
 						)}
 					</div>
 
@@ -80,45 +92,46 @@ export default function UserRegisterForm() {
 							})}
 							placeholder="Correo electrónico"
 						/>
-						{formState.errors.email && (
-							<p className="text-sm text-red-500 dark:text-red-500">{formState.errors.email.message}</p>
+						 {errors?.email && (
+							<p className="text-sm text-red-500 dark:text-red-500">
+								{errors.email.message}
+							</p>
 						)}
 					</div>
-					<div className="col-span-6 sm:col-span-3 space-y-2">
+
+					<div className="col-span-6 space-y-2">
 						<Label htmlFor="password">Contraseña</Label>
-						<Input
+						<PasswordInput
 							id="password"
-							type="password"
 							{...register('password', {
 								required: 'El Password es obligatorio',
 							})}
 							placeholder="Contraseña"
 						/>
-						{formState.errors.password && (
+						{errors.password && (
 							<p className="text-sm text-red-500 dark:text-red-500">
-								{formState.errors.password.message}
+								{errors.password.message}
 							</p>
 						)}
 					</div>
-					<div className="col-span-6 sm:col-span-3 space-y-2">
+					<div className="col-span-6 space-y-2">
 						<Label htmlFor="password_confirmation">Confirmar contraseña</Label>
-						<Input
+						<PasswordInput
 							id="password_confirmation"
-							type="password"
 							{...register('password_confirmation', {
 								required: 'Repetir Password es obligatorio',
 								validate: (value) => value === password || 'Los Passwords no son iguales',
 							})}
 							placeholder="Confirmar contraseña"
 						/>
-						{formState.errors.password_confirmation && (
+						{errors.password_confirmation && (
 							<p className="text-sm text-red-500 dark:text-red-500">
-								{formState.errors.password_confirmation.message}
+								{errors.password_confirmation.message}
 							</p>
 						)}
 					</div>
 
-					<div className="col-span-6 mt-6">
+					<div className="col-span-6 mt-2">
 						<Button
 							type="submit"
 							className="w-full text-xs font-bold uppercase"
