@@ -36,7 +36,7 @@ export default function CreateShelter({ userId }: CreateShelterProps) {
 
   const createShelterMutation = api.shelter.createShelter.useMutation({
     onSuccess: (data) => { 
-      router.push(`/shelter/${data.id}/overview`)
+      router.push(`/shelter/${data.id}`)
       toaster.toast({
         title: "Refugio creado",
         description: `Refugio ${data.name} creado exitosamente.`,

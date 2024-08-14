@@ -33,6 +33,8 @@ model Account {
     refresh_token_expires_in Int?
 
     @@unique([provider, providerAccountId])
+    @@index([userId])
+    @@map(name: "accounts")
 }
 
 model Session {
@@ -41,6 +43,9 @@ model Session {
     userId       String
     expires      DateTime
     user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+    @@index([userId])
+    @@map(name: "sessions")
 }
 
 model User {
@@ -65,6 +70,7 @@ model VerificationToken {
     expires    DateTime
 
     @@unique([identifier, token])
+    @@map(name: "verification_tokens")
 }
 
 model City {

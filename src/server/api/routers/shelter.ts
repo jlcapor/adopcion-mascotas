@@ -1,6 +1,7 @@
 import { z } from 'zod';
 
 import { createTRPCRouter, protectedProcedure } from '@/server/api/trpc';
+import { TRPCError } from '@trpc/server';
 
 export const shelterRouter = createTRPCRouter({
 	createShelter: protectedProcedure
@@ -29,15 +30,39 @@ export const shelterRouter = createTRPCRouter({
 					userId: input.userId,
 				},
 			});
-
 			return shelter;
 		}),
+
+	getSheltersByUserId: protectedProcedure.query(async ({ ctx }) => {
+		const shelters = await ctx.db.shelter.findMany({
+			where: {
+				userId: ctx.session.user.id,
+			},
+			select: {
+				id: true,
+				name: true,
+				address: true,
+				telephone: true,
+				provinceId: true,
+				cityId: true,
+				description: true,
+			}
+		});
+		return shelters;
+	}),
 	getShelterByUserId: protectedProcedure.input(z.string()).query(async ({ ctx, input }) => {
 		const shelter = await ctx.db.shelter.findFirst({
 			where: {
 				userId: input,
 			},
 		});
+
+		if (!shelter) {
+			throw new TRPCError({
+				code: 'NOT_FOUND',
+				message: 'Shelter not found',
+			});
+		}
 		return shelter;
 	}),
 	getProvinces: protectedProcedure.query(async ({ ctx, input }) => {

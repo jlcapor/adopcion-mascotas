@@ -10,9 +10,9 @@ export const getSidebarNavDashboardConfig = (shelterId: string, segments: string
 		sidebarNav: [
 			{
 				title: 'Refugio',
-				href: `/shelter/${shelterId}/overview`,
+				href: `/shelter/${shelterId}`,
 				icon: 'shelter',
-				active: segments.includes('overview'),
+				active: segments.length === 0,
 			},
 			{
 				title: 'Mascotas',

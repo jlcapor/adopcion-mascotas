@@ -6,6 +6,7 @@ import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '
 import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Textarea } from '@/components/ui/textarea';
 import { api } from '@/trpc/react';
+import { cn } from '@/lib/utils';
 
 interface ShelterRequestFormProps
   extends Omit<React.ComponentPropsWithRef<"form">, "onSubmit"> {
@@ -34,7 +35,7 @@ export default function ShelterRequestForm({
 	
 	return (
 		<Form {...form}>
-			<form onSubmit={form.handleSubmit(onSubmit)} className="grid grid-cols-6 gap-4 p-2">
+			<form onSubmit={form.handleSubmit(onSubmit)} autoComplete="off" className={cn("grid w-full gap-4", className)}>
 				<div className="col-span-6">
 					<FormField
 						control={form.control}
@@ -65,7 +66,7 @@ export default function ShelterRequestForm({
 						name="neighborhood"
 						render={({ field }) => (
 							<FormItem>
-								<FormLabel>Barrio</FormLabel>
+								<FormLabel>Área</FormLabel>
 								<Input type="text" placeholder="Barrio" {...field} />
 							</FormItem>
 						)}

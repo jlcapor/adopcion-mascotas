@@ -43,3 +43,9 @@ export type SessionUser = {
 	email?: string | null,
 	image?: string | null,
 };
+
+export interface StoredFile {
+	id: string
+	name: string
+	url: string
+  }

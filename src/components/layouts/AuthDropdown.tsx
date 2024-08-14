@@ -1,6 +1,6 @@
 'use client'
 import React from 'react'
-import { DropdownMenu, DropdownMenuContent, DropdownMenuGroup, DropdownMenuItem, DropdownMenuSeparator, DropdownMenuTrigger } from "../ui/dropdown-menu";
+import { DropdownMenu, DropdownMenuContent, DropdownMenuGroup, DropdownMenuItem, DropdownMenuSeparator, DropdownMenuShortcut, DropdownMenuTrigger } from "../ui/dropdown-menu";
 import Link from 'next/link';
 import { LogIn } from 'lucide-react';
 import { Button, ButtonProps } from '../ui/button';
@@ -8,7 +8,7 @@ import { Icons } from '../shared/Icons';
 import { Avatar, AvatarFallback, AvatarImage } from '../ui/avatar';
 import { cn } from '@/lib/utils';
 import { Session } from 'next-auth';
-import { ExitIcon } from '@radix-ui/react-icons';
+import { DashboardIcon, ExitIcon } from '@radix-ui/react-icons';
 import { useRouter } from 'next/navigation';
 import { api } from '@/trpc/react';
 
@@ -35,12 +35,14 @@ export default  function AuthDropdown( { session, className, ...props}: SiteHead
   }
   
   const initials = `${session?.user.name?.charAt(0) ?? ""}`
-  const { data: shelter } = api.shelter.getShelterByUserId.useQuery(
+  const { data: shelter, isLoading } = api.shelter.getShelterByUserId.useQuery(
 		user.id, {
 			enabled: !!user.id,
       retry: false
 		}
 	);
+  if (isLoading) return <div className="size-8 animate-pulse rounded-full border bg-muted" />;
+  
   return (
     <DropdownMenu>
       <DropdownMenuTrigger className={className} asChild>
@@ -68,9 +70,12 @@ export default  function AuthDropdown( { session, className, ...props}: SiteHead
         </div>
         <DropdownMenuSeparator />
         {user.role === "SHELTER" ? (
-            <DropdownMenuItem className="cursor-pointer flex gap-2 items-center" onClick={() => router.push(shelter ? `/shelter/${shelter.id}` : "/onboarding")}>
-                <Icons.dashboard className="mr-2 size-5" aria-hidden="true" />
+            <DropdownMenuItem asChild>
+              <Link href={shelter ? `/shelter/${shelter.id}` : "/onboarding"}>
+                <DashboardIcon className="mr-2 size-4" aria-hidden="true" />
                 Dashboard
+                <DropdownMenuShortcut>⌘D</DropdownMenuShortcut>
+              </Link>
             </DropdownMenuItem>
         ) : user.role === "ADOPTER" ? (
           <DropdownMenuGroup>

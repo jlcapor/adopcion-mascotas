@@ -13,12 +13,16 @@ import { Button } from '@/components/ui/button';
 import { Loader2, XCircle } from 'lucide-react';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
+import { Select, SelectContent, SelectGroup, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { useUploadFile } from '@/hooks/use-upload-file';
 
 interface UpdateShelterFormProps {
 	shelter: Shelter;
 }
 
 export default function UpdateShelterForm({ shelter }: UpdateShelterFormProps) {
+  const [loading, setLoading] = React.useState(false)
+  const { uploadFiles, progresses, uploadedFiles, isUploading }=useUploadFile("imageUploader")
   const [image, setImage] = React.useState<string | undefined>('');
   const [imageIsDeletin, setImageIsDeleting] = React.useState(false);
 
@@ -48,6 +52,7 @@ export default function UpdateShelterForm({ shelter }: UpdateShelterFormProps) {
   function onSubmit(input: UpdateShelterSchema) {
 	
   }
+
 
   
   const handleImageDelete = (image: string) => {
@@ -126,11 +131,61 @@ export default function UpdateShelterForm({ shelter }: UpdateShelterFormProps) {
 				render={({ field }) => (
 					<FormItem>
 						<FormLabel>Barrio</FormLabel>
+						<FormControl>
+							<Input placeholder="Barrio" {...field} />
+						</FormControl>
 					</FormItem>
 				)}
 			/>
 		</div>
-
+		<div className="col-span-6 sm:col-span-3">
+			<FormField
+				control={form.control}
+				name="provinceId"
+				render={({ field }) => (
+					<FormItem>
+						<FormLabel>Departamento</FormLabel>
+						<FormControl>
+							<Select
+								value={field.value?.toString()}
+								onValueChange={field.onChange}
+							>
+								<SelectTrigger className="capitalize">
+									<SelectValue placeholder={field.value} />
+								</SelectTrigger>
+								<SelectContent>
+									<SelectGroup></SelectGroup>
+								</SelectContent>
+							</Select>
+						</FormControl>
+					</FormItem>
+				)}
+			/>
+		</div>
+		<div className="col-span-6 sm:col-span-3">
+			<FormField
+				control={form.control}
+				name="cityId"
+				render={({ field }) => (
+					<FormItem>
+						<FormLabel>Municipio</FormLabel>
+						<FormControl>
+							<Select
+								value={field.value?.toString()}
+								onValueChange={field.onChange}
+							>
+								<SelectTrigger className="capitalize">
+									<SelectValue placeholder={field.value} />
+								</SelectTrigger>
+								<SelectContent>
+									<SelectGroup></SelectGroup>
+								</SelectContent>
+							</Select>
+						</FormControl>
+					</FormItem>
+				)}
+			/>
+		</div>
 		<div className="col-span-6">
 			<FormField
 				control={form.control}

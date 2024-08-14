@@ -13,9 +13,9 @@ export default async function OnboardingPage() {
 		redirect(authOptions?.pages?.signIn ?? "/login")
 	}
 
-	const userShelter = await getShelterByUserId(user.id);
+	const userShelter = await getShelterByUserId({userId: user.id});
 	if (userShelter) {
-		redirect(`/shelter/${userShelter.id}/overview`); // Redirige al refugio del usuario
+		redirect(`/shelter/${userShelter.id}`);
 	}
 	
 	return (
