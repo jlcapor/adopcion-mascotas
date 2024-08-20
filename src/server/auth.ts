@@ -55,7 +55,7 @@ export const authOptions: NextAuthOptions = {
       async authorize(credentials) {
 
         if (!credentials?.email || !credentials?.password) {
-          throw new Error('Invalid credentials');
+          throw new Error('Correo electrónico o contraseña incorrectos');
         }
 
         const user = await db.user.findUnique({
@@ -65,7 +65,7 @@ export const authOptions: NextAuthOptions = {
         });
 
         if (!user || !user?.password) {
-          throw new Error('Invalid credentials');
+          throw new Error('Correo electrónico o contraseña incorrectos');
         }
 
         const isCorrectPassword = await bcrypt.compare(
@@ -74,7 +74,7 @@ export const authOptions: NextAuthOptions = {
         );
 
         if (!isCorrectPassword) {
-          throw new Error('Invalid credentials');
+          throw new Error('Correo electrónico o contraseña incorrectos');
         }
 
         return user

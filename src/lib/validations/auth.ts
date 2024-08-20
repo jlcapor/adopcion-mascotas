@@ -1,16 +1,14 @@
 import { z } from 'zod';
 
-const loginSchema = z.object({
+export const loginSchema = z.object({
 	email: z.string().email(),
 	password: z.string(),
 });
 
 export const registrationSchema = z
 	.object({
-		name: z.string()
-		.trim()
-        .min(1, { message: 'Tu Nombre es Obligatorio'}),
-		email: z.string().email(),
+		name: z.string().trim().min(1, { message: 'Tu Nombre es Obligatorio' }),
+		email: z.string().trim().email({ message: 'Debe ser un correo electrónico válido' }),
 		password: z.string().refine((val) => {
 			return /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$/.test(val);
 		}, {
@@ -39,6 +37,6 @@ export const resetPasswordSchema = z.object({
 });
 
 export type LoginSchema = z.infer<typeof loginSchema>;
-export type RegistrationSchema = z.infer<typeof registrationSchema>;
+export type RegistrationInput = z.infer<typeof registrationSchema>;
 export type ForgotPasswordInput = z.infer<typeof forgotPasswordSchema>;
 export type ResetPasswordInput = z.infer<typeof resetPasswordSchema>;

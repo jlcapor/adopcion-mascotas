@@ -1,4 +1,3 @@
-import MaxWidthWrapper from '@/components/shared/MaxWidthWrapper';
 import { ModeToggle } from '@/components/layouts/ModeToggle';
 import AuthDropdown from '@/components/layouts/AuthDropdown';
 import { SessionUser } from '@/types';
@@ -12,8 +11,8 @@ interface DashboardHeaderProps {
 
 export default function DashboardHeader({ session, children }: DashboardHeaderProps) {
 	return (
-		<header className="sticky top-0 z-50 w-full flex h-16 border-b bg-background px-4 lg:h-[60px] xl:px-8">
-			<MaxWidthWrapper className="flex max-w-7xl items-center gap-x-3 px-0">
+		<header className="sticky top-0 z-50 w-full flex h-16 border-b bg-background lg:h-[60px]">
+			<div className="container flex h-16 items-center">
 				<div className="w-full flex-1">{children}</div> 
 				<div className="flex flex-1 items-center justify-end space-x-4">
 					<nav className="flex items-center space-x-2">
@@ -21,7 +20,7 @@ export default function DashboardHeader({ session, children }: DashboardHeaderPr
 						<AuthDropdown session={session} />
 					</nav>
 				</div>
-			</MaxWidthWrapper>
+			</div>
 		</header>
 	);
 }

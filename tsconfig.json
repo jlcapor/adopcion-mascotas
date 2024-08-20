@@ -30,6 +30,7 @@
     }
   },
   "include": [
+    "next-env.d.ts",
     ".eslintrc.cjs",
     "next-env.d.ts",
     "**/*.ts",

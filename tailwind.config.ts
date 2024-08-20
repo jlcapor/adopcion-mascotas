@@ -1,7 +1,7 @@
 
 import { withUt } from "uploadthing/tw";
 import { fontFamily } from "tailwindcss/defaultTheme"
-import { type Config } from "tailwindcss/types/config"
+// import { type Config } from "tailwindcss/types/config"
 
 export default withUt({
   darkMode: ["class"],

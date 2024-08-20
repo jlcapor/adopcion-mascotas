@@ -15,12 +15,14 @@ export const updateShelterSchema = z.object({
 	address: z.string().trim().min(1, 'La dirección del refugio es obligatoria'),
 	neighborhood: z.string(),
 	telephone: z.string(),
-	provinceId: z.number().nullable(),
-	cityId: z.number().nullable(),
+	provinceId: z.number(),
+	cityId: z.number(),
 	description: z.string(),
-	image: z.string().nullable(),
+	image: z.string().min(1, {
+		message: "Image is required",
+	}),
 });
 export type CreateShelterSchema = z.infer<typeof createShelterSchema>;
-export type UpdateShelterSchema = z.infer<typeof updateShelterSchema>;
+export type UpdateShelterInput = z.infer<typeof updateShelterSchema>;
 
 //126Julio_$_%_&_.

@@ -16,10 +16,10 @@ export default function MainNav({ items }: MainNavProps) {
   const segment = useSelectedLayoutSegment();
   
   return (
-    <div className="flex gap-6 md:gap-10">
+    <div className="hidden gap-6 md:flex">
       <Link href="/" className="mr-4 flex items-center space-x-1.5">
-        <Icons.pet className="mr-1 w-6 h-6 text-muted-foreground fill-current" aria-hidden="true" />
-				<span className="font-bold">{siteConfig.name}</span>
+        <Icons.pet className="mb-1 size-6 text-muted-foreground fill-current" aria-hidden="true" />
+				<span className="hidden font-bold md:inline-block">{siteConfig.name}</span>
 			</Link>
       {items?.length ? (
         <nav className="hidden gap-6 md:flex">

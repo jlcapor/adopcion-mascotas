@@ -1,4 +1,5 @@
 import '@/styles/globals.css';
+import { NextSSRPlugin } from '@uploadthing/react/next-ssr-plugin';
 import { GeistMono } from 'geist/font/mono';
 import { GeistSans } from 'geist/font/sans';
 import { cn } from '@/lib/utils';
@@ -13,6 +14,9 @@ import { Analytics } from '@/components/analytics';
 import { TailwindIndicator } from '@/components/tailwind-indicator';
 import { env } from '@/env';
 import { siteConfig } from '@/config/site';
+import { extractRouterConfig } from 'uploadthing/server';
+
+import { ourFileRouter } from './api/uploadthing/core';
 
 export const metadata: Metadata = {
 	metadataBase: new URL(env.NEXT_PUBLIC_APP_URL),
@@ -34,7 +38,7 @@ export const viewport: Viewport = {
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
 	return (
-		<html lang="en" suppressHydrationWarning>
+		<html lang="en" className="h-full" suppressHydrationWarning>
 			<body
 				className={cn(
 					'min-h-screen bg-background font-sans antialiased',
@@ -43,6 +47,9 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
 					fontHeading.variable
 				)}
 			>
+				<NextSSRPlugin
+					routerConfig={extractRouterConfig(ourFileRouter)}
+				/>
 				<SessionWrapper>
 					<ThemeProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange>
 						<TRPCReactProvider>{children}</TRPCReactProvider>
@@ -50,7 +57,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
 						<Analytics />
 					</ThemeProvider>
 				</SessionWrapper>
-				<Toaster position="top-right" richColors closeButton />
+				<Toaster position="top-center" richColors />
 			</body>
 		</html>
 	);

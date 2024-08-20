@@ -1,7 +1,7 @@
 'use client';
 import React from 'react';
 import { Icons } from '@/components/shared/Icons';
-import { Button } from '@/components/ui/button';
+import { Button, buttonVariants } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { useForm } from 'react-hook-form';
@@ -9,17 +9,17 @@ import Link from 'next/link';
 import { api } from '@/trpc/react';
 import { toast } from 'sonner';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { registrationSchema, RegistrationSchema } from '@/lib/validations/auth';
+import { registrationSchema, RegistrationInput } from '@/lib/validations/auth';
 import { PasswordInput } from '@/components/shared/PasswordInput';
+import { ArrowRight } from 'lucide-react';
+import { cn } from '@/lib/utils';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { Separator } from '@radix-ui/react-select';
 
 export default function UserRegisterForm() {
-	const initialValues: RegistrationSchema = {
-		name: '',
-		email: '',
-		password: '',
-		password_confirmation: '',
-	};
-	const { register, handleSubmit, watch, reset, formState: { errors } } = useForm<RegistrationSchema>({ defaultValues: initialValues });
+	const { register, handleSubmit, watch, reset, formState: { errors } } = useForm<RegistrationInput>({ 
+		resolver: zodResolver(registrationSchema)
+	});
 
 	const createUserMutation = api.auth.createUser.useMutation({
 		onError: (error) => {
@@ -31,15 +31,7 @@ export default function UserRegisterForm() {
 		},
 	});
 
-	const handleRegister = (data: RegistrationSchema) => {
-
-		const result = registrationSchema.safeParse(data)
-        if(!result.success) {
-            result.error.issues.forEach(issue => {
-                toast.error(issue.message)
-            })
-            return 
-        }
+	const handleRegister = (data: RegistrationInput) => {
 		createUserMutation.mutate({
 			name: data.name,
 			email: data.email,
@@ -58,20 +50,31 @@ export default function UserRegisterForm() {
 				<div className="flex flex-col gap-1">
 					<CardTitle className="text-2xl font-semibold tracking-tight">Crea una cuenta</CardTitle>
 				</div>
+				<Link
+					className={buttonVariants({
+						variant: 'link',
+						className: 'gap-1.5',
+					})}
+					href='/login'>
+					¿Ya tienes cuenta? Iniciar Sesión
+					<ArrowRight className='h-4 w-4' />
+            	</Link>
 			</CardHeader>
 			<CardContent>
-				<form onSubmit={handleSubmit(handleRegister)} className="grid gap-5">
+				<form onSubmit={(...args) => void handleSubmit(handleRegister)(...args)} className="grid gap-4">
 					<div className="col-span-6 space-y-2">
 						<Label htmlFor="name">Tu nombre</Label>
 						<Input
 							id="name"
 							type="text"
-							{...register('name', {
-								required: 'El nombre es obligatorio',
+							{...register("name", { required: true })}
+							className={cn({
+								'focus-visible:ring-red-500':
+								  errors.name,
 							})}
 							placeholder="Nombres y apellidos"
 						/>
-						{errors?.name && (
+						{errors.name && (
 							<p className="text-sm text-red-500 dark:text-red-500">
 								{errors.name.message}
 							</p>
@@ -84,15 +87,19 @@ export default function UserRegisterForm() {
 							id="email"
 							type="email"
 							{...register('email', {
-								required: 'El Email es obligatorio',
+								required: true,
 								pattern: {
 									value: /\S+@\S+\.\S+/,
 									message: 'E-mail no válido',
 								},
 							})}
+							className={cn({
+								'focus-visible:ring-red-500':
+								  errors.email,
+							})}
 							placeholder="Correo electrónico"
 						/>
-						 {errors?.email && (
+						{errors.email && (
 							<p className="text-sm text-red-500 dark:text-red-500">
 								{errors.email.message}
 							</p>
@@ -104,7 +111,11 @@ export default function UserRegisterForm() {
 						<PasswordInput
 							id="password"
 							{...register('password', {
-								required: 'El Password es obligatorio',
+								required: true,
+							})}
+							className={cn({
+								'focus-visible:ring-red-500':
+								  errors.password,
 							})}
 							placeholder="Contraseña"
 						/>
@@ -119,8 +130,11 @@ export default function UserRegisterForm() {
 						<PasswordInput
 							id="password_confirmation"
 							{...register('password_confirmation', {
-								required: 'Repetir Password es obligatorio',
-								validate: (value) => value === password || 'Los Passwords no son iguales',
+								required: true,
+							})}
+							className={cn({
+								'focus-visible:ring-red-500':
+								  errors.password_confirmation,
 							})}
 							placeholder="Confirmar contraseña"
 						/>
@@ -130,8 +144,8 @@ export default function UserRegisterForm() {
 							</p>
 						)}
 					</div>
-
-					<div className="col-span-6 mt-2">
+					
+					<div className="col-span-6">
 						<Button
 							type="submit"
 							className="w-full text-xs font-bold uppercase"
@@ -144,16 +158,10 @@ export default function UserRegisterForm() {
 							<span className="sr-only">Crear cuenta</span>
 						</Button>
 					</div>
-					<div className="col-span-6 mt-2">
-						<div className="text-sm text-muted-foreground text-center">
-							¿Ya tienes cuenta? {''}
-							<Link
-								href={'/login'}
-								className="text-primary underline-offset-4 transition-colors hover:underline"
-							>
-								Iniciar Sesión
-							</Link>
-						</div>
+					<div className="col-span-6">
+						<Button variant="outline" className="w-full text-xs font-bold uppercase" asChild>
+							<Link href="/">Cancelar</Link>
+						</Button>
 					</div>
 				</form>
 			</CardContent>

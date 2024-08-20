@@ -23,10 +23,10 @@ export function DashboardSheetSidebar({ children, className, ...props }: Dashboa
 		<Sheet open={open} onOpenChange={setOpen}>
 			<SheetTrigger asChild>
 				<Button
-					variant="outline"
+					variant="ghost"
 					size="icon"
 					className={cn(
-						'size-5 hover:bg-transparent focus-visible:bg-transparent focus-visible:ring-0 focus-visible:ring-offset-0',
+						'size-6 hover:bg-transparent focus-visible:bg-transparent focus-visible:ring-0 focus-visible:ring-offset-0',
 						className
 					)}
 					{...props}

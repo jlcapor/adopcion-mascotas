@@ -12,6 +12,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { PasswordInput } from '@/components/shared/PasswordInput';
 import { toast } from 'sonner';
 import { LoginSchema } from '@/lib/validations/auth';
+// import { useFormState } from 'react-dom';
 
 export default function LoginForm() {
 	const initialValues: LoginSchema = {
@@ -21,22 +22,25 @@ export default function LoginForm() {
 
 	const router = useRouter();
 	const [ isLoading, setIsLoading ] = useState(false);
-	const { register, handleSubmit, formState: { errors } } = useForm({ defaultValues: initialValues });
+	const { register, handleSubmit, formState: { errors }, setError } = useForm({ defaultValues: initialValues });
 	const [isGoogleLoading, setIsGoogleLoading] = useState<boolean>(false);
+	// const [state, formAction] = useFormState('', null);
 	const handleLogin = async (formData: LoginSchema) => {
 		setIsLoading(true);
 		const callback = await signIn('credentials', {
-			email: formData.email,
+			email: formData.email.toLowerCase(),
 			password: formData.password,
 			redirect: false,
 		});
+
 		 setIsLoading(false);
+
 		 if (callback?.ok) {
 		   router.push('/');
 		   router.refresh();
 		 }
 		 if (callback?.error) {
-		   toast.error(callback.error);
+		   setError("root", { message: callback.error })
 		 }
 	};
 	return (
@@ -77,9 +81,6 @@ export default function LoginForm() {
 						<Input
 							id="email"
 							type="email"
-							autoCapitalize="none"
-							autoComplete="email"
-							autoCorrect="off"
 							disabled={isLoading || isGoogleLoading}
 							placeholder="Correo electrónico"
 							{...register('email', {
@@ -110,6 +111,16 @@ export default function LoginForm() {
 						)}
 					</div>
 
+					<div className="flex flex-wrap justify-between">
+						<Button variant={"link"} size={"sm"} className="p-0" asChild>
+							<Link href={"/register"} className=''>¿No tienes cuenta? Crear Una</Link>
+						</Button>
+						<Button variant={"link"} size={"sm"} className="p-0" asChild>
+							<Link href={"/reset-password"}>¿Olvidaste tu contraseña?</Link>
+						</Button>
+					</div>
+
+					{errors.root?.message && <p className="list-disc space-y-1 rounded-lg border bg-destructive/10 p-2 text-[0.8rem] font-medium text-destructive">{errors.root?.message}</p>}
 					<Button type="submit" className="w-full text-xs font-bold uppercase" disabled={isLoading}>
 						{isLoading && <Icons.spinner className="mr-2 size-4 animate-spin" aria-hidden="true" />}
 						Iniciar Sesión
@@ -118,7 +129,7 @@ export default function LoginForm() {
 					<Button variant="outline" className="w-full" asChild>
 						<Link href="/">Cancelar</Link>
 					</Button>
-					<nav className="flex flex-col space-y-4 ">
+					{/* <nav className="flex flex-col space-y-4 ">
 						<div className="text-sm text-muted-foreground text-center">
 							¿No tienes cuenta? {''}
 							<Link
@@ -137,7 +148,7 @@ export default function LoginForm() {
 								Reestablecer
 							</Link>
 						</div>
-					</nav>
+					</nav> */}
 				</form>
 			</CardContent>
 		</Card>

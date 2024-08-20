@@ -5,20 +5,20 @@ export interface DashboardConfig {
 	sidebarNav: SidebarNavItem[],
 }
 
-export const getSidebarNavDashboardConfig = (shelterId: string, segments: string[]): DashboardConfig => {
+export const getSidebarNavDashboardConfig = (segments: string[]): DashboardConfig => {
 	return {
 		sidebarNav: [
 			{
-				title: 'Refugio',
-				href: `/shelter/${shelterId}`,
-				icon: 'shelter',
-				active: segments.length === 0,
-			},
-			{
 				title: 'Mascotas',
-				href: `/shelter/${shelterId}/pets`,
+				href: '/admin/pets',
 				icon: 'pet',
 				active: segments.includes('pets'),
+			},
+			{
+				title: 'Productos',
+				href: '/admin/products',
+				icon: 'product',
+				active: segments.includes('products'),
 			},
 		],
 	};

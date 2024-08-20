@@ -7,7 +7,7 @@ const links = {
 	linkedinAccount: 'https://www.linkedin.com/in/jose-luis-capote-dsw/',
 };
 export const siteConfig = {
-	name: 'Amor Peludo',
+	name: 'Pet Shop',
 	description: 'Adopta una mascota y transforma una vida. Explora nuestra variedad de animales en busca de un hogar amoroso y encuentra el compañero perfecto para ti',
 	links,
 	mainNav: [
@@ -21,11 +21,7 @@ export const siteConfig = {
 			href: '/pets',
 			items: [],
 		},
-		{
-			title: 'Refugios',
-			href: '/shelters',
-			items: [],
-		},
+		
 	] satisfies MainNavItem[],
 	footerNav: [
 		{

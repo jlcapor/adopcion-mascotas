@@ -13,7 +13,7 @@ export default function SiteFooter() {
 				<section className="flex flex-col gap-10 lg:flex-row lg:gap-20">
 					<section>
 						<Link href="/" className="flex w-fit items-center space-x-2">
-						<Icons.pet className="mr-1 w-6 h-6 text-muted-foreground fill-current" aria-hidden="true" />
+						<Icons.pet className="w-6 h-6 text-muted-foreground fill-current" aria-hidden="true" />
 							<span className="font-bold">{siteConfig.name}</span>
 							<span className="sr-only">Home</span>
 						</Link>

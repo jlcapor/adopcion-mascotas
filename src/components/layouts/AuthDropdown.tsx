@@ -1,4 +1,3 @@
-'use client'
 import React from 'react'
 import { DropdownMenu, DropdownMenuContent, DropdownMenuGroup, DropdownMenuItem, DropdownMenuSeparator, DropdownMenuShortcut, DropdownMenuTrigger } from "../ui/dropdown-menu";
 import Link from 'next/link';
@@ -9,18 +8,13 @@ import { Avatar, AvatarFallback, AvatarImage } from '../ui/avatar';
 import { cn } from '@/lib/utils';
 import { Session } from 'next-auth';
 import { DashboardIcon, ExitIcon } from '@radix-ui/react-icons';
-import { useRouter } from 'next/navigation';
-import { api } from '@/trpc/react';
-
-
 
 interface SiteHeaderProps extends React.ComponentPropsWithRef<typeof DropdownMenuTrigger>,
 ButtonProps {
   session: Session | null
 }
 
-export default  function AuthDropdown( { session, className, ...props}: SiteHeaderProps) {
-  const router = useRouter();
+export default function AuthDropdown( { session, className, ...props}: SiteHeaderProps) {
   const user = session?.user
   if (!user) {
     return (
@@ -34,15 +28,7 @@ export default  function AuthDropdown( { session, className, ...props}: SiteHead
     )
   }
   
-  const initials = `${session?.user.name?.charAt(0) ?? ""}`
-  const { data: shelter, isLoading } = api.shelter.getShelterByUserId.useQuery(
-		user.id, {
-			enabled: !!user.id,
-      retry: false
-		}
-	);
-  if (isLoading) return <div className="size-8 animate-pulse rounded-full border bg-muted" />;
-  
+  const initials =  `${session?.user.name?.charAt(0) ?? ""}`
   return (
     <DropdownMenu>
       <DropdownMenuTrigger className={className} asChild>
@@ -69,16 +55,17 @@ export default  function AuthDropdown( { session, className, ...props}: SiteHead
           </div>
         </div>
         <DropdownMenuSeparator />
-        {user.role === "SHELTER" ? (
+        <DropdownMenuGroup>
+          {user.role === "ADMIN" ? (
             <DropdownMenuItem asChild>
-              <Link href={shelter ? `/shelter/${shelter.id}` : "/onboarding"}>
-                <DashboardIcon className="mr-2 size-4" aria-hidden="true" />
-                Dashboard
-                <DropdownMenuShortcut>⌘D</DropdownMenuShortcut>
+            <Link href="/admin/pets" className="flex items-center space-x-2.5">
+                <DashboardIcon className="size-5"  />
+                <p className="text-sm">Dashboard</p>
+                
               </Link>
             </DropdownMenuItem>
-        ) : user.role === "ADOPTER" ? (
-          <DropdownMenuGroup>
+          ) : null}
+        
             <DropdownMenuItem asChild>
               <Link href="/profile/pets" className="flex items-center space-x-2.5">
                 <Icons.pet className="size-5" />
@@ -91,9 +78,7 @@ export default  function AuthDropdown( { session, className, ...props}: SiteHead
                 <p className="text-sm">Mi Perfil</p>
               </Link>
             </DropdownMenuItem>
-          </DropdownMenuGroup>
-        ): null}
-
+        </DropdownMenuGroup>
         <DropdownMenuSeparator />
         <DropdownMenuItem asChild>
           <Link href="/signout">
@@ -105,5 +90,8 @@ export default  function AuthDropdown( { session, className, ...props}: SiteHead
     </DropdownMenu>
   )
 }
+
+
+
 
 

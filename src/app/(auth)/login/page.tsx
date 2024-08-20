@@ -6,7 +6,7 @@ export default async function LoginPage() {
 	const user = await getCurrentUser();
 
 	if (user) {
-		if (user.role === 'SHELTER') redirect('/');
+		if (user.role === 'ADMIN') redirect('/');
 		redirect('/profile');
 	}
 	

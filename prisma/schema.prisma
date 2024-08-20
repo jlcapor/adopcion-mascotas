@@ -55,11 +55,11 @@ model User {
     password      String?
     emailVerified DateTime?
     image         String?
-    role          USER_ROLE @default(ADOPTER)
+    role          USER_ROLE @default(USER)
     active        Boolean   @default(true)
     accounts      Account[]
     sessions      Session[]
-    shelter       Shelter[]
+    orders        Order[]   // Renamed from 'Order' to 'orders' for consistency
 
     @@map("users")
 }
@@ -73,58 +73,6 @@ model VerificationToken {
     @@map(name: "verification_tokens")
 }
 
-model City {
-    id         Int       @id @default(autoincrement())
-    name       String
-    provinceId Int       @map("province_id")
-    Province   Province? @relation(fields: [provinceId], references: [id])
-    Shelter    Shelter[]
-
-    @@map("cities")
-}
-
-model Province {
-    id        Int       @id @default(autoincrement())
-    name      String
-    cities    City[]
-    countryId Int?
-    Country   Country?  @relation(fields: [countryId], references: [id])
-    Shelter   Shelter[]
-
-    @@map("regions")
-}
-
-model Country {
-    id       Int        @id @default(autoincrement())
-    name     String
-    isoCode  String     @unique
-    province Province[]
-
-    @@map("countries")
-}
-
-model Shelter {
-    id           String    @id @default(cuid())
-    name         String
-    address      String
-    neighborhood String?
-    telephone    String
-    provinceId   Int?      @map("province_id")
-    province     Province? @relation(fields: [provinceId], references: [id])
-    cityId       Int?      @map("country_id")
-    city         City?     @relation(fields: [cityId], references: [id])
-    description  String?
-    image        String?   @map("image") @db.Text
-    userId       String
-    user         User      @relation(fields: [userId], references: [id])
-    active       Boolean   @default(false)
-    createdAt    DateTime  @default(now())
-    updatedAt    DateTime  @updatedAt
-    Pet          Pet[]
-
-    @@map("shelters")
-}
-
 model Pet {
     id          String   @id @default(cuid())
     name        String
@@ -136,12 +84,9 @@ model Pet {
     sizeId      String?
     image       String
     description String   @db.Text
-    shelterId   String
-    shelter     Shelter  @relation(fields: [shelterId], references: [id])
     petType     PetType  @relation(fields: [petTypeId], references: [id])
     breed       Breed?   @relation(fields: [breedId], references: [id])
-    Size        Size?    @relation(fields: [sizeId], references: [id])
-    adopted     Boolean  @default(false)
+    size        Size?    @relation(fields: [sizeId], references: [id])
     createdAt   DateTime @default(now())
     updatedAt   DateTime @updatedAt
 
@@ -149,12 +94,14 @@ model Pet {
 }
 
 model PetType {
-    id        String   @id @default(cuid())
-    name      String
-    Breed     Breed[]
-    Pets      Pet[]
-    createdAt DateTime @default(now())
-    updatedAt DateTime @updatedAt
+    id         String            @id @default(cuid())
+    name       String
+    slug       String            @unique
+    breeds     Breed[]
+    pets       Pet[]
+    createdAt  DateTime          @default(now())
+    updatedAt  DateTime          @updatedAt
+    categories PetTypeCategory[] // Updated to 'categories' for clarity
 
     @@map("petTypes")
 }
@@ -164,7 +111,7 @@ model Breed {
     name      String
     petTypeId String
     petType   PetType  @relation(fields: [petTypeId], references: [id])
-    Pets      Pet[]
+    pets      Pet[]
     createdAt DateTime @default(now())
     updatedAt DateTime @updatedAt
 
@@ -181,13 +128,97 @@ model Size {
     @@map("sizes")
 }
 
+model Category {
+    id            String            @id @default(cuid())
+    name          String
+    slug          String            @unique
+    subCategories SubCategory[]
+    createdAt     DateTime          @default(now())
+    updatedAt     DateTime          @updatedAt
+    products      Product[]         // Renamed to 'products' for consistency
+    petTypes      PetTypeCategory[] // Updated to 'petTypes' for clarity
+}
+
+model SubCategory {
+    id         String    @id @default(cuid())
+    name       String
+    slug       String    @unique
+    categoryId String
+    category   Category  @relation(fields: [categoryId], references: [id])
+    createdAt  DateTime  @default(now())
+    updatedAt  DateTime  @updatedAt
+    products   Product[] // Renamed to 'products' for consistency
+}
+
+model Product {
+    id            String       @id @default(cuid())
+    name          String
+    price         Float
+    description   String       @db.Text
+    image         String
+    rating        Float        @default(0)
+    quantity      Int          @default(1)
+    categoryId    String
+    subCategoryId String?
+    category      Category     @relation(fields: [categoryId], references: [id])
+    subCategory   SubCategory? @relation(fields: [subCategoryId], references: [id])
+    createdAt     DateTime     @default(now())
+    updatedAt     DateTime     @updatedAt
+    orderItems    OrderItem[]  // Renamed to 'orderItems' for consistency
+}
+
+model PetTypeCategory {
+    petTypeId  String
+    categoryId String
+    petType    PetType  @relation(fields: [petTypeId], references: [id])
+    category   Category @relation(fields: [categoryId], references: [id])
+    createdAt  DateTime @default(now())
+    updatedAt  DateTime @updatedAt
+
+    @@id([petTypeId, categoryId])
+}
+
+model Order {
+    id       String       @id @default(cuid())
+    userId   String
+    user     User         @relation(fields: [userId], references: [id], onDelete: Cascade)
+    total    Float
+    items    OrderItem[] // Renamed to 'items' for consistency
+    archived Boolean
+    status   ORDER_STATUS @default(PENDING)
+
+    @@index([userId])
+}
+
+model OrderItem {
+    id        String   @id @default(cuid())
+    order     Order    @relation(fields: [orderId], references: [id], onDelete: Cascade)
+    orderId   String
+    product   Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
+    productId String
+    quantity  Int
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+    archived  Boolean  @default(false)
+
+    @@index([orderId])
+    @@index([productId])
+}
+
 enum USER_ROLE {
     ADMIN
-    ADOPTER
-    SHELTER
+    USER
 }
 
 enum SEX_PET {
     MALE
     FEMALE
+}
+
+enum ORDER_STATUS {
+    PENDING
+    PROCESSING
+    SHIPPED
+    DELIVERED
+    CANCELED
 }
