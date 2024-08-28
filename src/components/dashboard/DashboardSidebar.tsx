@@ -18,13 +18,13 @@ export function DashboardSidebar({ children, className, ...props }: DashboardSid
 
 	return (
 		<aside className={cn('h-screen w-full', className)} {...props}>
-			<div className="hidden h-16 items-center p-4 lg:h-[60px] border-b bg-background px-6 lg:flex">
+			<div className="hidden h-16 items-center  p-4 lg:h-[60px] border-b bg-background px-6 lg:flex">
 				<Link
 					href="/"
-					className="flex w-fit items-center font-heading tracking-wider text-foreground/90 transition-colors hover:text-foreground"
+					className="flex w-fit items-center font-heading tracking-wider text-foreground/90 transition-colors hover:text-foreground mx-2"
 				>
-					<Icons.pet className="mb-1 mr-2 size-6 text-muted-foreground fill-current" aria-hidden="true" />
-					{siteConfig.name}
+					<Icons.pet className="mb-0 mr-2 size-6 text-muted-foreground fill-current" aria-hidden="true" />
+					<span className="hidden font-bold md:inline-block mt-1">{siteConfig.name}</span>
 				</Link>
 			</div>
 			<div className="flex flex-col gap-2.5 px-4 pt-6 lg:px-6 lg:pt-4">{children}</div>

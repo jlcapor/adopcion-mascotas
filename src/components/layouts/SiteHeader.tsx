@@ -11,6 +11,7 @@ interface SiteHeaderProps {
 }
 export function SiteHeader({ session }: SiteHeaderProps) {
 	return (
+		// relative z-10 flex max-w-max flex-1 items-center justify-center
 		<header className="sticky top-0 z-50 w-full border-b bg-background">
       		<div className="container flex h-16 items-center">
 				<MobileNav/>

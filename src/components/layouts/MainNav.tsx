@@ -22,7 +22,7 @@ export default function MainNav({ items }: MainNavProps) {
 				<span className="hidden font-bold md:inline-block">{siteConfig.name}</span>
 			</Link>
       {items?.length ? (
-        <nav className="hidden gap-6 md:flex">
+        <nav className="hidden gap-6 md:flex ">
           {items?.map(
             (item, index) =>
               item.href && (

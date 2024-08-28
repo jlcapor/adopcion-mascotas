@@ -1,5 +1,6 @@
 import type { Icons } from '@/components/shared/Icons';
 import { USER_ROLE } from '@prisma/client';
+import { ClientUploadedFileData } from 'uploadthing/types';
 
 export interface NavItem {
 	title: string,
@@ -44,8 +45,16 @@ export type SessionUser = {
 	image?: string | null,
 };
 
-export interface StoredFile {
-	id: string
+
+export interface UploadedFile<T = unknown> extends ClientUploadedFileData<T> {}
+
+export type ProductFile = {
+	id: string;
 	name: string
-	url: string
-  }
+	url: string;
+};
+
+
+
+
+

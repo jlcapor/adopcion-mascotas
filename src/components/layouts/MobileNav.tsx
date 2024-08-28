@@ -14,11 +14,7 @@ export default function MobileNav() {
 		[ pathname ]
 	);
 
-	const closeOnCurrent = (href: string) => {
-		if (pathname === href) {
-			setIsOpen(false);
-		}
-	};
+	
 
 	useEffect(
 		() => {

@@ -3,7 +3,7 @@ import { toast } from "sonner"
 import { z } from "zod"
 
 export function getErrorMessage(err: unknown) {
-  const unknownError = "Algo salió mal, por favor inténtalo de nuevo más tarde."
+  const unknownError = "Algo salió mal, por favor intenta nuevamente más tarde."
 
   if (err instanceof z.ZodError) {
     const errors = err.issues.map((issue) => {

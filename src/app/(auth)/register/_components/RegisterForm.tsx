@@ -7,26 +7,32 @@ import { Label } from '@/components/ui/label';
 import { useForm } from 'react-hook-form';
 import Link from 'next/link';
 import { api } from '@/trpc/react';
-import { toast } from 'sonner';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { registrationSchema, RegistrationInput } from '@/lib/validations/auth';
 import { PasswordInput } from '@/components/shared/PasswordInput';
 import { ArrowRight } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { Separator } from '@radix-ui/react-select';
+import { useToast } from '@/components/ui/use-toast';
 
 export default function UserRegisterForm() {
+	const { toast } = useToast();
 	const { register, handleSubmit, watch, reset, formState: { errors } } = useForm<RegistrationInput>({ 
 		resolver: zodResolver(registrationSchema)
 	});
 
 	const createUserMutation = api.auth.createUser.useMutation({
 		onError: (error) => {
-			toast.error(error.message);
+			toast({
+				variant: 'destructive',
+				description: error.message
+			});
 		},
 		onSuccess: () => {
-			toast.success('Cuenta creada, revisa tu email para confirmarla');
+			toast({
+				variant: 'success',
+				description:'Cuenta creada, revisa tu email para confirmarla'
+			});
 			reset();
 		},
 	});

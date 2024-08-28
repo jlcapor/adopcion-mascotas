@@ -1,18 +1,17 @@
 import * as React from "react"
-import type { StoredFile } from "@/types"
-import { toast } from "sonner"
+import type { ProductFile } from "@/types"
 import type { UploadFilesOptions } from "uploadthing/types"
 
-import { getErrorMessage } from "@/lib/handle-error"
 import { uploadFiles } from "@/lib/uploadthing"
 import { type OurFileRouter } from "@/app/api/uploadthing/core"
+import { toast } from "sonner"
 
 interface UseUploadFileProps
   extends Pick<
     UploadFilesOptions<OurFileRouter, keyof OurFileRouter>,
     "headers" | "onUploadBegin" | "onUploadProgress" | "skipPolling"
   > {
-  defaultUploadedFiles?: StoredFile[]
+  defaultUploadedFiles?: ProductFile[]
 }
 
 export function useUploadFile(
@@ -20,7 +19,7 @@ export function useUploadFile(
   { defaultUploadedFiles = [], ...props }: UseUploadFileProps = {}
 ) {
   const [uploadedFiles, setUploadedFiles] =
-    React.useState<StoredFile[]>(defaultUploadedFiles)
+    React.useState<ProductFile[]>(defaultUploadedFiles)
   const [progresses, setProgresses] = React.useState<Record<string, number>>({})
   const [isUploading, setIsUploading] = React.useState(false)
 
@@ -40,7 +39,7 @@ export function useUploadFile(
         },
       })
 
-      const formattedRes: StoredFile[] = res.map((file) => {
+      const formattedRes: ProductFile[] = res.map((file) => {
         return {
           id: file.key,
           name: file.name,
@@ -52,7 +51,7 @@ export function useUploadFile(
         prev ? [...prev, ...formattedRes] : formattedRes
       )
     } catch (err) {
-      toast.error(getErrorMessage(err))
+      toast.error("Error uploading files:");
     } finally {
       setProgresses({})
       setIsUploading(false)

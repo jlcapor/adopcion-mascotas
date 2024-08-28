@@ -8,22 +8,13 @@ await import("./src/env.js");
 const config = {
     images: {
         remotePatterns: [
-            {
-                protocol: "https",
-                hostname: "images.unsplash.com",
-                port: "",
-                pathname: "/**",
-            },
-            {
-                protocol: "https",
-                hostname: "uploadthing.com",
-            },
-            
-           
-            
+          {
+            protocol: "https",
+            hostname: "utfs.io",
+          },
         ],
         unoptimized: true,
-    }
+      },
 };
 
 export default config;

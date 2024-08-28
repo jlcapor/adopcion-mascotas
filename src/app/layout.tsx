@@ -8,7 +8,6 @@ import { Viewport, type Metadata } from 'next';
 import { TRPCReactProvider } from '@/trpc/react';
 import { fontHeading } from '@/lib/fonts';
 import { ThemeProvider } from '@/components/ThemeProvider';
-import { Toaster } from '@/components/ui/toaster';
 import SessionWrapper from '@/components/SessionWrapper';
 import { Analytics } from '@/components/analytics';
 import { TailwindIndicator } from '@/components/tailwind-indicator';
@@ -17,6 +16,7 @@ import { siteConfig } from '@/config/site';
 import { extractRouterConfig } from 'uploadthing/server';
 
 import { ourFileRouter } from './api/uploadthing/core';
+import { Toaster } from '@/components/ui/toast';
 
 export const metadata: Metadata = {
 	metadataBase: new URL(env.NEXT_PUBLIC_APP_URL),
@@ -57,7 +57,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
 						<Analytics />
 					</ThemeProvider>
 				</SessionWrapper>
-				<Toaster position="top-center" richColors />
+				<Toaster/>
 			</body>
 		</html>
 	);

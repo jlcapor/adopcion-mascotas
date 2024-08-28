@@ -59,7 +59,7 @@ model User {
     active        Boolean   @default(true)
     accounts      Account[]
     sessions      Session[]
-    orders        Order[]   // Renamed from 'Order' to 'orders' for consistency
+    orders        Order[] // Renamed from 'Order' to 'orders' for consistency
 
     @@map("users")
 }
@@ -73,43 +73,73 @@ model VerificationToken {
     @@map(name: "verification_tokens")
 }
 
+model City {
+    id         Int       @id @default(autoincrement())
+    name       String
+    provinceId Int       @map("province_id")
+    Province   Province? @relation(fields: [provinceId], references: [id])
+
+    @@map("cities")
+}
+
+model Province {
+    id        Int      @id @default(autoincrement())
+    name      String
+    cities    City[]
+    countryId Int?
+    Country   Country? @relation(fields: [countryId], references: [id])
+
+    @@map("regions")
+}
+
+model Country {
+    id        Int        @id @default(autoincrement())
+    name      String
+    isoCode   String     @unique
+    provinces Province[]
+
+    @@map("countries")
+}
+
 model Pet {
-    id          String   @id @default(cuid())
-    name        String
-    petTypeId   String
-    breedId     String?
-    age         Int
-    sex         SEX_PET
-    color       String
-    sizeId      String?
-    image       String
-    description String   @db.Text
-    petType     PetType  @relation(fields: [petTypeId], references: [id])
-    breed       Breed?   @relation(fields: [breedId], references: [id])
-    size        Size?    @relation(fields: [sizeId], references: [id])
-    createdAt   DateTime @default(now())
-    updatedAt   DateTime @updatedAt
+    id             String    @id @default(cuid())
+    name           String
+    petTypeId      Int
+    breedId        Int?
+    sex            SEX_PET
+    color          String
+    sizeId         Int?
+    birthDate      DateTime?
+    ageDescription String?
+    images         Json?
+    description    String    @db.Text
+    petType        PetType   @relation(fields: [petTypeId], references: [id])
+    breed          Breed?    @relation(fields: [breedId], references: [id])
+    size           Size?     @relation(fields: [sizeId], references: [id])
+    createdAt      DateTime  @default(now())
+    updatedAt      DateTime  @updatedAt
 
     @@map("pets")
 }
 
 model PetType {
-    id         String            @id @default(cuid())
-    name       String
-    slug       String            @unique
-    breeds     Breed[]
-    pets       Pet[]
-    createdAt  DateTime          @default(now())
-    updatedAt  DateTime          @updatedAt
-    categories PetTypeCategory[] // Updated to 'categories' for clarity
+    id                Int               @id @default(autoincrement())
+    name              String
+    slug              String            @unique
+    breeds            Breed[]
+    pets              Pet[]
+    createdAt         DateTime          @default(now())
+    updatedAt         DateTime          @updatedAt
+    petTypeCategories CategoryPetType[]
+    Product           Product[]
 
     @@map("petTypes")
 }
 
 model Breed {
-    id        String   @id @default(cuid())
+    id        Int      @id @default(autoincrement())
     name      String
-    petTypeId String
+    petTypeId Int
     petType   PetType  @relation(fields: [petTypeId], references: [id])
     pets      Pet[]
     createdAt DateTime @default(now())
@@ -119,7 +149,7 @@ model Breed {
 }
 
 model Size {
-    id        String   @id @default(cuid())
+    id        Int      @id @default(autoincrement())
     name      String   @unique
     pets      Pet[]
     createdAt DateTime @default(now())
@@ -129,25 +159,44 @@ model Size {
 }
 
 model Category {
-    id            String            @id @default(cuid())
-    name          String
-    slug          String            @unique
-    subCategories SubCategory[]
-    createdAt     DateTime          @default(now())
-    updatedAt     DateTime          @updatedAt
-    products      Product[]         // Renamed to 'products' for consistency
-    petTypes      PetTypeCategory[] // Updated to 'petTypes' for clarity
+    id               Int               @id @default(autoincrement())
+    name             String
+    slug             String            @unique
+    subCategories    SubCategory[]
+    createdAt        DateTime          @default(now())
+    updatedAt        DateTime          @updatedAt
+    products         Product[]
+    categoryPetTypes CategoryPetType[]
+
+    @@map("categories")
+}
+
+model CategoryPetType {
+    id         Int      @id @default(autoincrement())
+    categoryId Int
+    petTypeId  Int
+    category   Category @relation(fields: [categoryId], references: [id], onDelete: Cascade)
+    petType    PetType  @relation(fields: [petTypeId], references: [id], onDelete: Cascade)
+    createdAt  DateTime @default(now())
+    updatedAt  DateTime @updatedAt
+
+    @@unique([categoryId, petTypeId])
+    @@index([categoryId])
+    @@index([petTypeId])
+    @@map("category_pet_types")
 }
 
 model SubCategory {
-    id         String    @id @default(cuid())
+    id         Int       @id @default(autoincrement())
     name       String
     slug       String    @unique
-    categoryId String
+    categoryId Int
     category   Category  @relation(fields: [categoryId], references: [id])
     createdAt  DateTime  @default(now())
     updatedAt  DateTime  @updatedAt
-    products   Product[] // Renamed to 'products' for consistency
+    products   Product[]
+
+    @@map("subCategories")
 }
 
 model Product {
@@ -155,27 +204,20 @@ model Product {
     name          String
     price         Float
     description   String       @db.Text
-    image         String
-    rating        Float        @default(0)
+    images        Json?        @db.Json
+    rating        Float?       @default(0)
     quantity      Int          @default(1)
-    categoryId    String
-    subCategoryId String?
+    categoryId    Int
+    subCategoryId Int?
+    petTypeId     Int?
     category      Category     @relation(fields: [categoryId], references: [id])
     subCategory   SubCategory? @relation(fields: [subCategoryId], references: [id])
+    petType       PetType?     @relation(fields: [petTypeId], references: [id])
     createdAt     DateTime     @default(now())
     updatedAt     DateTime     @updatedAt
-    orderItems    OrderItem[]  // Renamed to 'orderItems' for consistency
-}
+    orderItems    OrderItem[]
 
-model PetTypeCategory {
-    petTypeId  String
-    categoryId String
-    petType    PetType  @relation(fields: [petTypeId], references: [id])
-    category   Category @relation(fields: [categoryId], references: [id])
-    createdAt  DateTime @default(now())
-    updatedAt  DateTime @updatedAt
-
-    @@id([petTypeId, categoryId])
+    @@map("products")
 }
 
 model Order {
@@ -183,11 +225,12 @@ model Order {
     userId   String
     user     User         @relation(fields: [userId], references: [id], onDelete: Cascade)
     total    Float
-    items    OrderItem[] // Renamed to 'items' for consistency
+    items    OrderItem[]
     archived Boolean
     status   ORDER_STATUS @default(PENDING)
 
     @@index([userId])
+    @@map("orders")
 }
 
 model OrderItem {
@@ -203,6 +246,7 @@ model OrderItem {
 
     @@index([orderId])
     @@index([productId])
+    @@map("orderItems")
 }
 
 enum USER_ROLE {
