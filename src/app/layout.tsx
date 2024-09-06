@@ -41,15 +41,16 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
 		<html lang="en" className="h-full" suppressHydrationWarning>
 			<body
 				className={cn(
-					'min-h-screen bg-background font-sans antialiased',
+					"min-h-screen bg-background font-sans antialiased",
 					GeistSans.variable,
 					GeistMono.variable,
 					fontHeading.variable
 				)}
 			>
-				<NextSSRPlugin
+				
+				{/* <NextSSRPlugin
 					routerConfig={extractRouterConfig(ourFileRouter)}
-				/>
+				/> */}
 				<SessionWrapper>
 					<ThemeProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange>
 						<TRPCReactProvider>{children}</TRPCReactProvider>

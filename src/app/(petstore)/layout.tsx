@@ -5,9 +5,9 @@ import { getSession } from '@/lib/session';
 export default async function PetAdoptionLayout({ children }: { children: React.ReactNode }) {
 	const session = await getSession();
 	return (
-		<div className="relative flex flex-col bg-secondary">
+		<div className="relative flex min-h-screen flex-col">
 			<SiteHeader session={session} />
-			<div className="flex-grow flex-1">{children}</div>
+			<div className="flex-1">{children}</div>
 			<SiteFooter />
 		</div>
 	);

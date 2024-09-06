@@ -1,5 +1,5 @@
 import type { Icons } from '@/components/shared/Icons';
-import { USER_ROLE } from '@prisma/client';
+import { Product, USER_ROLE } from '@prisma/client';
 import { ClientUploadedFileData } from 'uploadthing/types';
 
 export interface NavItem {
@@ -36,15 +36,10 @@ export type MainNavItem = NavItemWithChildren
 
 export type SidebarNavItem = NavItemWithChildren
 
-export type SessionUser = {
-	id: string | null,
-	role: USER_ROLE,
-} & {
-	name?: string | null,
-	email?: string | null,
-	image?: string | null,
-};
 
+export interface SearchParams {
+	[key: string]: string | string[] | undefined
+}
 
 export interface UploadedFile<T = unknown> extends ClientUploadedFileData<T> {}
 
@@ -53,6 +48,22 @@ export type ProductFile = {
 	name: string
 	url: string;
 };
+
+export interface Option {
+	label: string
+	value: string
+	icon?: React.ComponentType<{ className?: string }>
+	withCount?: boolean
+}
+
+export interface DataTableFilterField<TData> {
+	label: string
+	value: keyof TData
+	placeholder?: string
+	options?: Option[]
+}
+
+
 
 
 

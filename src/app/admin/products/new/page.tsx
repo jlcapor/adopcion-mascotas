@@ -1,4 +1,4 @@
-import AddProductForm from '@/components/Product/AddProductForm';
+import AddProductForm from '@/app/admin/products/new/_components/add-product-form';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { getCategories, getPetTypes, getSubcategories } from '@/lib/data/product';
 

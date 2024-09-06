@@ -69,13 +69,19 @@ export default function AuthDropdown( { session, className, ...props}: SiteHeade
             <DropdownMenuItem asChild>
               <Link href="/profile/pets" className="flex items-center space-x-2.5">
                 <Icons.pet className="size-5" />
-                <p className="text-sm">Mi Mascotas</p>
+                <p className="text-sm">Mascotas</p>
               </Link>
             </DropdownMenuItem>
             <DropdownMenuItem asChild>
               <Link href="/profile" className="flex items-center space-x-2.5">
                 <Icons.user className="size-5" />
-                <p className="text-sm">Mi Perfil</p>
+                <p className="text-sm">Perfil</p>
+              </Link>
+            </DropdownMenuItem>
+            <DropdownMenuItem asChild>
+              <Link href="/favorites" className="flex items-center space-x-2.5">
+                <Icons.heart className="size-5" />
+                <p className="text-sm">Favoritos</p>
               </Link>
             </DropdownMenuItem>
         </DropdownMenuGroup>

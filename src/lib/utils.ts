@@ -10,6 +10,32 @@ export function absoluteUrl(path: string) {
   return `${env.NEXT_PUBLIC_APP_URL}${path}`;
 }
 
+export function formatPrice(
+  price: number | string,
+  opts: Intl.NumberFormatOptions = {}
+) {
+  return new Intl.NumberFormat("es-CO", {
+    style: "currency",
+    currency: opts.currency ?? "COP", // Moneda colombiana
+    minimumFractionDigits: 2, // Asegura que siempre se muestren dos decimales
+    maximumFractionDigits: 2, // Limita a dos decimales
+    ...opts,
+  }).format(Number(price));
+}
+
+
+export function formatDate(
+  date: Date | string | number,
+  opts: Intl.DateTimeFormatOptions = {}
+) {
+  return new Intl.DateTimeFormat("en-US", {
+    month: opts.month ?? "long",
+    day: opts.day ?? "numeric",
+    year: opts.year ?? "numeric",
+    ...opts,
+  }).format(new Date(date))
+}
+
 export function formatBytes(
   bytes: number,
   decimals = 0,

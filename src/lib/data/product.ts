@@ -1,57 +1,66 @@
-import { unstable_cache as cache, unstable_noStore as noStore } from 'next/cache';
+import { unstable_cache as cache } from 'next/cache';
+
 import { db } from '@/server/db';
+import { Prisma, Product } from '@prisma/client';
+import { GetProductsSchema } from '../validations/params';
 
-const PAGE_SIZE = 6;
 
-export async function productCount() {
-	const count = await db.product.count();
-	const totalPages = Math.ceil(count / PAGE_SIZE);
-	return totalPages;
-}
-
-export async function getFilteredProducts(query: string, currentPage: number) {
-	const skip = (currentPage - 1) * PAGE_SIZE;
+export async function getProducts(input: GetProductsSchema) {
 	
+	const { page, per_page, sort, from, to, operator, status, name, category } = input
+
 	try {
-		const products = await db.product.findMany({
-			take: PAGE_SIZE,
-			skip,
-			where: {
-				OR: [
-					{
-						name: {
-							contains: query,
-							mode: 'insensitive',
-						},
-					},
-					{
-						category: {
-							name: {
-								contains: query,
-								mode: 'insensitive',
-							},
-						},
-					},
-					{
-						subCategory: {
-							name: {
-								contains: query,
-								mode: 'insensitive',
-							},
-						},
-					},
-				],
-			},
-			
-			include: {
-				category: true,
+		const fallbackPage = isNaN(page) || page < 1 ? 1 : page
+		const limit = isNaN(per_page) ? 10 : per_page
+		const skip = fallbackPage > 0 ? (fallbackPage - 1) * limit : 0
+		const [column, order] = (sort?.split('.') as [
+			keyof Prisma.ProductOrderByWithRelationInput,
+			'asc' | 'desc'
+		]) ?? ['createdAt', 'desc']
+	  
+		const categoryIds = category?.split(".") ?? []
+	  
+		const fromDay = from ? new Date(from) : undefined
+		const toDay = to ? new Date(to) : undefined
+		const expressions: Prisma.ProductWhereInput[] = [
+			name
+			  ? { name: { contains: name, mode: 'insensitive' } }
+			  : undefined,
+			!!status
+			  ? { status }
+			  : undefined,
+			categoryIds.length > 0
+			  ? { categoryId: { in: categoryIds } }
+			  : undefined,
+			fromDay && toDay
+			  ? { createdAt: { gte: fromDay, lte: toDay } }
+			  : undefined,
+		].filter(Boolean) as Prisma.ProductWhereInput[];
 
-			},
-		});
-
-		return products;
+		const where: Prisma.ProductWhereInput = !operator || operator === 'OR'
+		  ? { AND: expressions }
+		  : { OR: expressions };
+		
+		
+		const [ count, data ] = await db.$transaction([
+			db.product.count({ where }),
+			db.product.findMany({
+				where,
+				take: limit,
+				skip,
+				orderBy: { [column]: order },
+			}),
+		]);
+		const pageCount = Math.ceil(count / limit);
+		return {
+			data,
+			pageCount,
+		};
 	} catch (error) {
-		console.error(error);
+		return {
+			data: [],
+			pageCount: 0,
+		};
 	}
 }
 
@@ -63,12 +72,12 @@ export async function getCategories() {
 					id: true,
 					name: true,
 					slug: true,
-				},
+				}
 			});
 		},
 		[ 'categories' ],
 		{
-			revalidate: 3600, // every hour
+			revalidate: 3600,
 			tags: [ 'categories' ],
 		}
 	)();
@@ -92,6 +101,8 @@ export async function getSubcategories() {
 		}
 	)();
 }
+
+
 export async function getPetTypes() {
 	return await cache(
 		async () => {

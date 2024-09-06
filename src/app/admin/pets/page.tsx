@@ -8,14 +8,13 @@ export const metadata: Metadata = {
 
 export default function page() {
   return (
-    <div className="w-full">
+    <div className="grid items-center gap-8 pb-8 pt-6 lg:py-6">
 			<div className="flex flex-col gap-4 xs:flex-row xs:items-center xs:justify-between">
 				<h2 className="text-2xl font-bold tracking-tight">Mascotas</h2>
         
 			</div>
       <div className="mt-4 flex items-center justify-between gap-2 md:mt-8">
-        ewer
-      hjghjgh
+        Dilan matias
       </div>
 		</div>
   )

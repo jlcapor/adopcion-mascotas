@@ -13,10 +13,10 @@ export const createProductSchema = z.object({
   }),
   quantity: z.number(),
   images: z
-    .custom<File[] | undefined | null>()
-    .optional()
-    .nullable()
-    .default(null),
+  .custom<File[] | undefined | null>()
+  .optional()
+  .nullable()
+  .default(null),
 })
 
 export const updateProductSchema = z.object({
@@ -31,10 +31,23 @@ export const updateProductSchema = z.object({
     message: "Debe ser un precio válido.",
   }),
   quantity: z.number(),
-  images: z.array(z.instanceof(File)),
+  images: z
+  .custom<File[] | undefined | null>()
+  .optional()
+  .nullable()
+  .default(null),
+})
+
+export const uploadProductImageSchema = z.object({
+  images: z
+  .custom<File[] | undefined | null>()
+  .optional()
+  .nullable()
+  .default(null),
 })
 
 export type CreateProductSchema = z.infer<typeof createProductSchema>
 export type UpdateProductSchema = z.infer<typeof updateProductSchema>
+export type UploadProductImageSchema = z.infer<typeof uploadProductImageSchema>
 
 

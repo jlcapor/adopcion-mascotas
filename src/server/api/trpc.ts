@@ -13,6 +13,7 @@ import { ZodError } from "zod";
 
 import { getServerAuthSession } from "@/server/auth";
 import { db } from "@/server/db";
+import { USER_ROLE } from "@prisma/client";
 
 /**
  * 1. CONTEXT
@@ -57,6 +58,8 @@ const t = initTRPC.context<typeof createTRPCContext>().create({
   },
 });
 
+export const router = t.router;
+
 /**
  * Create a server-side caller.
  *
@@ -98,6 +101,37 @@ export const publicProcedure = t.procedure;
 export const protectedProcedure = t.procedure.use(({ ctx, next }) => {
   if (!ctx.session || !ctx.session.user) {
     throw new TRPCError({ code: "UNAUTHORIZED" });
+  }
+  return next({
+    ctx: {
+      // infers the `session` as non-nullable
+      session: { ...ctx.session, user: ctx.session.user },
+    },
+  });
+});
+
+/**
+ * Reusable middleware to ensure
+ * users are logged in
+ */
+const isAuthed = t.middleware(({ ctx, next }) => {
+  if (!ctx.session || !ctx.session.user) {
+    throw new TRPCError({ code: "UNAUTHORIZED" });
+  }
+  return next({
+    ctx: {
+      // infers the `session` as non-nullable
+      session: { ...ctx.session, user: ctx.session.user },
+    },
+  });
+});
+
+export const adminProcedure = t.procedure.use(isAuthed).use(({ ctx, next }) => {
+  if (!ctx.session || !ctx.session.user) {
+    throw new TRPCError({ code: "UNAUTHORIZED" });
+  }
+  if (ctx.session?.user.role !== USER_ROLE.ADMIN) {
+    throw new TRPCError({ code: "FORBIDDEN" });
   }
   return next({
     ctx: {

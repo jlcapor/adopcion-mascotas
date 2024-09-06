@@ -1,9 +1,10 @@
 
-// import { withUt } from "uploadthing/tw";
+// import type { Config } from "tailwindcss";
+import { withUt } from "uploadthing/tw";
 import { fontFamily } from "tailwindcss/defaultTheme"
-import { type Config } from "tailwindcss/types/config"
+// import { type Config } from "tailwindcss/types/config"
 
-export default {
+export default withUt({
   darkMode: ["class"],
   content: [
     './pages/**/*.{ts,tsx}',
@@ -144,4 +145,5 @@ export default {
     },
   },
   plugins: [require("tailwindcss-animate"), require("@tailwindcss/typography")],
-} satisfies Config
+});
+

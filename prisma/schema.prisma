@@ -123,15 +123,16 @@ model Pet {
 }
 
 model PetType {
-    id                Int               @id @default(autoincrement())
-    name              String
-    slug              String            @unique
-    breeds            Breed[]
-    pets              Pet[]
-    createdAt         DateTime          @default(now())
-    updatedAt         DateTime          @updatedAt
-    petTypeCategories CategoryPetType[]
-    Product           Product[]
+    id                   Int                   @id @default(autoincrement())
+    name                 String
+    slug                 String                @unique
+    breeds               Breed[]
+    pets                 Pet[]
+    createdAt            DateTime              @default(now())
+    updatedAt            DateTime              @updatedAt
+    petTypeCategories    CategoryPetType[]
+    Product              Product[]
+    PetTypeSubcategories PetTypeSubcategorie[]
 
     @@map("petTypes")
 }
@@ -187,37 +188,62 @@ model CategoryPetType {
 }
 
 model SubCategory {
-    id         Int       @id @default(autoincrement())
-    name       String
-    slug       String    @unique
-    categoryId Int
-    category   Category  @relation(fields: [categoryId], references: [id])
-    createdAt  DateTime  @default(now())
-    updatedAt  DateTime  @updatedAt
-    products   Product[]
+    id                   Int                   @id @default(autoincrement())
+    name                 String
+    slug                 String                @unique
+    categoryId           Int
+    category             Category              @relation(fields: [categoryId], references: [id])
+    createdAt            DateTime              @default(now())
+    updatedAt            DateTime              @updatedAt
+    products             Product[]
+    PetTypeSubcategories PetTypeSubcategorie[]
 
     @@map("subCategories")
 }
 
+model PetTypeSubcategorie {
+    id            Int         @id @default(autoincrement())
+    petTypeId     Int
+    subCategoryId Int
+    petType       PetType     @relation(fields: [petTypeId], references: [id])
+    subCategory   SubCategory @relation(fields: [subCategoryId], references: [id])
+
+    @@unique([petTypeId, subCategoryId])
+    @@index([petTypeId])
+    @@index([subCategoryId])
+    @@map("pet_type_subcategories")
+}
+
 model Product {
-    id            String       @id @default(cuid())
+    id            String         @id @default(cuid())
     name          String
     price         Float
-    description   String       @db.Text
-    images        Json?        @db.Json
-    rating        Float?       @default(0)
-    quantity      Int          @default(1)
+    description   String         @db.Text
+    rating        Float?         @default(0)
+    quantity      Int            @default(1)
+    status        PRODUCT_STATUS @default(DISPONIBLE)
     categoryId    Int
     subCategoryId Int?
     petTypeId     Int?
-    category      Category     @relation(fields: [categoryId], references: [id])
-    subCategory   SubCategory? @relation(fields: [subCategoryId], references: [id])
-    petType       PetType?     @relation(fields: [petTypeId], references: [id])
-    createdAt     DateTime     @default(now())
-    updatedAt     DateTime     @updatedAt
+    category      Category       @relation(fields: [categoryId], references: [id])
+    subCategory   SubCategory?   @relation(fields: [subCategoryId], references: [id])
+    petType       PetType?       @relation(fields: [petTypeId], references: [id])
+    createdAt     DateTime       @default(now())
+    updatedAt     DateTime       @updatedAt
     orderItems    OrderItem[]
+    images        Image[]
 
     @@map("products")
+}
+
+model Image {
+    id        String  @id @default(cuid())
+    url       String
+    name      String
+    productId String
+    product   Product @relation(fields: [productId], references: [id])
+
+    @@map("images")
 }
 
 model Order {
@@ -265,4 +291,10 @@ enum ORDER_STATUS {
     SHIPPED
     DELIVERED
     CANCELED
+}
+
+enum PRODUCT_STATUS {
+    DISPONIBLE
+    AGOTADO
+    DESCONTINUADO
 }

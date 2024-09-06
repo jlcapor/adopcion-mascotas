@@ -1,13 +1,14 @@
-import Search from '@/app/admin/_components/search';
+import React from 'react';
 import { Button } from '@/components/ui/button';
 import { env } from '@/env';
-import { db } from '@/server/db';
 import { Plus } from 'lucide-react';
 import { Metadata } from 'next';
 import Link from 'next/link';
-import Pagination from '../_components/pagination';
-import ProductsTable from '@/components/Product/ProductsTable';
-import { getFilteredProducts, productCount } from '@/lib/data/product';
+import { getCategories, getProducts } from '@/lib/data/product';
+import { searchParamsSchema } from '@/lib/validations/params';
+import { ProductsTable } from './_components/products-table';
+import { DataTableSkeleton } from '@/components/data-table/data-table-skeleton';
+import { SearchParams } from '@/types';
 
 export const metadata: Metadata = {
 	metadataBase: new URL(env.NEXT_PUBLIC_APP_URL),
@@ -15,30 +16,22 @@ export const metadata: Metadata = {
 	description: 'Manage your products',
 };
 
+export interface ProductsPageProps {
+	searchParams: SearchParams,
+}
 
-export type ProductsWithCategory = Awaited<ReturnType<typeof getFilteredProducts>>
+export type Products = Awaited<ReturnType<typeof getProducts>>;
 
-export default async function ProductsPage({
-	searchParams,
-}: {
-	searchParams?: {
-		query?: string,
-		page?: string,
-	},
-}) {
-	const query = searchParams?.query || '';
-  	const currentPage = Number(searchParams?.page) || 1;
-	const productsData = await getFilteredProducts(query, currentPage);
-	const totalProductsData = await productCount();
-	const [ products, totalProducts] = await Promise.all([productsData, totalProductsData])
+export default async function ProductsPage({ searchParams }: ProductsPageProps) {
+	const search = searchParamsSchema.parse(searchParams);
 
+	const products = await getProducts(search);
+
+	const categories = await getCategories();
 	return (
-		<div className="w-full">
-			<div className="flex w-full items-center justify-between">
+		<div className="grid items-center gap-8 pb-8 pt-6 lg:py-2">
+			<div className="flex items-center justify-between gap-2 md:mt-4">
 				<h1 className="text-2xl font-bold tracking-tight">Productos</h1>
-			</div>
-			<div className="mt-4 flex items-center justify-between gap-2 md:mt-8">
-				<Search placeholder="Buscar productos..." />
 				<Link href="/admin/products/new">
 					<Button>
 						<span className="hidden md:block">Crear producto</span>{' '}
@@ -46,10 +39,10 @@ export default async function ProductsPage({
 					</Button>
 				</Link>
 			</div>
-			<ProductsTable products={products} />
-			<div className="mt-5 flex w-full justify-center">
-				<Pagination totalPages={totalProducts} />
-			</div>
+			
+				<ProductsTable data={products.data} pageCount={products.pageCount} categories={categories} />
+			
 		</div>
 	);
 }
+//

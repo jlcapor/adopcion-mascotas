@@ -11,14 +11,15 @@ export const siteConfig = {
 	description: 'Adopta una mascota y transforma una vida. Explora nuestra variedad de animales en busca de un hogar amoroso y encuentra el compañero perfecto para ti',
 	links,
 	mainNav: [
+		
 		{
-			title: 'Inicio',
-			href: '/',
+			title: 'Productos',
+			href: '/products',
 			items: [],
 		},
 		{
-			title: 'Mascotas',
-			href: '/pets',
+			title: 'Servicios',
+			href: '/services',
 			items: [],
 		},
 		

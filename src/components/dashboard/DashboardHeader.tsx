@@ -1,10 +1,8 @@
 import { ModeToggle } from '@/components/layouts/ModeToggle';
 import AuthDropdown from '@/components/layouts/AuthDropdown';
-import { SessionUser } from '@/types';
 import { Session } from 'next-auth';
 
 interface DashboardHeaderProps {
-	user?: SessionUser,
 	session: Session | null
 	children: React.ReactNode,
 }

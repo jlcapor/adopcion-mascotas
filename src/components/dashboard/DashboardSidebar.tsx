@@ -27,7 +27,9 @@ export function DashboardSidebar({ children, className, ...props }: DashboardSid
 					<span className="hidden font-bold md:inline-block mt-1">{siteConfig.name}</span>
 				</Link>
 			</div>
-			<div className="flex flex-col gap-2.5 px-4 pt-6 lg:px-6 lg:pt-4">{children}</div>
+			<div className="flex flex-col gap-2.5 px-4 pt-2 lg:px-6 lg:pt-4">
+				{children}
+			</div>
 			<ScrollArea className="h-[calc(100vh-8rem)] px-3 py-2.5 lg:px-5">
 				<SidebarNav items={sidebarNav.sidebarNav} className="p-1 pt-4" />
 			</ScrollArea>
