@@ -19,7 +19,7 @@ export default function AuthDropdown( { session, className, ...props}: SiteHeade
   if (!user) {
     return (
       <Button size="sm" className={cn(className)} {...props} asChild>
-        <Link href="/login">
+        <Link href="/auth/login">
           <LogIn className="h-5 w-5 mr-1" />
           Entrar
           <span className="sr-only">Entrar</span>
@@ -58,7 +58,7 @@ export default function AuthDropdown( { session, className, ...props}: SiteHeade
         <DropdownMenuGroup>
           {user.role === "ADMIN" ? (
             <DropdownMenuItem asChild>
-            <Link href="/admin/pets" className="flex items-center space-x-2.5">
+            <Link href="/admin/orders" className="flex items-center space-x-2.5">
                 <DashboardIcon className="size-5"  />
                 <p className="text-sm">Dashboard</p>
                 

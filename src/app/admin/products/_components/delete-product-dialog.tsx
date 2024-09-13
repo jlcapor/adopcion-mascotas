@@ -9,6 +9,7 @@ import { Icons } from '@/components/shared/Icons';
 import { Drawer, DrawerClose, DrawerContent, DrawerDescription, DrawerFooter, DrawerHeader, DrawerTitle, DrawerTrigger } from '@/components/ui/drawer';
 import { Row } from '@tanstack/react-table';
 import { deleteProducts } from '@/lib/actions/product';
+import { api } from '@/trpc/react';
 
 interface DeleteProductsDialogPros extends React.ComponentPropsWithoutRef<typeof Dialog> {
 	products: Row<Product>["original"][]
@@ -16,22 +17,24 @@ interface DeleteProductsDialogPros extends React.ComponentPropsWithoutRef<typeof
     onSuccess?: () => void
 }
 export function DeleteProductsDialog({ products, showTrigger = true, onSuccess, ...props }: DeleteProductsDialogPros) {
-	const [ isDeletePending, startDeleteTransition ] = React.useTransition();
+	const utils = api.useUtils()
+    const [ isDeletePending, startDeleteTransition ] = React.useTransition();
 	const isDesktop = useMediaQuery('(min-width: 640px)')
-
+    
+    const deleteProductMutation = api.admin.products.delete.useMutation({
+        onSuccess: async () => {
+            await utils.admin.products.get.invalidate()
+            toast.success("Producto eliminado")
+        },
+        onError: async (err) => {
+          toast.error(err.message)
+        },
+      });
 	function onDelete() {
-        startDeleteTransition(async () => {
-            const { error } = await deleteProducts({
-                ids: products.map((item) => item.id),
-            });
-            if (error) {
-                toast.error(error)
-                return
-            }
-        })
-
+        deleteProductMutation.mutate({ids: products.map((product) => product.id)});
         props.onOpenChange?.(false)
         toast.success("productos eliminados")
+        onSuccess?.()
     }
     if (isDesktop) {
         return (
@@ -102,9 +105,9 @@ export function DeleteProductsDialog({ products, showTrigger = true, onSuccess, 
                         aria-label="Delete selected rows"
                         variant="destructive"
                         onClick={onDelete}
-                        disabled={isDeletePending}
+                        disabled={deleteProductMutation.isPending}
                     >
-                    {isDeletePending && (
+                    {deleteProductMutation.isPending && (
                         <Icons.spinner
                             className="mr-2 size-4 animate-spin"
                             aria-hidden="true"

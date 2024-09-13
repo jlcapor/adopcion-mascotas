@@ -1,5 +1,9 @@
 import { notFound } from 'next/navigation';
 import { db } from '@/server/db';
+import { api } from '@/trpc/server';
+
+
+
 
 type ProductDetailPageProps = {
 	params: {
@@ -7,20 +11,21 @@ type ProductDetailPageProps = {
 	},
 };
 
-async function getProductById(id: string) {
-	const product = await db.product.findUnique({
-		where: {
-			id,
-		},
-	});
-	if (!product) {
-		notFound();
-	}
+// async function getProductById(id: string) {
+// 	const product = await db.product.findUnique({
+// 		where: {
+// 			id,
+// 		},
+// 	});
+// 	if (!product) {
+// 		notFound();
+// 	}
 
-	return product;
-}
+// 	return product;
+// }
 
 export default async function ProductDetailPage({ params }: ProductDetailPageProps) {
-  const product = await getProductById(params.productId);
-	return <h1>{product.name}</h1>;
+//   const product = await getProductById(params.productId);
+const product = await api.admin.products.getProductById({id: params.productId});
+	return <h1>{product?.name}</h1>;
 }

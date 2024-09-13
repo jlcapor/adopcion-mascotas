@@ -1,4 +1,4 @@
-import { getCurrentUser } from "@/lib/session";
+import { getCurrentUser } from "@/lib/services/auth/session";
 import { db } from "@/server/db";
 import { NextResponse } from "next/server";
 import { UTApi } from "uploadthing/server";

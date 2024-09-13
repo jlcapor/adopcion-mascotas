@@ -8,7 +8,7 @@ import { buttonVariants } from '../ui/button';
 
 export default function SiteFooter() {
 	return (
-		<footer className="w-full border-t bg-background">
+		<footer className="w-full py-6 md:px-8 md:py-0">
 			<Shell>
 				<section className="flex flex-col gap-10 lg:flex-row lg:gap-20">
 					<section>

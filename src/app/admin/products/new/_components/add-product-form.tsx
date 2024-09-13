@@ -3,22 +3,20 @@ import * as React from "react"
 import { createProductSchema, CreateProductSchema } from "@/lib/validations/product";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
-import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "../../../../../components/ui/form";
-import { Input } from "../../../../../components/ui/input";
-import { Textarea } from "../../../../../components/ui/textarea";
-import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger } from "../../../../../components/ui/select";
+import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
+import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger } from "@/components/ui/select";
 import { SelectValue } from "@radix-ui/react-select";
-import { Icons } from "../../../../../components/shared/Icons";
-import { Button } from "../../../../../components/ui/button";
+import { Icons } from "@/components/shared/Icons";
+import { Button } from "@/components/ui/button";
 
 import { getCategories, getSubcategories, getPetTypes } from '@/lib/data/product';
 import { addProduct } from "@/lib/actions/product";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
-import { getErrorMessage } from "@/lib/handle-error";
-import { FileUploader } from "../../../../../components/shared/FileUploader";
-import { UploadedFilesCard } from "../../../../../components/shared/UploadedFilesCard";
 import { useUploadFile } from "@/hooks/use-upload-file";
+import { api } from "@/trpc/react";
 
 type AddProductFormProps = {
   promises: Promise<{
@@ -29,47 +27,43 @@ type AddProductFormProps = {
 }
 export default function AddProductForm({ promises }: AddProductFormProps) {
   const router = useRouter()
+  const utils = api.useUtils();
   const { categories, subcategories, petTypes } = React.use(promises)
-  const [loading, setLoading] = React.useState(false)
-  const { uploadFiles, progresses, uploadedFiles, isUploading } = useUploadFile('imageUploader');
   const form = useForm<CreateProductSchema>({
     resolver: zodResolver(createProductSchema),
     defaultValues: {
       name: "",
       description: "",
       price: "",
-      quantity: NaN,
+      stock: NaN,
       categoryId: "",
       subcategoryId: "",
       petTypeId: "",
-      images: [],
     },
   })
 
-
+  const createProductMutation = api.admin.products.create.useMutation({
+    onSuccess: async () => {
+      await utils.admin.products.invalidate()
+      router.push("/admin/products")
+      toast.success("product created")
+    },
+    onError: async (err) => {
+      toast.error(err.message)
+    },
+  });
   async function onSubmit(input: CreateProductSchema) {
     // const formData = new FormData();
-    setLoading(true)
-    toast.promise(
-      uploadFiles(input.images ?? []).then((uploadedFiles) => {
-				return addProduct({
-          ...input,
-          images: uploadedFiles
-        })
-		  }),
-      {
-        loading: "Uploading images...",
-        success: () => {
-          form.reset()
-          setLoading(false)
-          return "Producto creado"
-        },
-        error: (err) => {
-          setLoading(false)
-          return getErrorMessage(err)
-        }
-      }
-    )
+    createProductMutation.mutate({
+        name: input.name,
+				description: input.description,
+				categoryId:input.categoryId,
+				subcategoryId: input.subcategoryId,
+				petTypeId: input.petTypeId,
+				price: input.price,
+				stock: input.stock,
+    })
+    
     // for (const field of Object.keys(input) as Array<keyof typeof input>) {
     //   console.log(input[field])
     //   formData.append(`${field}`, `${input[field]}`);
@@ -235,7 +229,7 @@ export default function AddProductForm({ promises }: AddProductFormProps) {
         <div className="col-span-6 sm:col-span-3">
           <FormField
             control={form.control}
-            name="quantity"
+            name="stock"
             render={({ field }) => (
               <FormItem className="w-full">
                 <FormLabel>Cantidad</FormLabel>
@@ -253,40 +247,15 @@ export default function AddProductForm({ promises }: AddProductFormProps) {
             )}
           />
         </div>
-        <div className="col-span-6 space-y-2">
-          <FormField
-            control={form.control}
-            name="images"
-            render={({ field }) => (
-              <div className="space-y-6">
-                <FormItem className="w-full">
-                  <FormLabel>Imagenes</FormLabel>
-                  <FormControl>
-                    <FileUploader
-                      value={field.value ?? []}
-                      onValueChange={field.onChange}
-                      maxFiles={2}
-                      maxSize={4 * 1024 * 1024}
-                      progresses={progresses}
-                      disabled={isUploading}
-                    />
-                  </FormControl>
-                </FormItem>
-                {uploadedFiles.length > 0 ? (
-                    <UploadedFilesCard files={uploadedFiles} />
-                ) : null}
-              </div>
-            )}
-          />
-        </div>
+        
         <Button
           onClick={() =>
-            void form.trigger(["name", "description", "price", "quantity"])
+            void form.trigger(["name", "description", "price", "stock"])
           }
           className="w-fit"
-          disabled={loading}
+          disabled={createProductMutation.isPending}
         >
-          {loading && (
+          {createProductMutation.isPending && (
             <Icons.spinner
               className="mr-2 size-4 animate-spin"
               aria-hidden="true"

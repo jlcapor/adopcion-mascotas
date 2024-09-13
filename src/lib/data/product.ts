@@ -1,57 +1,52 @@
 import { unstable_cache as cache } from 'next/cache';
 
 import { db } from '@/server/db';
-import { Prisma, Product } from '@prisma/client';
-import { GetProductsSchema } from '../validations/params';
+import { Prisma } from '@prisma/client';
+const ITEMS_PER_PAGE = 6;
 
-
-export async function getProducts(input: GetProductsSchema) {
-	
-	const { page, per_page, sort, from, to, operator, status, name, category } = input
-
+export async function getProducts(query: string, currentPage: number) {
+	const productFilter: Prisma.ProductWhereInput = {
+		OR: [
+			{
+				name: {
+					contains: query,
+					mode: 'insensitive',
+				},
+			},
+			{
+				category: {
+					name: {
+						contains: query,
+						mode: 'insensitive',
+					},
+				},
+			},
+		],
+	};
 	try {
-		const fallbackPage = isNaN(page) || page < 1 ? 1 : page
-		const limit = isNaN(per_page) ? 10 : per_page
-		const skip = fallbackPage > 0 ? (fallbackPage - 1) * limit : 0
-		const [column, order] = (sort?.split('.') as [
-			keyof Prisma.ProductOrderByWithRelationInput,
-			'asc' | 'desc'
-		]) ?? ['createdAt', 'desc']
-	  
-		const categoryIds = category?.split(".") ?? []
-	  
-		const fromDay = from ? new Date(from) : undefined
-		const toDay = to ? new Date(to) : undefined
-		const expressions: Prisma.ProductWhereInput[] = [
-			name
-			  ? { name: { contains: name, mode: 'insensitive' } }
-			  : undefined,
-			!!status
-			  ? { status }
-			  : undefined,
-			categoryIds.length > 0
-			  ? { categoryId: { in: categoryIds } }
-			  : undefined,
-			fromDay && toDay
-			  ? { createdAt: { gte: fromDay, lte: toDay } }
-			  : undefined,
-		].filter(Boolean) as Prisma.ProductWhereInput[];
-
-		const where: Prisma.ProductWhereInput = !operator || operator === 'OR'
-		  ? { AND: expressions }
-		  : { OR: expressions };
-		
-		
+		const skip = (currentPage - 1) * ITEMS_PER_PAGE;
 		const [ count, data ] = await db.$transaction([
-			db.product.count({ where }),
+			db.product.count({ where: productFilter }),
 			db.product.findMany({
-				where,
-				take: limit,
+				where: productFilter,
+				take: ITEMS_PER_PAGE,
 				skip,
-				orderBy: { [column]: order },
+				select: {
+					id: true,
+					name: true,
+					status: true,
+					category: true,
+					price: true,
+					stock: true,
+					rating: true,
+					images: true,
+				},
+				orderBy: {
+					createdAt: 'asc',
+				},
 			}),
 		]);
-		const pageCount = Math.ceil(count / limit);
+		const pageCount = Math.ceil(count / ITEMS_PER_PAGE);
 		return {
 			data,
 			pageCount,
@@ -72,7 +67,7 @@ export async function getCategories() {
 					id: true,
 					name: true,
 					slug: true,
-				}
+				},
 			});
 		},
 		[ 'categories' ],
@@ -101,7 +96,6 @@ export async function getSubcategories() {
 		}
 	)();
 }
-
 
 export async function getPetTypes() {
 	return await cache(

@@ -1,7 +1,4 @@
-import { env } from "@/env";
 import { Metadata } from "next";
-import { Shell } from '@/components/shared/Shell';
-import { PageHeader, PageHeaderHeading } from "@/components/shared/PageHeader";
 
 export const metadata: Metadata = {
   title: "Mascotas",
@@ -10,10 +7,6 @@ export const metadata: Metadata = {
 
 export default function Page() {
   return (
-    <Shell>
-      <PageHeader>
-        <PageHeaderHeading size="sm" as="h1">Mascotas</PageHeaderHeading>
-      </PageHeader>
-    </Shell>
+    <div></div>
   )
 }

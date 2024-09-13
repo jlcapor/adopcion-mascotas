@@ -1,11 +1,14 @@
 import React from 'react';
-import { getCurrentUser } from '@/lib/session';
+import { getCurrentUser } from '@/lib/services/auth/session';
+import { ContentLayout } from '@/components/content-layout';
 
 export default async function page() {
 
 	return(
-    <div>
-      <h1>Profile</h1>
-    </div>
+    <ContentLayout title="Perfil">
+      
+       dfsdfsdfsdf
+     
+    </ContentLayout>
   )
 }

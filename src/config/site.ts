@@ -13,13 +13,18 @@ export const siteConfig = {
 	mainNav: [
 		
 		{
-			title: 'Productos',
-			href: '/products',
+			title: 'Mascotas',
+			href: '/pets',
 			items: [],
 		},
 		{
 			title: 'Servicios',
 			href: '/services',
+			items: [],
+		},
+		{
+			title: 'Blog',
+			href: '/blog',
 			items: [],
 		},
 		

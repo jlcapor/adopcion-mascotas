@@ -11,12 +11,7 @@ export const createProductSchema = z.object({
   price: z.string().regex(/^\d+(\.\d{1,2})?$/, {
     message: "Debe ser un precio válido.",
   }),
-  quantity: z.number(),
-  images: z
-  .custom<File[] | undefined | null>()
-  .optional()
-  .nullable()
-  .default(null),
+  stock: z.number(),
 })
 
 export const updateProductSchema = z.object({

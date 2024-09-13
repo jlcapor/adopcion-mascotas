@@ -13,9 +13,6 @@ import { Analytics } from '@/components/analytics';
 import { TailwindIndicator } from '@/components/tailwind-indicator';
 import { env } from '@/env';
 import { siteConfig } from '@/config/site';
-import { extractRouterConfig } from 'uploadthing/server';
-
-import { ourFileRouter } from './api/uploadthing/core';
 import { Toaster } from '@/components/ui/toast';
 
 export const metadata: Metadata = {
@@ -38,7 +35,7 @@ export const viewport: Viewport = {
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
 	return (
-		<html lang="en" className="h-full" suppressHydrationWarning>
+		<html lang="en" suppressHydrationWarning>
 			<body
 				className={cn(
 					"min-h-screen bg-background font-sans antialiased",
@@ -47,13 +44,13 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
 					fontHeading.variable
 				)}
 			>
-				
-				{/* <NextSSRPlugin
-					routerConfig={extractRouterConfig(ourFileRouter)}
-				/> */}
 				<SessionWrapper>
 					<ThemeProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange>
-						<TRPCReactProvider>{children}</TRPCReactProvider>
+						<TRPCReactProvider>
+							<div className="relative flex min-h-screen flex-col bg-background">
+								{children}
+							</div>
+						</TRPCReactProvider>
 						<TailwindIndicator />
 						<Analytics />
 					</ThemeProvider>

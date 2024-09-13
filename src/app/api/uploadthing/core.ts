@@ -1,4 +1,4 @@
-import { getCurrentUser } from "@/lib/session";
+import { getCurrentUser } from "@/lib/services/auth/session";
 import { createUploadthing, type FileRouter } from "uploadthing/next";
 import { UploadThingError } from "uploadthing/server";
  

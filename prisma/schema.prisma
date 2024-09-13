@@ -77,7 +77,7 @@ model City {
     id         Int       @id @default(autoincrement())
     name       String
     provinceId Int       @map("province_id")
-    Province   Province? @relation(fields: [provinceId], references: [id])
+    province   Province? @relation(fields: [provinceId], references: [id])
 
     @@map("cities")
 }
@@ -86,8 +86,8 @@ model Province {
     id        Int      @id @default(autoincrement())
     name      String
     cities    City[]
-    countryId Int?
-    Country   Country? @relation(fields: [countryId], references: [id])
+    countryId Int
+    country   Country? @relation(fields: [countryId], references: [id])
 
     @@map("regions")
 }
@@ -102,37 +102,37 @@ model Country {
 }
 
 model Pet {
-    id             String    @id @default(cuid())
-    name           String
-    petTypeId      Int
-    breedId        Int?
-    sex            SEX_PET
-    color          String
-    sizeId         Int?
-    birthDate      DateTime?
-    ageDescription String?
-    images         Json?
-    description    String    @db.Text
-    petType        PetType   @relation(fields: [petTypeId], references: [id])
-    breed          Breed?    @relation(fields: [breedId], references: [id])
-    size           Size?     @relation(fields: [sizeId], references: [id])
-    createdAt      DateTime  @default(now())
-    updatedAt      DateTime  @updatedAt
+    id          String    @id @default(cuid())
+    name        String
+    petTypeId   Int
+    breedId     Int?
+    sex         SEX_PET
+    color       String
+    sizeId      Int
+    birthDate   DateTime?
+    images      Image[]
+    description String
+    petType     PetType   @relation(fields: [petTypeId], references: [id])
+    breed       Breed?    @relation(fields: [breedId], references: [id])
+    size        Size?     @relation(fields: [sizeId], references: [id])
+    createdAt   DateTime  @default(now())
+    updatedAt   DateTime  @updatedAt
 
     @@map("pets")
 }
 
 model PetType {
-    id                   Int                   @id @default(autoincrement())
+    id                   Int                  @id @default(autoincrement())
     name                 String
-    slug                 String                @unique
+    slug                 String               @unique
+    imageUrl             String?
     breeds               Breed[]
     pets                 Pet[]
-    createdAt            DateTime              @default(now())
-    updatedAt            DateTime              @updatedAt
+    createdAt            DateTime             @default(now())
+    updatedAt            DateTime             @updatedAt
     petTypeCategories    CategoryPetType[]
-    Product              Product[]
-    PetTypeSubcategories PetTypeSubcategorie[]
+    products             Product[]
+    petTypeSubcategories PetTypeSubcategory[]
 
     @@map("petTypes")
 }
@@ -163,6 +163,7 @@ model Category {
     id               Int               @id @default(autoincrement())
     name             String
     slug             String            @unique
+    imageUrl         String?
     subCategories    SubCategory[]
     createdAt        DateTime          @default(now())
     updatedAt        DateTime          @updatedAt
@@ -176,6 +177,7 @@ model CategoryPetType {
     id         Int      @id @default(autoincrement())
     categoryId Int
     petTypeId  Int
+    imageUrl   String?
     category   Category @relation(fields: [categoryId], references: [id], onDelete: Cascade)
     petType    PetType  @relation(fields: [petTypeId], references: [id], onDelete: Cascade)
     createdAt  DateTime @default(now())
@@ -188,23 +190,25 @@ model CategoryPetType {
 }
 
 model SubCategory {
-    id                   Int                   @id @default(autoincrement())
+    id                   Int                  @id @default(autoincrement())
     name                 String
-    slug                 String                @unique
+    slug                 String               @unique
+    imageUrl             String?
     categoryId           Int
-    category             Category              @relation(fields: [categoryId], references: [id])
-    createdAt            DateTime              @default(now())
-    updatedAt            DateTime              @updatedAt
+    category             Category             @relation(fields: [categoryId], references: [id])
+    createdAt            DateTime             @default(now())
+    updatedAt            DateTime             @updatedAt
     products             Product[]
-    PetTypeSubcategories PetTypeSubcategorie[]
+    petTypeSubcategories PetTypeSubcategory[]
 
     @@map("subCategories")
 }
 
-model PetTypeSubcategorie {
+model PetTypeSubcategory {
     id            Int         @id @default(autoincrement())
     petTypeId     Int
     subCategoryId Int
+    imageUrl      String?
     petType       PetType     @relation(fields: [petTypeId], references: [id])
     subCategory   SubCategory @relation(fields: [subCategoryId], references: [id])
 
@@ -220,7 +224,7 @@ model Product {
     price         Float
     description   String         @db.Text
     rating        Float?         @default(0)
-    quantity      Int            @default(1)
+    stock         Int            @default(1)
     status        PRODUCT_STATUS @default(DISPONIBLE)
     categoryId    Int
     subCategoryId Int?
@@ -233,6 +237,7 @@ model Product {
     orderItems    OrderItem[]
     images        Image[]
 
+    @@index([name])
     @@map("products")
 }
 
@@ -242,6 +247,8 @@ model Image {
     name      String
     productId String
     product   Product @relation(fields: [productId], references: [id])
+    Pet       Pet?    @relation(fields: [petId], references: [id])
+    petId     String?
 
     @@map("images")
 }
@@ -275,6 +282,7 @@ model OrderItem {
     @@map("orderItems")
 }
 
+//<a href="https://iconscout.com/icons/dog" class="text-underline font-size-sm" target="_blank">Dog</a> by <a href="https://iconscout.com/contributors/flat-icons" class="text-underline font-size-sm" target="_blank">Flat-icons.com</a>
 enum USER_ROLE {
     ADMIN
     USER

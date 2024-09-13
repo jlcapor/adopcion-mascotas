@@ -21,7 +21,7 @@ export default function SidebarNavItems({ items, pathname, onLinkClick }: Sideba
               key={index}
               className="flex w-full cursor-not-allowed items-center rounded-md p-2 text-muted-foreground hover:underline"
             >
-              <Icon className="mr-2 size-4" aria-hidden="true" />
+              <Icon className="mr-2 size-6" aria-hidden="true" />
               {item.title}
             </span>
           )
@@ -41,7 +41,7 @@ export default function SidebarNavItems({ items, pathname, onLinkClick }: Sideba
             rel={item.external ? "noreferrer" : ""}
             onClick={onLinkClick}
           >
-            <Icon className="mr-2 size-4" aria-hidden="true" />
+            <Icon className="mr-2 size-6" aria-hidden="true" />
             {item.title}
             {item.label && (
               <span className="ml-2 rounded-md bg-muted text-xs leading-none text-muted-foreground">

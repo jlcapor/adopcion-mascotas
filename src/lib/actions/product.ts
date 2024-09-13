@@ -7,9 +7,7 @@ import { db } from '@/server/db';
 import { ProductFile } from '@/types';
 
 
-export async function addProduct(input: Omit<CreateProductSchema, "images"> & {
-  images: ProductFile[]
-}) {
+export async function addProduct(input: CreateProductSchema) {
 	try {
   
     const product = await db.product.create({
@@ -21,13 +19,6 @@ export async function addProduct(input: Omit<CreateProductSchema, "images"> & {
         categoryId: parseInt(input.categoryId), 
         subCategoryId: input.subcategoryId ? parseInt(input.subcategoryId) : null,
         petTypeId: input.petTypeId ? parseInt(input.petTypeId) : null,
-        images:{
-          create: input.images.map(image => ({
-            id: image.id,
-            name: image.name,
-            url: image.url,
-          }))
-        }
       },
     })
     revalidatePath('/admin/produts')

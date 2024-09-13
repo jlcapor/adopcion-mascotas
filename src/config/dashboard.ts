@@ -9,6 +9,12 @@ export const getSidebarNavDashboardConfig = (segments: string[]): DashboardConfi
 	return {
 		sidebarNav: [
 			{
+				title: 'Ordenes',
+				href: '/admin/orders',
+				icon: 'order',
+				active: segments.includes('orders'),
+			},
+			{
 				title: 'Mascotas',
 				href: '/admin/pets',
 				icon: 'pet',
@@ -20,6 +26,12 @@ export const getSidebarNavDashboardConfig = (segments: string[]): DashboardConfi
 				icon: 'product',
 				active: segments.includes('products'),
 			},
+			{
+				title: 'Servicios',
+				icon: 'service',
+				href: '/admin/services',
+				active: segments.includes('services'),
+			}
 		],
 	};
 };

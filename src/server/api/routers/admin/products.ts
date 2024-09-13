@@ -4,54 +4,57 @@ import { adminProcedure, createTRPCRouter } from '@/server/api/trpc';
 import { Prisma, PRODUCT_STATUS } from '@prisma/client';
 
 export const productsAdminRouter = createTRPCRouter({
-	get: adminProcedure
+	hello: adminProcedure.input(z.object({ text: z.string() })).query(({ ctx, input }) => {
+		return {
+			greeting: input.text,
+		};
+	}),
+	create: adminProcedure
 		.input(
 			z.object({
-				page: z.number().int().default(0),
-				perPage: z.number().int().default(10),
-				name: z.string().optional(),
-				price: z.number().optional(),
-				status: z.nativeEnum(PRODUCT_STATUS).optional(),
-				rating: z.number().min(0).max(5).optional(),
-				sortBy: z.enum([ 
-                    "name",
-                    "status",
-                    "quantity",
-                    "price",
-                    "rating",
-                    "createdAt"
-                ]).optional(),
-				sortDesc: z.boolean().default(false),
+				name: z.string(),
+				description: z.string().optional(),
+				categoryId: z.string(),
+				subcategoryId: z.string().optional().nullable(),
+				petTypeId: z.string().optional().nullable(),
+				price: z.string(),
+				stock: z.number(),
+			})
+		)
+		.mutation(async ({ ctx, input }) => {
+			const product = await ctx.db.product.create({
+				data: {
+					name: input.name,
+					description: input.description ?? "",
+					categoryId: parseInt(input.categoryId), 
+					subCategoryId: input.subcategoryId ? parseInt(input.subcategoryId) : null,
+					petTypeId: input.petTypeId ? parseInt(input.petTypeId) : null,
+					price: parseFloat(input.price), 
+					stock: input.stock, 
+				},
+			});
+			return product;
+		}),
+	delete: adminProcedure
+		.input(z.object({ ids: z.array(z.string()) }))
+		.mutation(async ({ ctx, input }) => {
+			const products = await ctx.db.product.deleteMany(
+				{
+					where: {
+						id: { in: input.ids },
+					}
+				}
+			)
+			return products;
+		}),
+	getProductById: adminProcedure
+		.input(
+			z.object({
+				id: z.string(),
 			})
 		)
 		.query(async ({ ctx, input }) => {
-			const needFilter =  input.name || input.price || input.status || input.rating;
-
-			const params: Prisma.ProductFindManyArgs = {
-				orderBy: input.sortBy 
-                    ? { [input.sortBy]: input.sortDesc ? 'desc' : 'asc' } 
-                    : undefined,
-                where: needFilter
-                ? {
-                    AND: {
-                        name: input.name ? { contains: input.name } : undefined,
-                        price: input.price ? { equals: input.price } : undefined,
-                        status: input.status ? { equals: input.status } : undefined,
-                        rating: input.rating ? { equals: input.rating } : undefined,
-                    },
-                }
-                : undefined,
-			};
-
-            const [count, products] = await ctx.db.$transaction([
-                ctx.db.product.count({ where: params.where }),
-                ctx.db.product.findMany({
-                    ...params,
-                    skip: input.page * input.perPage,
-                    take: input.perPage,
-                })
-            ])
-            return { count, products };
+			const product = await ctx.db.product.findUnique({ where: { id: input.id } });
+			return product;
 		}),
-        
 });

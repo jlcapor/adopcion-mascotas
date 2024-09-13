@@ -24,6 +24,7 @@ export function ProductsTableToolbarActions({
           onSuccess={() => table.toggleAllRowsSelected(false)}
         />
       ) : null}
+      
       {/**
        * Other actions can be added here.
        * For example, import, view, etc.
