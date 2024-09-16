@@ -8,7 +8,7 @@ import { useForm } from 'react-hook-form';
 import Link from 'next/link';
 import { api } from '@/trpc/react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { registrationSchema, RegistrationInput } from '@/lib/validations/auth';
+import { registrationSchema, type RegistrationInput } from '@/lib/validations/auth';
 import { PasswordInput } from '@/components/shared/PasswordInput';
 import { ArrowRight } from 'lucide-react';
 import { cn } from '@/lib/utils';
@@ -17,7 +17,7 @@ import { useToast } from '@/components/ui/use-toast';
 
 export default function UserRegisterForm() {
 	const { toast } = useToast();
-	const { register, handleSubmit, watch, reset, formState: { errors } } = useForm<RegistrationInput>({ 
+	const { register, handleSubmit, reset, formState: { errors } } = useForm<RegistrationInput>({ 
 		resolver: zodResolver(registrationSchema)
 	});
 

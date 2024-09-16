@@ -4,7 +4,7 @@ import { generatePagination } from '@/lib/utils';
 import clsx from 'clsx';
 import { ArrowLeftIcon, ArrowRightIcon } from 'lucide-react';
 import Link from 'next/link';
-import { usePathname, useSearchParams } from 'next/navigation';
+import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 
 export default function Pagination({ totalPages }: { totalPages: number }) {
   const pathname = usePathname();
@@ -92,6 +92,7 @@ function PaginationArrow({
   direction: 'left' | 'right',
   isDisabled?: boolean,
 }) {
+  const router = useRouter();
   const className = clsx(
     'flex h-10 w-10 items-center justify-center rounded-md border border-solid', // Asegúrate de que border-solid esté presente
     {
@@ -107,7 +108,7 @@ function PaginationArrow({
   return isDisabled ? (
     <div className={className}>{icon}</div>
   ) : (
-    <Link className={className} href={href}>
+    <Link href={href} className={className} >
       {icon}
     </Link>
   );

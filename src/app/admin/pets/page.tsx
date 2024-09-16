@@ -1,7 +1,7 @@
 import { Button } from '@/components/ui/button';
 import { env } from '@/env';
 import { Plus } from 'lucide-react';
-import { Metadata } from 'next';
+import { type Metadata } from 'next';
 import Link from 'next/link';
 export const metadata: Metadata = {
 	metadataBase: new URL(env.NEXT_PUBLIC_APP_URL),

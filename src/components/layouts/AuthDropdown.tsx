@@ -1,12 +1,12 @@
 import React from 'react'
-import { DropdownMenu, DropdownMenuContent, DropdownMenuGroup, DropdownMenuItem, DropdownMenuSeparator, DropdownMenuShortcut, DropdownMenuTrigger } from "../ui/dropdown-menu";
+import { DropdownMenu, DropdownMenuContent, DropdownMenuGroup, DropdownMenuItem, DropdownMenuSeparator, DropdownMenuTrigger } from "../ui/dropdown-menu";
 import Link from 'next/link';
 import { LogIn } from 'lucide-react';
-import { Button, ButtonProps } from '../ui/button';
+import { Button, type ButtonProps } from '../ui/button';
 import { Icons } from '../shared/Icons';
 import { Avatar, AvatarFallback, AvatarImage } from '../ui/avatar';
 import { cn } from '@/lib/utils';
-import { Session } from 'next-auth';
+import { type Session } from 'next-auth';
 import { DashboardIcon, ExitIcon } from '@radix-ui/react-icons';
 
 interface SiteHeaderProps extends React.ComponentPropsWithRef<typeof DropdownMenuTrigger>,

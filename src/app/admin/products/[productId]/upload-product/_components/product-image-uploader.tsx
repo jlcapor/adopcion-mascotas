@@ -6,12 +6,11 @@ import { useUploadFile } from '@/hooks/use-upload-file';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import { toast } from 'sonner';
-import { z } from 'zod';
 import { getErrorMessage } from '@/lib/handle-error';
 import { FileUploader } from '@/components/shared/FileUploader';
 import { Button } from '@/components/ui/button';
 import { UploadedFilesCard } from '@/components/shared/UploadedFilesCard';
-import { uploadProductImageSchema, UploadProductImageSchema } from '@/lib/validations/product';
+import { uploadProductImageSchema, type UploadProductImageSchema } from '@/lib/validations/product';
 import { uploadProductImage } from '@/lib/actions/product';
 import { ProductFile } from '@/types';
 

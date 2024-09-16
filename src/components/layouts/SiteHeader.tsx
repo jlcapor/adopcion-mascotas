@@ -1,6 +1,6 @@
 import MainNav from './MainNav';
 import AuthDropdown from './AuthDropdown';
-import { Session } from 'next-auth';
+import { type Session } from 'next-auth';
 import CartSheet from '../checkout/CartSheet';
 import { siteConfig } from '@/config/site';
 import { ProductsCommand } from '../shared/ProductsCommand';

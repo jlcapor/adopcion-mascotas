@@ -1,11 +1,11 @@
 import { cn } from "@/lib/utils";
-import { SidebarNavItem } from "@/types";
+import { type SidebarNavItem } from "@/types";
 import { Icons } from "../shared/Icons";
 import Link from "next/link";
 
 interface SidebarNavItemsProps {
   items: SidebarNavItem[];
-  pathname: string | null;
+  pathname: string;
   onLinkClick?: () => void;
 }
 
@@ -14,6 +14,7 @@ export default function SidebarNavItems({ items, pathname, onLinkClick }: Sideba
     <div className="grid grid-flow-row auto-rows-max text-sm">
       {items.map((item, index) => {
         const Icon = Icons[item.icon || "arrowRight"];
+        const isActive = item.href === pathname;
 
         if (!item.href) {
           return (
@@ -24,17 +25,16 @@ export default function SidebarNavItems({ items, pathname, onLinkClick }: Sideba
               <Icon className="mr-2 size-6" aria-hidden="true" />
               {item.title}
             </span>
-          )
+          );
         }
+
         return (
           <Link
             key={index}
             href={item.href}
             className={cn(
               "group flex w-full items-center rounded-md border border-transparent px-2 py-2 hover:bg-muted hover:text-foreground mb-2",
-              item.active
-                ? "bg-muted font-medium text-foreground"
-                : "text-muted-foreground",
+              isActive ? "bg-muted font-medium text-foreground" : "text-muted-foreground",
               item.disabled && "pointer-events-none opacity-60"
             )}
             target={item.external ? "_blank" : ""}
@@ -54,3 +54,4 @@ export default function SidebarNavItems({ items, pathname, onLinkClick }: Sideba
     </div>
   ) : null;
 }
+

@@ -1,5 +1,3 @@
-import { notFound } from 'next/navigation';
-import { db } from '@/server/db';
 import { api } from '@/trpc/server';
 
 

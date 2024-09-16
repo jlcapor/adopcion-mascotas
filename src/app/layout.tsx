@@ -1,9 +1,8 @@
 import '@/styles/globals.css';
-import { NextSSRPlugin } from '@uploadthing/react/next-ssr-plugin';
 import { GeistMono } from 'geist/font/mono';
 import { GeistSans } from 'geist/font/sans';
 import { cn } from '@/lib/utils';
-import { Viewport, type Metadata } from 'next';
+import type { Viewport,  Metadata } from 'next';
 
 import { TRPCReactProvider } from '@/trpc/react';
 import { fontHeading } from '@/lib/fonts';

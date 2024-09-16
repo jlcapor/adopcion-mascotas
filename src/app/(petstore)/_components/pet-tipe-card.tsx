@@ -1,9 +1,6 @@
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import Link from 'next/link';
+import { Card, CardContent  } from '@/components/ui/card';
 
-interface PetTypeCardProps {
-	// petType : Awaited<ReturnType<typeof getCategories>>[number]
-}
+
 
 export default function PetTypeCard() {
 	return (

@@ -1,9 +1,8 @@
 import { Shell } from '@/components/shared/Shell';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { env } from '@/env';
-import { Metadata } from 'next';
+import { type Metadata } from 'next';
 import React from 'react';
-import CreatePetForm from './_components/create-pet-form';
 
 export const metadata: Metadata = {
 	metadataBase: new URL(env.NEXT_PUBLIC_APP_URL),

@@ -1,4 +1,3 @@
-import { Shell } from '@/components/shared/Shell';
 import ProductImageUploader from './_components/product-image-uploader';
 import { db } from '@/server/db';
 import { notFound } from 'next/navigation';

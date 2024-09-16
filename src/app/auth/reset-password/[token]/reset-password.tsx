@@ -1,6 +1,6 @@
 import React from 'react'
 
-export default function ResetPassword({ token }: { token: string }) {
+export default function ResetPassword() {
     
   return (
     <div>

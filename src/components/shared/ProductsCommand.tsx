@@ -2,16 +2,13 @@
 
 import React from "react";
 import { useRouter } from "next/navigation";
-import { SidebarNavItem } from "@/types";
 
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import {
   CommandDialog,
   CommandEmpty,
-  CommandGroup,
   CommandInput,
-  CommandItem,
   CommandList,
 } from "@/components/ui/command";
 import { MagnifyingGlassIcon } from "@radix-ui/react-icons";

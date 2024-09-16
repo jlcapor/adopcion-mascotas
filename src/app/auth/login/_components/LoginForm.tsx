@@ -10,8 +10,7 @@ import { Button } from '@/components/ui/button';
 import { Icons } from '@/components/shared/Icons';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { PasswordInput } from '@/components/shared/PasswordInput';
-import { toast } from 'sonner';
-import { LoginSchema } from '@/lib/validations/auth';
+import type { LoginSchema } from '@/lib/validations/auth';
 // import { useFormState } from 'react-dom';
 
 export default function LoginForm() {

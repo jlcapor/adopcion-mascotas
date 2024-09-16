@@ -1,7 +1,7 @@
 'use client';
 
 import { Icons } from '@/components/shared/Icons';
-import { Button, ButtonProps } from '@/components/ui/button';
+import { Button, type ButtonProps } from '@/components/ui/button';
 import { Sheet, SheetClose, SheetContent, SheetTrigger } from '@/components/ui/sheet';
 import { siteConfig } from '@/config/site';
 import { useMediaQuery } from '@/hooks/use-media-query';

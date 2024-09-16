@@ -1,4 +1,3 @@
-import { string } from "zod"
 
 
 interface CategoryPageProps {

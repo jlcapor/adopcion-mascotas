@@ -15,7 +15,7 @@ export async function addProduct(input: CreateProductSchema) {
         name: input.name,
         description: input.description ?? "",
         price: parseFloat(input.price), 
-        quantity: input.quantity, 
+        stock: input.stock, 
         categoryId: parseInt(input.categoryId), 
         subCategoryId: input.subcategoryId ? parseInt(input.subcategoryId) : null,
         petTypeId: input.petTypeId ? parseInt(input.petTypeId) : null,

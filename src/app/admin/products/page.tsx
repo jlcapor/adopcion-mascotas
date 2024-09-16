@@ -1,15 +1,15 @@
-import React, { Suspense } from 'react';
+import * as React from "react"
 import { Button } from '@/components/ui/button';
 import { env } from '@/env';
 import { Plus } from 'lucide-react';
-import { Metadata } from 'next';
+import { type Metadata } from 'next';
 import Link from 'next/link';
-import { getProducts } from '@/lib/data/product';
-import { SearchParams } from '@/types';
-import ProductsTable from './_components/products-table';
+import { getProducts, productsPages } from '@/lib/data/product';
+import ProductsTable from '../../../components/products/products-table';
 import Search from '../_components/search';
 import Pagination from '../_components/pagination';
 import { DataTableSkeleton } from '../_components/data-table-skeleton';
+import { redirect } from "next/navigation";
 
 export const metadata: Metadata = {
 	metadataBase: new URL(env.NEXT_PUBLIC_APP_URL),
@@ -17,11 +17,8 @@ export const metadata: Metadata = {
 	description: 'Manage your products',
 };
 
-export interface ProductsPageProps {
-	searchParams: SearchParams,
-}
 
-// export type Products = Awaited<ReturnType<typeof getProducts>>;
+export type productsWithCategory = Awaited<ReturnType<typeof getProducts>>;
 
 export default async function ProductsPage({
 	searchParams,
@@ -31,12 +28,12 @@ export default async function ProductsPage({
 	  page?: string;
 	};
   }) {
-	// const search = searchParamsSchema.parse(searchParams);
-	// const products = await getProducts(search);
-	const query = searchParams?.query || '';
-	const currentPage = Number(searchParams?.page) || 1;
-	const products = await getProducts(query, currentPage);
-
+	
+	const query = searchParams?.query ?? ""
+	const currentPage = Number(searchParams?.page) || 1
+	
+	const totalPages = await productsPages(query);
+	
 	return (
 		<div className="grid items-center gap-8 pb-8 pt-6 lg:py-6">
 			<div className="flex w-full items-center justify-between">
@@ -51,11 +48,11 @@ export default async function ProductsPage({
 					</Button>
 				</Link>
 			</div>
-				<Suspense fallback={<DataTableSkeleton columnCount={6}/>}>
-					<ProductsTable/>
-				</Suspense>
-			<div className="mt-5 flex w-full justify-center">
-				<Pagination totalPages={products.pageCount} />
+				<React.Suspense key={query + currentPage} fallback={<DataTableSkeleton columnCount={6} withPagination={false}/>}>
+					<ProductsTable query={query} currentPage={currentPage}/>
+				</React.Suspense>
+			<div className="flex w-full justify-center">
+				<Pagination totalPages={totalPages} />
 			</div>
 		</div>
 	);

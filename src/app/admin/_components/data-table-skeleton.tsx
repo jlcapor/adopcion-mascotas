@@ -24,7 +24,7 @@ export function DataTableSkeleton({
                   key={index}
                   scope="col"
                   className="px-4 py-3"
-                  style={{ width: cellWidths[index] || "auto" }}
+                  style={{ width: cellWidths[index] ?? "auto" }}
                 >
                   <Skeleton className="h-6 w-full" />
                 </th>
@@ -38,7 +38,7 @@ export function DataTableSkeleton({
                   <td
                     key={cellIndex}
                     className="px-4 py-3"
-                    style={{ width: cellWidths[cellIndex] || "auto" }}
+                    style={{ width: cellWidths[cellIndex] ?? "auto" }}
                   >
                     <Skeleton className="h-6 w-full" />
                   </td>

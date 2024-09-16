@@ -1,6 +1,5 @@
 import { Separator } from '@radix-ui/react-dropdown-menu';
 import { Icons } from '../shared/Icons';
-import { Badge } from '../ui/badge';
 import { Button } from '../ui/button';
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from '../ui/sheet';
 

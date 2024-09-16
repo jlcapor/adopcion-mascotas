@@ -13,55 +13,34 @@ export const productsRouter = createTRPCRouter({
 	getPetCategories: publicProcedure.query(async ({ ctx }) => {
 		const petCategories = await ctx.db.petType.findMany({
 			select: {
-				id: true,
-				name: true,
-				slug: true,
-				petTypeCategories: {
+			  id: true,
+			  name: true,
+			  slug: true,
+			  // Solo obtenemos las categorías relacionadas, sin subcategorías
+			  petTypeCategories: {
+				select: {
+				  category: {
 					select: {
-						category: {
-							select: {
-								id: true,
-								name: true,
-								slug: true,
-								subCategories: {
-									select: {
-										id: true,
-										name: true,
-										slug: true,
-									},
-								},
-							},
-						},
+					  id: true,
+					  name: true,
+					  slug: true,
 					},
+				  },
 				},
-				petTypeSubcategories: {
-					select: {
-						subCategoryId: true,
-					},
-				},
+			  },
 			},
-		});
+		  });
 		
-		return petCategories.map((petType) => {
-			const allowedSubCategories = petType.petTypeSubcategories.map((sc) => sc.subCategoryId);
-			return {
-				id: petType.id,
-				name: petType.name,
-				slug: petType.slug,
-				categories: petType.petTypeCategories.map((ptc) => ({
-					id: ptc.category.id,
-					name: ptc.category.name,
-					slug: ptc.category.slug,
-					// Filtramos las subcategorías que están permitidas para este tipo de mascota
-					subcategories: ptc.category.subCategories
-						.filter((sc) => allowedSubCategories.includes(sc.id))
-						.map((sc) => ({
-							id: sc.id,
-							name: sc.name,
-							slug: sc.slug,
-						})),
-				})),
-			};
-		});
+		  return petCategories.map((petType) => ({
+			id: petType.id,
+			name: petType.name,
+			slug: petType.slug,
+			// Mapeamos solo las categorías sin incluir las subcategorías
+			categories: petType.petTypeCategories.map((ptc) => ({
+			  id: ptc.category.id,
+			  name: ptc.category.name,
+			  slug: ptc.category.slug,
+			})),
+		  }));
 	}),
 });

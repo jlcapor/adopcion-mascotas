@@ -5,36 +5,34 @@ import { buttonVariants } from '../ui/button';
 
 export default function HeroSection() {
 	return (
-		<section className="w-full py-12 md:py-24 lg:py-12 bg-muted">
-			<div className="container px-4 md:px-6">
-				<div className="mx-auto grid grid-cols-1 items-center justify-items-center gap-8 px-8 sm:px-16 md:grid-cols-2">
-					<div className="flex flex-col justify-center space-y-4">
-						<div className="space-y-2">
-							<h1
-								className="text-3xl font-bold tracking-tighter sm:text-5xl animate-fade-up"
-								style={{ animationDelay: '0.20s', animationFillMode: 'both' }}
-							>
-								Bienvenido a Pet Shop
-							</h1>
-							<p
-								className="max-w-[600px] text-muted-foreground md:text-xl animate-fade-up"
-								style={{ animationDelay: '0.30s', animationFillMode: 'both' }}
-							>
-								Encuentra todo lo que necesitas para el cuidado y bienestar de tus mascotas.
-							</p>
-						</div>
-						<div
-							className="flex flex-col gap-2 min-[400px]:flex-row animate-fade-up"
-							style={{ animationDelay: '0.40s', animationFillMode: 'both' }}
-						>
-							<Link href="/products" className={cn(buttonVariants())}>
-								Explorar Productos
-							</Link>
-							<Link href="/dashboard/stores" className={cn(buttonVariants({ variant: 'outline' }))}>
-								Sell now
-							</Link>
-						</div>
+		<section className="bg-white dark:bg-gray-900">
+			<div className="grid max-w-screen-xl px-4 py-8 mx-auto lg:gap-8 xl:gap-0 lg:py-16 lg:grid-cols-12">
+				<div className="mr-auto place-self-center lg:col-span-7">
+					<h1 
+						className="max-w-2xl mb-4 text-4xl font-extrabold tracking-tight leading-none md:text-5xl xl:text-6xl dark:text-white animate-fade-up"
+						style={{ animationDelay: '0.20s', animationFillMode: 'both' }}
+					>
+						Bienvenido a Pet Shop
+					</h1>
+					<p 
+						className="max-w-2xl mb-6 font-light text-gray-500 lg:mb-8 md:text-lg lg:text-xl dark:text-gray-400 animate-fade-up"
+						style={{ animationDelay: '0.30s', animationFillMode: 'both' }}
+					>
+						Encuentra todo lo que necesitas para el cuidado y bienestar de tus mascotas.
+					</p>
+					<div
+						className="flex flex-col gap-2 min-[400px]:flex-row animate-fade-up"
+						style={{ animationDelay: '0.40s', animationFillMode: 'both' }}
+					>
+						<Link href="/products" className={cn(buttonVariants())}>
+							Explorar Productos
+						</Link>
+						<Link href="/dashboard/stores" className={cn(buttonVariants({ variant: 'outline' }))}>
+							Sell now
+						</Link>
 					</div>
+				</div>
+				<div className="hidden lg:mt-0 lg:col-span-5 lg:flex">
 					<Image
 						alt="Cup of Coffee"
 						loading="eager"
