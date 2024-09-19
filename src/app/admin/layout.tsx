@@ -1,4 +1,4 @@
-import {getSession } from '@/lib/services/auth/session';
+import {getSession } from '@/lib/session';
 import { authOptions } from '@/server/auth';
 import { SidebarProvider } from '@/context/SidebarContext';
 import DashboardHeader from '@/components/dashboard/DashboardHeader';

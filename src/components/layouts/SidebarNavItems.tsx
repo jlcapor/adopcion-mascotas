@@ -14,7 +14,7 @@ export default function SidebarNavItems({ items, pathname, onLinkClick }: Sideba
     <div className="grid grid-flow-row auto-rows-max text-sm">
       {items.map((item, index) => {
         const Icon = Icons[item.icon || "arrowRight"];
-        const isActive = item.href === pathname;
+        const isActive = item.href ? pathname.startsWith(item.href) : false;
 
         if (!item.href) {
           return (

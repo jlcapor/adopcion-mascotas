@@ -2,6 +2,7 @@ import { cn } from '@/lib/utils';
 import Image from 'next/image';
 import Link from 'next/link';
 import { buttonVariants } from '../ui/button';
+import { ArrowRight } from 'lucide-react';
 
 export default function HeroSection() {
 	return (
@@ -9,13 +10,13 @@ export default function HeroSection() {
 			<div className="grid max-w-screen-xl px-4 py-8 mx-auto lg:gap-8 xl:gap-0 lg:py-16 lg:grid-cols-12">
 				<div className="mr-auto place-self-center lg:col-span-7">
 					<h1 
-						className="max-w-2xl mb-4 text-4xl font-extrabold tracking-tight leading-none md:text-5xl xl:text-6xl dark:text-white animate-fade-up"
+						className="max-w-2xl mb-4 text-4xl font-bold tracking-tight leading-none sm:text-5xl md:text-6xl xl:text-6xl dark:text-white animate-fade-up"
 						style={{ animationDelay: '0.20s', animationFillMode: 'both' }}
 					>
 						Bienvenido a Pet Shop
 					</h1>
 					<p 
-						className="max-w-2xl mb-6 font-light text-gray-500 lg:mb-8 md:text-lg lg:text-xl dark:text-gray-400 animate-fade-up"
+						className="max-w-2xl mb-6 font-light text-gray-500 lg:mb-8 sm:text-xl lg:text-lg xl:text-xl dark:text-gray-400 animate-fade-up"
 						style={{ animationDelay: '0.30s', animationFillMode: 'both' }}
 					>
 						Encuentra todo lo que necesitas para el cuidado y bienestar de tus mascotas.
@@ -26,6 +27,7 @@ export default function HeroSection() {
 					>
 						<Link href="/products" className={cn(buttonVariants())}>
 							Explorar Productos
+							<ArrowRight className="ml-2 h-5 w-5" />
 						</Link>
 						<Link href="/dashboard/stores" className={cn(buttonVariants({ variant: 'outline' }))}>
 							Sell now

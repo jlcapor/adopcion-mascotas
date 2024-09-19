@@ -1,5 +1,6 @@
+"use client";
 import React from 'react'
-import { DropdownMenu, DropdownMenuContent, DropdownMenuGroup, DropdownMenuItem, DropdownMenuSeparator, DropdownMenuTrigger } from "../ui/dropdown-menu";
+import { DropdownMenu, DropdownMenuContent, DropdownMenuGroup, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from "../ui/dropdown-menu";
 import Link from 'next/link';
 import { LogIn } from 'lucide-react';
 import { Button, type ButtonProps } from '../ui/button';
@@ -7,7 +8,11 @@ import { Icons } from '../shared/Icons';
 import { Avatar, AvatarFallback, AvatarImage } from '../ui/avatar';
 import { cn } from '@/lib/utils';
 import { type Session } from 'next-auth';
-import { DashboardIcon, ExitIcon } from '@radix-ui/react-icons';
+import { DashboardIcon, ExclamationTriangleIcon, ExitIcon } from '@radix-ui/react-icons';
+import { signOut } from 'next-auth/react';
+import { toast } from 'sonner';
+import { AlertDialog, AlertDialogContent, AlertDialogDescription, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from '../ui/alert-dialog';
+import { LoadingButton } from '../shared/LoadingButton';
 
 interface SiteHeaderProps extends React.ComponentPropsWithRef<typeof DropdownMenuTrigger>,
 ButtonProps {
@@ -61,7 +66,6 @@ export default function AuthDropdown( { session, className, ...props}: SiteHeade
             <Link href="/admin/orders" className="flex items-center space-x-2.5">
                 <DashboardIcon className="size-5"  />
                 <p className="text-sm">Dashboard</p>
-                
               </Link>
             </DropdownMenuItem>
           ) : null}
@@ -86,17 +90,65 @@ export default function AuthDropdown( { session, className, ...props}: SiteHeade
             </DropdownMenuItem>
         </DropdownMenuGroup>
         <DropdownMenuSeparator />
-        <DropdownMenuItem asChild>
-          <Link href="/signout">
-            <ExitIcon className="mr-2 size-4" aria-hidden="true" />
-            Cerrar sesión
-          </Link>
-        </DropdownMenuItem>
+        <DropdownMenuLabel className="flex items-center">
+          <ExitIcon className="mr-2 size-5" aria-hidden="true" />
+          <SignoutConfirmation/>
+        </DropdownMenuLabel>
       </DropdownMenuContent>
     </DropdownMenu>
   )
 }
 
+
+const SignoutConfirmation = () => {
+  const [open, setOpen] = React.useState(false);
+  const [isLoading, setIsLoading] = React.useState(false);
+  const handleSignout = async () => {
+    setIsLoading(true);
+    try {
+      await signOut({ callbackUrl: `${window.location.origin}/?redirect=false` });
+    } catch (error) {
+      if (error instanceof Error) {
+        toast(error.message, {
+          icon: (
+            <ExclamationTriangleIcon className="h-4 w-4 text-destructive" />
+          ),
+        });
+      }
+    }finally{
+      setOpen(false);
+      setIsLoading(false);
+    }
+  };
+  return (
+    <AlertDialog open={open} onOpenChange={setOpen}>
+      <AlertDialogTrigger
+        className="px-2 py-1.5 text-sm text-muted-foreground outline-none"
+        asChild
+      >
+        <button>Sign out</button>
+      </AlertDialogTrigger>
+      <AlertDialogContent className="max-w-xs">
+        <AlertDialogHeader>
+          <AlertDialogTitle className="text-center">
+            Desconectar
+          </AlertDialogTitle>
+          <AlertDialogDescription>
+            ¿Estás seguro que deseas cerrar sesión?
+          </AlertDialogDescription>
+        </AlertDialogHeader>
+        <div className="flex flex-col-reverse gap-2 sm:flex-row sm:justify-center">
+          <Button variant="outline" onClick={() => setOpen(false)}>
+            Cancelar
+          </Button>
+          <LoadingButton loading={isLoading} onClick={handleSignout}>
+            Cerrar sesion
+          </LoadingButton>
+        </div>
+      </AlertDialogContent>
+    </AlertDialog>
+  )
+}
 
 
 

@@ -45,7 +45,8 @@ export default function MainNav({ items }: MainNavProps) {
     <div className="hidden gap-6 md:flex">
       <Link href="/" className="flex items-center space-x-2">
         <Icons.pet className="h-6 w-6 text-primary" aria-hidden="true" />
-        <span className="hidden font-bold sm:inline-block">{siteConfig.name}</span>
+        <span className="ml-2 text-xl font-semibold text-gray-900">{siteConfig.name}</span>
+        {/* <span className="hidden font-bold sm:inline-block">{siteConfig.name}</span> */}
       </Link>
       <nav className="flex items-center gap-2 sm:gap-1">
         <DropdownMenu open={isOpen} onOpenChange={setIsOpen}>

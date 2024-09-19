@@ -1,7 +1,6 @@
 import { z } from 'zod';
 
 import { adminProcedure, createTRPCRouter } from '@/server/api/trpc';
-import { Prisma, PRODUCT_STATUS } from '@prisma/client';
 
 export const productsAdminRouter = createTRPCRouter({
 	hello: adminProcedure.input(z.object({ text: z.string() })).query(({ ctx, input }) => {

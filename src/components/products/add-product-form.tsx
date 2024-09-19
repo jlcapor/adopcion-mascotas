@@ -1,16 +1,36 @@
 "use client"
 import * as React from "react"
-import  { createProductSchema, type CreateProductSchema } from "@/lib/validations/product";
+import  { 
+  createProductSchema, 
+  type CreateProductSchema 
+} from "@/lib/validations/product";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
-import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
+import { 
+  Form, 
+  FormControl, 
+  FormField, 
+  FormItem, 
+  FormLabel, 
+  FormMessage 
+} from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
-import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger } from "@/components/ui/select";
+import { 
+  Select, 
+  SelectContent, 
+  SelectGroup, 
+  SelectItem, 
+  SelectTrigger 
+} from "@/components/ui/select";
 import { SelectValue } from "@radix-ui/react-select";
 import { Button } from "@/components/ui/button";
 
-import type { getCategories, getSubcategories, getPetTypes } from '@/lib/data/product';
+import type { 
+  getCategories, 
+  getSubcategories, 
+  getPetTypes 
+} from '@/lib/data/product';
 import { addProduct } from "@/lib/actions/product";
 import { toast } from "sonner";
 import { Icons } from "@/components/shared/Icons";
@@ -22,9 +42,10 @@ type AddProductFormProps = {
     petTypes: Awaited<ReturnType<typeof getPetTypes>>
   }>
 }
-export default function AddProductForm({ promises }: AddProductFormProps) {
+export default function AddProductForm({promises}: AddProductFormProps) {
   // const router = useRouter()
   const { categories, subcategories, petTypes } = React.use(promises)
+
   const [isCreatePending, startCreateTransaction] = React.useTransition();
   const form = useForm<CreateProductSchema>({
     resolver: zodResolver(createProductSchema),
@@ -56,9 +77,6 @@ export default function AddProductForm({ promises }: AddProductFormProps) {
     //   console.log(input[field])
     //   formData.append(`${field}`, `${input[field]}`);
     // }
-
-    
-   
   }
 	return (
     <Form {...form}>
@@ -235,7 +253,6 @@ export default function AddProductForm({ promises }: AddProductFormProps) {
             )}
           />
         </div>
-        
         <Button
           onClick={() =>
             void form.trigger(["name", "description", "price", "stock"])

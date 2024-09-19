@@ -1,6 +1,6 @@
 import SiteFooter from '@/components/layouts/SiteFooter';
 import { SiteHeader } from '@/components/layouts/SiteHeader';
-import { getSession } from '@/lib/services/auth/session';
+import { getSession } from '@/lib/session';
 
 export default async function PetAdoptionLayout({ children }: { children: React.ReactNode }) {
 	const session = await getSession();

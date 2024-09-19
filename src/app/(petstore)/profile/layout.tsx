@@ -1,4 +1,4 @@
-import { getCurrentUser } from '@/lib/services/auth/session';
+import { getCurrentUser } from '@/lib/session';
 import { authOptions } from '@/server/auth';
 import { redirect } from 'next/navigation';
 

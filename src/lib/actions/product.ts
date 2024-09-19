@@ -1,11 +1,9 @@
 'use server';
-
 import { CreateProductSchema } from '../validations/product';
 import { revalidatePath } from 'next/cache';
 import { getErrorMessage } from '../handle-error';
 import { db } from '@/server/db';
 import { ProductFile } from '@/types';
-
 
 export async function addProduct(input: CreateProductSchema) {
 	try {
@@ -32,6 +30,7 @@ export async function addProduct(input: CreateProductSchema) {
       error: getErrorMessage(err),
     }
 	}
+  
 }
 
 export async function updateProducts(input: {}) {
@@ -45,13 +44,20 @@ export async function updateProducts(input: {}) {
   }
 }
 
-export async function  deleteProducts(input: { ids: string[] }) {
+export async function  deleteProduct(input: { productId: string }) {
   try {
-    await db.product.deleteMany({
+
+    const product = await db.product.findUnique({
       where: {
-        id: {
-          in: input.ids,
-        }
+        id: input.productId,
+      }
+    })
+    if (!product) {
+      throw new Error("Product not found.")
+    }
+    await db.product.delete({
+      where: {
+        id: input.productId,
       }
     })
 
@@ -78,7 +84,7 @@ export async function uploadProductImage( input: {productId: string, images: Pro
         productId: input.productId,
       }
     })
-    const imageRecords = await db.image.createMany({
+    const imageRecords = await db.productImage.createMany({
       data: images,
     });
     return {

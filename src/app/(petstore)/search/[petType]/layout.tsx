@@ -4,9 +4,9 @@ interface PetTypeLayoutProps {
 
 export default function PetTypeLayout({ children }: PetTypeLayoutProps) {
 	return (
-		<div className="border-b">
+		<div>
 			<div className="flex flex-col lg:flex-row">
-				<aside className="border-r p-6 w-full lg:w-72 md:min-w-[16rem]">
+				<aside className="p-6 w-full lg:w-72 md:min-w-[16rem]">
 					<h2 className="text-xl font-bold mb-4">Filtros</h2>
 					<div className="block lg:hidden">
 						<div className="grid gap-6">

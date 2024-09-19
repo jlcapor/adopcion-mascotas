@@ -13,10 +13,11 @@ import {
 	Warehouse,
 	Pencil,
 	Eye,
-	Image,
+	ImageUp,
 	HandHelping,
 	ShoppingCart,
-	Filter
+	Filter,
+	Trash 
 } from 'lucide-react';
 
 export type IconProps = React.HTMLAttributes<SVGElement>;
@@ -81,7 +82,7 @@ export const Icons = {
 			viewBox="0 0 24 24"
 			fill="none"
 			stroke="currentColor"
-			strokeWidth="2"
+			strokeWidth="2" 
 			strokeLinecap="round"
 			strokeLinejoin="round"
 			{...props}
@@ -106,8 +107,9 @@ export const Icons = {
 	pencil: Pencil,
 	eye: Eye,
 	heart : Heart,
-	image: Image,
+	image: ImageUp,
 	service: HandHelping,
 	order: ShoppingCart,
-	filter: Filter
+	filter: Filter,
+	delete: Trash 
 };

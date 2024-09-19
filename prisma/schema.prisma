@@ -110,7 +110,7 @@ model Pet {
     color       String
     sizeId      Int
     birthDate   DateTime?
-    images      Image[]
+    images      PetImage[]
     description String
     petType     PetType   @relation(fields: [petTypeId], references: [id])
     breed       Breed?    @relation(fields: [breedId], references: [id])
@@ -119,6 +119,16 @@ model Pet {
     updatedAt   DateTime  @updatedAt
 
     @@map("pets")
+}
+
+model PetImage {
+    id      String  @id @default(cuid())
+    url     String
+    name    String
+    petId   String
+    pet     Pet     @relation(fields: [petId], references: [id])
+
+    @@map("pet_images")
 }
 
 model PetType {
@@ -235,22 +245,20 @@ model Product {
     createdAt     DateTime       @default(now())
     updatedAt     DateTime       @updatedAt
     orderItems    OrderItem[]
-    images        Image[]
+    images        ProductImage[]
 
     @@index([name])
     @@map("products")
 }
 
-model Image {
-    id        String  @id @default(cuid())
+model ProductImage {
+    id        String   @id @default(cuid())
     url       String
     name      String
-    productId String
-    product   Product @relation(fields: [productId], references: [id])
-    Pet       Pet?    @relation(fields: [petId], references: [id])
-    petId     String?
+    productId String?
+    product   Product? @relation(fields: [productId], references: [id])
 
-    @@map("images")
+    @@map("product_images")
 }
 
 model Order {

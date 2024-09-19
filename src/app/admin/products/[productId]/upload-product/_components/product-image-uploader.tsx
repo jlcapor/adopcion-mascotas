@@ -67,7 +67,7 @@ export default function ProductImageUploader({ productId, images}: ProductImageU
 									<FileUploader
 										value={field.value ?? []}
 										onValueChange={field.onChange}
-										maxFiles={4}
+										maxFiles={3}
 										maxSize={4 * 1024 * 1024}
 										progresses={progresses}
 										disabled={isUploading}

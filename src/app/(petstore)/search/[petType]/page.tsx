@@ -1,4 +1,3 @@
-'use client';
 
 import { Icons } from '@/components/shared/Icons';
 import { Button } from '@/components/ui/button';

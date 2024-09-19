@@ -5,7 +5,7 @@ import { Plus } from 'lucide-react';
 import { type Metadata } from 'next';
 import Link from 'next/link';
 import { getProducts, productsPages } from '@/lib/data/product';
-import ProductsTable from '../../../components/products/products-table';
+import { ProductsTable } from "@/components/products/products-table";
 import Search from '../_components/search';
 import Pagination from '../_components/pagination';
 import { DataTableSkeleton } from '../_components/data-table-skeleton';
@@ -31,7 +31,8 @@ export default async function ProductsPage({
 	
 	const query = searchParams?.query ?? ""
 	const currentPage = Number(searchParams?.page) || 1
-	
+	if(currentPage < 0) redirect("/admin/products")
+
 	const totalPages = await productsPages(query);
 	
 	return (
@@ -48,7 +49,7 @@ export default async function ProductsPage({
 					</Button>
 				</Link>
 			</div>
-				<React.Suspense key={query + currentPage} fallback={<DataTableSkeleton columnCount={6} withPagination={false}/>}>
+				<React.Suspense key={query + currentPage} fallback={<DataTableSkeleton columnCount={7} withPagination={false}/>}>
 					<ProductsTable query={query} currentPage={currentPage}/>
 				</React.Suspense>
 			<div className="flex w-full justify-center">

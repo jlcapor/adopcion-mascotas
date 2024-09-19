@@ -41,7 +41,10 @@ export type ProductFile = {
 };
 
 
-
+export type CategoryField = {
+	id: string;
+	name: string;
+};
 
 
 

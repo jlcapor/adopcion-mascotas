@@ -1,7 +1,7 @@
 import { createCallerFactory, createTRPCRouter } from '@/server/api/trpc';
 import { adminRouter } from './routers/admin';
-import { authRouter } from '@/server/api/routers/auth';
-import { productsRouter } from '@/server/api/routers/products';
+import { authRouter } from '@/server/api/routers/auth/auth';
+import { productsRouter } from './routers/product/products.procedure';
 import { PetTypesRouter } from '@/server/api/routers/petType';
 /**
  * This is the primary router for your server.

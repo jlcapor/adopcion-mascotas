@@ -22,7 +22,7 @@ const LoadingButton = forwardRef<HTMLButtonElement, LoadingButtonProps>(
         <span className={cn(loading ? "opacity-0" : "")}>{children}</span>
         {loading ? (
           <div className="absolute inset-0 grid place-items-center">
-            <Icons.spinner className="h-6 w-6" />
+            <Icons.spinner className="h-6 w-6 animate-spin" />
           </div>
         ) : null}
       </Button>

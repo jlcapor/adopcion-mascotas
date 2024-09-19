@@ -33,6 +33,7 @@ export default function UserRegisterForm() {
 				variant: 'success',
 				description:'Cuenta creada, revisa tu email para confirmarla'
 			});
+
 			reset();
 		},
 	});
@@ -59,7 +60,7 @@ export default function UserRegisterForm() {
 						variant: 'link',
 						className: 'gap-1.5',
 					})}
-					href='/login'>
+					href='/auth/login'>
 					¿Ya tienes cuenta? Iniciar Sesión
 					<ArrowRight className='h-4 w-4' />
             	</Link>
@@ -152,7 +153,7 @@ export default function UserRegisterForm() {
 					<div className="col-span-6">
 						<Button
 							type="submit"
-							className="w-full text-xs font-bold uppercase"
+							className="w-full flex justify-center items-center py-2 px-4 border border-transparent rounded-full shadow-sm text-sm font-medium"
 							disabled={createUserMutation.isPending}
 						>
 							{createUserMutation.isPending && (
@@ -163,7 +164,11 @@ export default function UserRegisterForm() {
 						</Button>
 					</div>
 					<div className="col-span-6">
-						<Button variant="outline" className="w-full text-xs font-bold uppercase" asChild>
+						<Button 
+							variant="outline" 
+							className="w-full flex justify-center items-center py-2 px-4 border border-transparent rounded-full shadow-sm text-sm font-medium" 
+							asChild
+						>
 							<Link href="/">Cancelar</Link>
 						</Button>
 					</div>

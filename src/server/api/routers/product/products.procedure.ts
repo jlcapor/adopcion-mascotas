@@ -16,7 +16,6 @@ export const productsRouter = createTRPCRouter({
 			  id: true,
 			  name: true,
 			  slug: true,
-			  // Solo obtenemos las categorías relacionadas, sin subcategorías
 			  petTypeCategories: {
 				select: {
 				  category: {
@@ -35,7 +34,6 @@ export const productsRouter = createTRPCRouter({
 			id: petType.id,
 			name: petType.name,
 			slug: petType.slug,
-			// Mapeamos solo las categorías sin incluir las subcategorías
 			categories: petType.petTypeCategories.map((ptc) => ({
 			  id: ptc.category.id,
 			  name: ptc.category.name,

@@ -1,19 +1,19 @@
 import { unstable_cache as cache } from 'next/cache';
 
 import { db } from '@/server/db';
-import { Prisma } from '@prisma/client';
 import { getErrorMessage } from '../handle-error';
-const ITEMS_PER_PAGE = 6;
+
+
+const ITEMS_PER_PAGE = 10;
 
 export async function productsPages(query: string){
 	try {
 		const count  = await db.product.count({
 			where: {
-				OR: [
-					{ name: { contains: query, mode: 'insensitive' }},
-					{ category: { name: { contains: query, mode: 'insensitive'}}},
-					{ petType: { name: { contains: query, mode: 'insensitive'}}},
-				]
+				name: {
+					contains: query,
+					mode: 'insensitive'
+				}
 			}
 		})
 		const totalPages = Math.ceil(count / ITEMS_PER_PAGE);
@@ -31,30 +31,31 @@ export async function getProducts({
 	currentPage: number | undefined,
 }) {
 	const offset = ((currentPage ?? 1) - 1) * ITEMS_PER_PAGE;
-	const productFilter: Prisma.ProductWhereInput = query
-		? {
-				OR: [
-					{name: { contains: query, mode: 'insensitive'}},
-					{category: { name: {contains: query, mode: 'insensitive'}}},
-					{petType: { name: {contains: query, mode: 'insensitive'}}},
-				],
-			}
-		: {};
-
 	try {
 		const products = await db.product.findMany({
-			where: productFilter,
+			where: {
+				name: {
+					contains: query,
+					mode: 'insensitive'
+				}
+			},
 			take: ITEMS_PER_PAGE,
 			skip: offset,
-			include: {
+			select: {
+				id: true,
+				name: true,
+				status: true,
+				price: true,
+				stock: true,
+				rating: true,
+				createdAt: true,
 				category: {
 					select: {
 						id: true,
 						name: true,
 						slug: true
-
 					}
-				},
+				}
 			},
 			orderBy: {
 				createdAt: "desc"
@@ -106,7 +107,7 @@ export async function getSubcategories() {
 		},
 		[ 'subcategories' ],
 		{
-			revalidate: 3600, // every hour
+			revalidate: 3600,
 			tags: [ 'subcategories' ],
 		}
 	)();
