@@ -53,10 +53,10 @@ export function ProductsCommand() {
   }, [])
 
   return (
-    <>
+    <div>
       <Button
           variant="outline"
-          className="relative size-10 p-0 h-9 xl:h-9 xl:w-96 xl:justify-start xl:px-3 xl:py-2"
+          className="relative size-10 p-0 h-9 xl:h-9 xl:w-60 xl:justify-start xl:px-3 xl:py-2"
           onClick={() => setOpen(true)}
       >
         <MagnifyingGlassIcon className="size-5 xl:mr-2" aria-hidden="true" />
@@ -90,6 +90,6 @@ export function ProductsCommand() {
           
         </CommandList>
       </CommandDialog>
-    </>
+    </div>
   );
 }

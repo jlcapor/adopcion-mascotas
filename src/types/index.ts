@@ -1,6 +1,36 @@
 import type { Icons } from '@/components/shared/Icons';
-import { USER_ROLE } from '@prisma/client';
+import { Product, ProductImage, USER_ROLE } from '@prisma/client';
 import { ClientUploadedFileData } from 'uploadthing/types';
+
+
+
+export interface SearchParams {
+	[key: string]: string | string[] | undefined
+  }
+  
+  export interface Option {
+	label: string
+	value: string
+	icon?: React.ComponentType<{ className?: string }>
+	withCount?: boolean
+  }
+
+  export interface DataTableFilterField<TData> {
+	label: string
+	value: keyof TData
+	placeholder?: string
+	options?: Option[]
+  }
+  
+  export interface DataTableFilterOption<TData> {
+	id: string
+	label: string
+	value: keyof TData
+	options: Option[]
+	filterValues?: string[]
+	filterOperator?: string
+	isMulti?: boolean
+  }
 
 export interface NavItem {
 	title: string,
@@ -41,10 +71,14 @@ export type ProductFile = {
 };
 
 
-export type CategoryField = {
-	id: string;
-	name: string;
-};
+export type PickedProductImage = Pick<ProductImage, "id" | "name" | "url">
+
+export type PickedProduct = Pick<
+  Product,
+  "id" | "name" | "price" | "stock" | "rating"
+> & {
+	productImages: PickedProductImage[]
+}
 
 
 

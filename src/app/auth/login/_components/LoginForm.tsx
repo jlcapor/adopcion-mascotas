@@ -125,7 +125,7 @@ export default function LoginForm() {
 						Iniciar Sesión
 						<span className="sr-only">Iniciar Sesión</span>
 					</Button>
-					<Button variant="outline" className="w-full" asChild>
+					<Button variant="outline" className="w-full text-xs font-bold uppercase" asChild>
 						<Link href="/">Cancelar</Link>
 					</Button>
 					{/* <nav className="flex flex-col space-y-4 ">

@@ -1,10 +1,9 @@
-'use client';
+'use client'
 
-import Link from 'next/link';
-import { Icons } from '../shared/Icons';
-import { cn } from '@/lib/utils';
-import { useSelectedLayoutSegment } from 'next/navigation';
-import { siteConfig } from '@/config/site';
+import { useState } from 'react'
+import Link from 'next/link'
+import { useSelectedLayoutSegment } from 'next/navigation'
+import { ChevronDown } from 'lucide-react'
 import { 
   DropdownMenu, 
   DropdownMenuContent, 
@@ -16,44 +15,41 @@ import {
   DropdownMenuSubContent, 
   DropdownMenuSubTrigger, 
   DropdownMenuTrigger 
-} from '../ui/dropdown-menu';
-import { type MainNavItem } from '@/types';
-import { Button } from '../ui/button';
-import { api } from '@/trpc/react'; 
-import { Skeleton } from '../ui/skeleton';
-import { useState } from 'react';
-import { AlignJustify } from 'lucide-react';
+} from '@/components/ui/dropdown-menu'
+import { Button } from '@/components/ui/button'
+import { Skeleton } from '@/components/ui/skeleton'
+import { Icons } from '@/components/shared/Icons'
+import { cn } from '@/lib/utils'
+import { api } from '@/trpc/react'
+import { type MainNavItem } from '@/types'
 
 interface MainNavProps {
-  items?: MainNavItem[];
+  items?: MainNavItem[]
 }
 
 export default function MainNav({ items }: MainNavProps) {
-  const segment = useSelectedLayoutSegment();
-  const { data: menuData, isLoading } = api.products.getPetCategories.useQuery();
-  const [isOpen, setIsOpen] = useState(false);
+  const segment = useSelectedLayoutSegment()
+  const { data: menuData, isLoading } = api.products.getPetCategoriesWithSubcategories.useQuery(undefined, {
+    staleTime: 1000 * 60 * 60 * 24, // 24 horas
+  })
+  const [isOpen, setIsOpen] = useState(false)
 
   const handleMenuClose = () => {
-    setIsOpen(false);
-  };
+    setIsOpen(false)
+  }
 
   const handleMenuOpen = () => {
-    setIsOpen(true);
-  };
+    setIsOpen(true)
+  }
 
   return (
-    <div className="hidden gap-6 md:flex">
-      <Link href="/" className="flex items-center space-x-2">
-        <Icons.pet className="h-6 w-6 text-primary" aria-hidden="true" />
-        <span className="ml-2 text-xl font-semibold text-gray-900">{siteConfig.name}</span>
-        {/* <span className="hidden font-bold sm:inline-block">{siteConfig.name}</span> */}
-      </Link>
+    <div className="hidden lg:flex">
       <nav className="flex items-center gap-2 sm:gap-1">
         <DropdownMenu open={isOpen} onOpenChange={setIsOpen}>
           <DropdownMenuTrigger asChild>
             <Button variant="ghost" className="flex items-center gap-2" onClick={handleMenuOpen}>
-              <AlignJustify className="h-5 w-5" />
-              <span className="font-bold">Menu</span>
+              <span className="font-bold">Categorias</span>
+              <ChevronDown className="h-4 w-4" />
             </Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end">
@@ -61,7 +57,7 @@ export default function MainNav({ items }: MainNavProps) {
             <DropdownMenuSeparator />
             {isLoading ? (
               Array.from({ length: 2 }).map((_, index) => (
-                <div key={index} className="px-2 py-1 flex justify-between items-center">
+                <div key={index} className="flex items-center justify-between px-2 py-1">
                   <Skeleton className="h-4 w-20 rounded bg-gray-400" />
                   <Skeleton className="h-4 w-4 rounded bg-gray-400" />
                 </div>
@@ -72,7 +68,7 @@ export default function MainNav({ items }: MainNavProps) {
                   <DropdownMenuSubTrigger>
                     <Link
                       href={`/search/${petType.slug}`}
-                      className="flex items-center justify-between w-full"
+                      className="flex w-full items-center justify-between"
                       onClick={handleMenuClose}
                     >
                       <span>{petType.name}</span>
@@ -84,7 +80,7 @@ export default function MainNav({ items }: MainNavProps) {
                         <DropdownMenuItem key={category.id} asChild>
                           <Link
                             href={`/search/${petType.slug}/${category.slug}`}
-                            className="flex items-center justify-between w-full"
+                            className="flex w-full items-center justify-between"
                             onClick={handleMenuClose}
                           >
                             <span>{category.name}</span>
@@ -96,7 +92,6 @@ export default function MainNav({ items }: MainNavProps) {
                 </DropdownMenuSub>
               ))
             )}
-
             <DropdownMenuSeparator />
             <DropdownMenuItem asChild>
               <Link href="/products" className="flex items-center space-x-2.5" onClick={handleMenuClose}>
@@ -125,5 +120,5 @@ export default function MainNav({ items }: MainNavProps) {
         )}
       </nav>
     </div>
-  );
+  )
 }

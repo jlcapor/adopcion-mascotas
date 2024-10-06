@@ -153,7 +153,7 @@ export default function UserRegisterForm() {
 					<div className="col-span-6">
 						<Button
 							type="submit"
-							className="w-full flex justify-center items-center py-2 px-4 border border-transparent rounded-full shadow-sm text-sm font-medium"
+							className="w-full text-xs font-bold uppercase"
 							disabled={createUserMutation.isPending}
 						>
 							{createUserMutation.isPending && (
@@ -166,7 +166,7 @@ export default function UserRegisterForm() {
 					<div className="col-span-6">
 						<Button 
 							variant="outline" 
-							className="w-full flex justify-center items-center py-2 px-4 border border-transparent rounded-full shadow-sm text-sm font-medium" 
+							className="w-full text-xs font-bold uppercase" 
 							asChild
 						>
 							<Link href="/">Cancelar</Link>

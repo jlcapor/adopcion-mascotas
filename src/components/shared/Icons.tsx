@@ -17,7 +17,8 @@ import {
 	HandHelping,
 	ShoppingCart,
 	Filter,
-	Trash 
+	Trash,
+	ImageIcon
 } from 'lucide-react';
 
 export type IconProps = React.HTMLAttributes<SVGElement>;
@@ -111,5 +112,6 @@ export const Icons = {
 	service: HandHelping,
 	order: ShoppingCart,
 	filter: Filter,
-	delete: Trash 
+	delete: Trash,
+	placeholder: ImageIcon,
 };

@@ -14,7 +14,7 @@ async function getProductById(productId: string) {
 			id: productId,
 		},
 		include: {
-			images: {
+			productImages: {
 				select: { 
 					id: true,
 					url: true,
@@ -34,7 +34,7 @@ export default async function ImageProductPage({ params }: ImageProductPageProps
 	const product = await getProductById(productId);
 	return (
 		<div className="grid items-center gap-8 pb-8 pt-6 lg:py-6">
-			<ProductImageUploader productId={productId} images={product.images}/>
+			<ProductImageUploader productId={productId} images={product.productImages}/>
 		</div>
 	);
 }

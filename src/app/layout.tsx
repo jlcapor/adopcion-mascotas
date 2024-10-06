@@ -2,7 +2,7 @@ import '@/styles/globals.css';
 import { GeistMono } from 'geist/font/mono';
 import { GeistSans } from 'geist/font/sans';
 import { cn } from '@/lib/utils';
-import type { Viewport,  Metadata } from 'next';
+import type { Viewport, Metadata } from 'next';
 
 import { TRPCReactProvider } from '@/trpc/react';
 import { fontHeading } from '@/lib/fonts';
@@ -37,7 +37,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
 		<html lang="en" suppressHydrationWarning>
 			<body
 				className={cn(
-					"min-h-screen bg-background font-sans antialiased",
+					'min-h-screen bg-background font-sans antialiased',
 					GeistSans.variable,
 					GeistMono.variable,
 					fontHeading.variable
@@ -54,7 +54,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
 						<Analytics />
 					</ThemeProvider>
 				</SessionWrapper>
-				<Toaster/>
+				<Toaster />
 			</body>
 		</html>
 	);

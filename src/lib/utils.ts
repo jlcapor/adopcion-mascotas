@@ -17,8 +17,8 @@ export function formatPrice(
   return new Intl.NumberFormat("es-CO", {
     style: "currency",
     currency: opts.currency ?? "COP", // Moneda colombiana
-    minimumFractionDigits: 2, // Asegura que siempre se muestren dos decimales
-    maximumFractionDigits: 2, // Limita a dos decimales
+    minimumFractionDigits: 0, // Asegura que siempre se muestren dos decimales
+    maximumFractionDigits: 0, // Limita a dos decimales
     ...opts,
   }).format(Number(price));
 }
@@ -75,6 +75,9 @@ export const generatePagination = (currentPage: number, totalPages: number) => {
 }
 
 
-export function getImagePath(imagePath: string){
-  
+export function toTitleCase(str: string) {
+  return str.replace(
+    /\w\S*/g,
+    (txt) => txt.charAt(0).toUpperCase() + txt.slice(1).toLowerCase()
+  )
 }

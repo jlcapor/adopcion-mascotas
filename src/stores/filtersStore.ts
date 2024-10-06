@@ -1,6 +1,6 @@
 import { create } from "zustand"
 
-type FilterStatus = "idle" | "visible"
+type FilterStatus = "idle" | "hidden" | "visible"
 
 interface FilterStore {
   status: FilterStatus

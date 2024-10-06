@@ -1,11 +1,11 @@
+import React from 'react';
 import {getSession } from '@/lib/session';
 import { authOptions } from '@/server/auth';
 import { SidebarProvider } from '@/context/SidebarContext';
-import DashboardHeader from '@/components/dashboard/DashboardHeader';
-import { DashboardSidebar } from '@/components/dashboard/DashboardSidebar';
+import DashboardHeader from '@/app/admin/_components/DashboardHeader';
+import { DashboardSidebar } from '@/app/admin/_components/DashboardSidebar';
 import { redirect } from 'next/navigation';
-import { DashboardSheetSidebar } from '@/components/dashboard/DashboardSheetSidebar';
-import React from 'react';
+import { DashboardSheetSidebar } from '@/app/admin/_components/DashboardSheetSidebar';
 
 interface DashboardLayoutProps {
 	children: React.ReactNode,

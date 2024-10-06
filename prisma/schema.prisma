@@ -102,7 +102,7 @@ model Country {
 }
 
 model Pet {
-    id          String    @id @default(cuid())
+    id          String     @id @default(cuid())
     name        String
     petTypeId   Int
     breedId     Int?
@@ -112,21 +112,21 @@ model Pet {
     birthDate   DateTime?
     images      PetImage[]
     description String
-    petType     PetType   @relation(fields: [petTypeId], references: [id])
-    breed       Breed?    @relation(fields: [breedId], references: [id])
-    size        Size?     @relation(fields: [sizeId], references: [id])
-    createdAt   DateTime  @default(now())
-    updatedAt   DateTime  @updatedAt
+    petType     PetType    @relation(fields: [petTypeId], references: [id])
+    breed       Breed?     @relation(fields: [breedId], references: [id])
+    size        Size?      @relation(fields: [sizeId], references: [id])
+    createdAt   DateTime   @default(now())
+    updatedAt   DateTime   @updatedAt
 
     @@map("pets")
 }
 
 model PetImage {
-    id      String  @id @default(cuid())
-    url     String
-    name    String
-    petId   String
-    pet     Pet     @relation(fields: [petId], references: [id])
+    id    String @id @default(cuid())
+    url   String
+    name  String
+    petId String
+    pet   Pet    @relation(fields: [petId], references: [id])
 
     @@map("pet_images")
 }
@@ -205,7 +205,7 @@ model SubCategory {
     slug                 String               @unique
     imageUrl             String?
     categoryId           Int
-    category             Category             @relation(fields: [categoryId], references: [id])
+    category              Category             @relation(fields: [categoryId], references: [id])
     createdAt            DateTime             @default(now())
     updatedAt            DateTime             @updatedAt
     products             Product[]
@@ -245,7 +245,7 @@ model Product {
     createdAt     DateTime       @default(now())
     updatedAt     DateTime       @updatedAt
     orderItems    OrderItem[]
-    images        ProductImage[]
+    productImages  ProductImage[]
 
     @@index([name])
     @@map("products")

@@ -5,6 +5,7 @@ import { ModeToggle } from './ModeToggle';
 import { siteConfig } from '@/config/site';
 import { cn } from '@/lib/utils';
 import { buttonVariants } from '../ui/button';
+import { Logo } from './SiteHeader';
 
 export default function SiteFooter() {
 	return (
@@ -12,11 +13,7 @@ export default function SiteFooter() {
 			<Shell>
 				<section className="flex flex-col gap-10 lg:flex-row lg:gap-20">
 					<section>
-						<Link href="/" className="flex w-fit items-center space-x-2">
-						<Icons.pet className="w-6 h-6 text-muted-foreground fill-current" aria-hidden="true" />
-							<span className="font-bold">{siteConfig.name}</span>
-							<span className="sr-only">Home</span>
-						</Link>
+						<Logo/>
 					</section>
 					<section className="grid flex-1 grid-cols-1 gap-10 xxs:grid-cols-2 sm:grid-cols-4">yy</section>
 

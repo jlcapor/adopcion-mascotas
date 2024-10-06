@@ -3,7 +3,7 @@ import { Suspense, type ReactNode } from "react";
 const AuthLayout = ({ children }: { children: ReactNode }) => {
  
   return (
-    <div className="grid min-h-screen place-items-center p-4">
+    <div className="grid min-h-screen place-items-center bg-muted p-4">
       {children}
     </div>
   );

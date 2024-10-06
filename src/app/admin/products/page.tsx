@@ -1,15 +1,13 @@
-import * as React from "react"
+import * as React from 'react';
 import { Button } from '@/components/ui/button';
 import { env } from '@/env';
 import { Plus } from 'lucide-react';
 import { type Metadata } from 'next';
 import Link from 'next/link';
-import { getProducts, productsPages } from '@/lib/data/product';
-import { ProductsTable } from "@/components/products/products-table";
+import { ProductsTable } from './_components/products-table';
 import Search from '../_components/search';
-import Pagination from '../_components/pagination';
 import { DataTableSkeleton } from '../_components/data-table-skeleton';
-import { redirect } from "next/navigation";
+import { redirect } from 'next/navigation';
 
 export const metadata: Metadata = {
 	metadataBase: new URL(env.NEXT_PUBLIC_APP_URL),
@@ -17,24 +15,18 @@ export const metadata: Metadata = {
 	description: 'Manage your products',
 };
 
-
-export type productsWithCategory = Awaited<ReturnType<typeof getProducts>>;
-
 export default async function ProductsPage({
 	searchParams,
-  }: {
+}: {
 	searchParams?: {
-	  query?: string;
-	  page?: string;
-	};
-  }) {
-	
+		query?: string,
+		page?: string,
+	},
+}) {
 	const query = searchParams?.query ?? ""
 	const currentPage = Number(searchParams?.page) || 1
-	if(currentPage < 0) redirect("/admin/products")
+	if (currentPage < 0) redirect('/admin/products');
 
-	const totalPages = await productsPages(query);
-	
 	return (
 		<div className="grid items-center gap-8 pb-8 pt-6 lg:py-6">
 			<div className="flex w-full items-center justify-between">
@@ -49,12 +41,12 @@ export default async function ProductsPage({
 					</Button>
 				</Link>
 			</div>
-				<React.Suspense key={query + currentPage} fallback={<DataTableSkeleton columnCount={7} withPagination={false}/>}>
-					<ProductsTable query={query} currentPage={currentPage}/>
-				</React.Suspense>
-			<div className="flex w-full justify-center">
-				<Pagination totalPages={totalPages} />
-			</div>
+			<React.Suspense
+				key={query + currentPage}
+				fallback={<DataTableSkeleton columnCount={7} withPagination={false} />}
+			>
+				<ProductsTable query={query} currentPage={currentPage} />
+			</React.Suspense>
 		</div>
 	);
 }
